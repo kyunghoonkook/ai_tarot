@@ -7,14 +7,14 @@ const openai = new OpenAI({
 async function generateTarotReading(theme, card1, card2, card3) {
     let promptTemplate;
     switch (theme) {
-        case '사랑':
-            promptTemplate = `사랑에 관한 타로를 봐주세요. 고객이 메이저 아르카나에서 뽑은 카드는 다음과 같습니다.        과거: {${card1}}        현재: {${card2}}        미래: {${card3}} 입니다.`;
+        case 'love':
+            promptTemplate = `Please perform a tarot reading about love. The customer has drawn the following cards from the Major Arcana:     Past: {${card1}}     Present: {${card2}}     Future: {${card3}}`;
             break;
-        case '돈':
-            promptTemplate = `돈에 관한 타로를 봐주세요. 고객이 메이저 아르카나에서 뽑은 카드는 다음과 같습니다.        잘못하고 있는 점: {${card1}}        잘하고 있는 점: {${card2}}        더 나은 방향으로 해야 하는 점: {${card3}} 입니다.`;
+        case 'money':
+            promptTemplate = `Please perform a tarot reading about money. The customer has drawn the following cards from the Major Arcana:     Areas for improvement: {${card1}}     Strengths: {${card2}}     Steps towards a better direction: {${card3}}`;
             break;
-        case '건강':
-            promptTemplate = `건강에 관한 타로를 봐주세요. 고객이 메이저 아르카나에서 뽑은 카드는 다음과 같습니다.        정신: {${card1}}        신체: {${card2}}        영혼: {${card3}} 입니다.`;
+        case 'health':
+            promptTemplate = `Please perform a tarot reading about health. The customer has drawn the following cards from the Major Arcana:     Mind: {${card1}}     Body: {${card2}}     Soul: {${card3}}`;
             break;
         default:
             throw new Error('Invalid theme');
