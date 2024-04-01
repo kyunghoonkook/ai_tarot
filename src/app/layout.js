@@ -9,7 +9,10 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <body>
-                <img src="/images/mainBG.png" className="main-bg" />
+                <header className="header">
+                    <img src="/images/logo1.svg" className="logo" />
+                </header>
+
                 <div className="layout">{children}</div>
             </body>
         </html>
