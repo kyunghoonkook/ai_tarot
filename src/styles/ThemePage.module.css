@@ -1,0 +1,232 @@
+.title {
+    padding-top: 145px;
+    text-align: center;
+    color: #b7ab84;
+    font-size: 36px;
+    font-weight: 500;
+}
+
+.sub_title {
+    color: #b7ab84;
+    font-size: 48px;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.link p {
+    text-align: center;
+    color: #fff !important;
+    transition: ease-in-out 0.3s;
+    font-weight: 500;
+    line-height: 1.6;
+    font-size: 26px;
+    position: relative;
+}
+
+.link p::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+    transform-origin: left;
+}
+
+.link:hover p::after {
+    transform: scaleX(1);
+}
+.cards_wrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 205px;
+    margin-top: 100px;
+}
+.cards {
+    display: flex;
+    justify-content: center;
+    margin-top: 180px;
+    position: relative;
+    width: 100%;
+    height: 400px;
+}
+
+.card {
+    width: 180px;
+    height: 270px;
+    perspective: 1000px;
+    cursor: pointer;
+    text-align: center;
+    position: absolute;
+    transition: transform 0.6s, top 0.6s, left 0.6s;
+    transform-style: preserve-3d;
+    top: 0;
+}
+
+.card:nth-child(1) {
+    left: 10%;
+}
+
+.card:nth-child(2) {
+    left: 13%;
+}
+
+.card:nth-child(3) {
+    left: 16%;
+}
+
+.card:nth-child(4) {
+    left: 19%;
+}
+.card:nth-child(5) {
+    left: 22%;
+}
+.card:nth-child(6) {
+    left: 25%;
+}
+.card:nth-child(7) {
+    left: 28%;
+}
+.card:nth-child(8) {
+    left: 31%;
+}
+.card:nth-child(9) {
+    left: 34%;
+}
+.card:nth-child(10) {
+    left: 37%;
+}
+.card:nth-child(11) {
+    left: 40%;
+}
+
+.card:nth-child(12) {
+    left: 43%;
+}
+.card:nth-child(13) {
+    left: 46%;
+}
+.card:nth-child(14) {
+    left: 49%;
+}
+.card:nth-child(15) {
+    left: 52%;
+}
+.card:nth-child(16) {
+    left: 55%;
+}
+.card:nth-child(17) {
+    left: 58%;
+}
+.card:nth-child(18) {
+    left: 61%;
+}
+.card:nth-child(19) {
+    left: 64%;
+}
+.card:nth-child(20) {
+    left: 67%;
+}
+
+.card:nth-child(21) {
+    left: 70%;
+}
+.card:nth-child(22) {
+    left: 73%;
+}
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card:not(.selected) .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-front {
+    z-index: 2;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    z-index: 1;
+}
+
+.card-front img,
+.card-back img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: 0.6s;
+}
+
+.card p {
+    margin-top: 10px;
+}
+
+.card:hover img {
+    transform: translateY(-40px);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: -70px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 20px solid #fff;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 3;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+.card.selected {
+    top: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: transform 0.6s, top 0.6s, left 0.6s;
+}
+
+.selected-cards {
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+}
+
+.selected-cards > div {
+    margin: 0 10px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.6s, transform 0.6s;
+}
+
+.selected-cards > div.show {
+    opacity: 1;
+    transform: translateY(0);
+}

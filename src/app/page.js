@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import ThemeSelector from '@/components/ThemeSelector';
+import styles from './page.module.css';
 
-import './page.module.css';
 function App() {
     const [theme, setTheme] = useState('');
     const [card1, setCard1] = useState('');
@@ -27,7 +27,8 @@ function App() {
     };
 
     return (
-        <div>
+        <div className={styles.bgWrap}>
+            <img src="/images/mainBG.png" className={styles['main-bg']} />
             <ThemeSelector />
         </div>
     );

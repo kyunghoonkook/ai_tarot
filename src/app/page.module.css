@@ -1,4 +1,7 @@
 .main-bg {
-    position: absolute;
-    top: 0;
+    margin-left: -220px;
+}
+
+.bgWrap {
+    width: 100%;
 }

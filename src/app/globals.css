@@ -122,17 +122,55 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
-body {
-    background: url('/images/symbolBG.png') no-repeat, linear-gradient(to bottom, #042831, #253438, #122d34);
-    min-height: 100vh;
-    background-position: center;
-}
+
 * {
-    background: linear-gradient(to top right, #998b5e, #b7ab84);
+    /* background: linear-gradient(to top right, #998b5e, #b7ab84);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent; */
+}
+
+a {
+    text-decoration: none;
 }
 .layout {
     width: 1480px;
     margin: 0 auto;
+}
+
+.header {
+    width: 1480px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.logo {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+@font-face {
+    font-family: 'SUIT';
+    src: url('/font/SUIT-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SUIT';
+    src: url('/font/SUIT-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SUIT';
+    src: url('/font/SUIT-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+body {
+    background: url('/images/symbolBG.png') no-repeat, linear-gradient(to bottom, #042831, #253438, #122d34);
+    min-height: 100vh;
+    background-position: center;
+    font-family: 'SUIT', sans-serif;
 }
