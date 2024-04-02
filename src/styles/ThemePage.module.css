@@ -49,10 +49,10 @@
 .cards {
     display: flex;
     justify-content: center;
-    margin-top: 180px;
+    margin-top: 130px;
     position: relative;
     width: 100%;
-    height: 400px;
+    height: 300px;
 }
 
 .card {
@@ -205,28 +205,82 @@
 .card:hover::before {
     opacity: 1;
 }
+
 .card.selected {
-    top: 300px;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: transform 0.6s, top 0.6s, left 0.6s;
+    transition: transform 0.6s ease-out, left 0.6s ease-out;
 }
 
+.card.selected .card-inner {
+    transform: rotateY(0deg);
+    transition: transform 0.6s;
+}
+
+.card.selected:nth-child(1) {
+    transform: translateY(400px) translateX(-250px);
+}
+
+.card.selected:nth-child(2) {
+    transform: translateY(400px) translateX(0);
+}
+
+.card.selected:nth-child(3) {
+    transform: translateY(400px) translateX(250px);
+}
+
+.selected-cards > div > img.show {
+    opacity: 1;
+}
 .selected-cards {
     display: flex;
     justify-content: center;
-    margin-top: 70px;
+    /* margin-top: 20px; */
+    gap: 150px;
 }
 
 .selected-cards > div {
     margin: 0 10px;
     text-align: center;
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: opacity 0.6s, transform 0.6s;
+    /* opacity: 0; */
+    /* transform: translateY(-20px); */
+    /* transition: opacity 0.6s, transform 0.6s; */
 }
-
-.selected-cards > div.show {
+.selected-cards > div > h3 {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.selected-cards > div > img {
+    width: 200px;
+    height: 300px;
+}
+/* .selected-cards > div.show {
     opacity: 1;
     transform: translateY(0);
+} */
+.card.selected .card-inner {
+    transform: rotateY(0deg);
+    transition: transform 0.6s;
 }
+.reversed .card-inner {
+    transform: rotateX(180deg);
+}
+
+.selected-cards .reversed {
+    transform: rotateX(180deg);
+}
+/* .reversed .card-inner {
+    transform: rotateY(180deg);
+}
+/* .reversed .card-front {
+    transform: rotateY(180deg);
+}
+
+.reversed .card-back {
+    transform: rotateY(0deg);
+} */
+
+/*.selected-cards .reversed {
+    transform: rotateY(180deg);
+}
+ */

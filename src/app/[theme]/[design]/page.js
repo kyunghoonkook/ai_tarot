@@ -5,9 +5,6 @@ export default function DesignPage({ params }) {
 
     return (
         <div>
-            <h1>
-                {theme} Tarot - {design} Design
-            </h1>
             <CardSelector theme={theme} design={design} />
         </div>
     );

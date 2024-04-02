@@ -1,0 +1,15 @@
+.result_wrap {
+    /* display: flex; */
+}
+.card_box {
+    display: flex;
+}
+.card_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card_wrap > h3 {
+    color: #fff;
+}

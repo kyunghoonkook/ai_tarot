@@ -7,13 +7,13 @@ const openai = new OpenAI({
 async function generateTarotReading(theme, card1, card2, card3) {
     let promptTemplate;
     switch (theme) {
-        case 'love':
+        case 'Love':
             promptTemplate = `Please perform a tarot reading about love. The customer has drawn the following cards from the Major Arcana:     Past: {${card1}}     Present: {${card2}}     Future: {${card3}}`;
             break;
-        case 'money':
+        case 'Money':
             promptTemplate = `Please perform a tarot reading about money. The customer has drawn the following cards from the Major Arcana:     Areas for improvement: {${card1}}     Strengths: {${card2}}     Steps towards a better direction: {${card3}}`;
             break;
-        case 'health':
+        case 'Health':
             promptTemplate = `Please perform a tarot reading about health. The customer has drawn the following cards from the Major Arcana:     Mind: {${card1}}     Body: {${card2}}     Soul: {${card3}}`;
             break;
         default:

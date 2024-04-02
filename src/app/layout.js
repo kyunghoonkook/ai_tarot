@@ -9,9 +9,9 @@ export const metadata = {
     author: 'Your Name or Company Name',
     applicationName: 'AI Tarot',
     generator: 'Next.js',
-    themeColor: '#ffffff',
-    colorScheme: 'light',
-    viewport: 'width=device-width, initial-scale=1.0',
+    // themeColor: '#ffffff',
+    // colorScheme: 'light',
+    // viewport: 'width=device-width, initial-scale=1.0',
     formatDetection: {
         telephone: false,
     },
@@ -50,11 +50,15 @@ export const metadata = {
             'max-snippet': -1,
         },
     },
-    verification: {
-        google: 'your-google-verification-code',
-        yandex: 'your-yandex-verification-code',
-        'me.js': 'your-me.js-verification-code',
-    },
+    // verification: {
+    //     google: 'your-google-verification-code',
+    //     yandex: 'your-yandex-verification-code',
+    //     'me.js': 'your-me.js-verification-code',
+    // },
+};
+export const viewport = {
+    width: 'device-width',
+    initialScale: 1,
 };
 
 export default function RootLayout({ children }) {
