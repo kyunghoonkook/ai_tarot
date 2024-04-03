@@ -1,3 +1,4 @@
+import KakaoScript from '@/components/KakaoScript';
 import './globals.css';
 
 export const metadata = {
@@ -70,6 +71,7 @@ export default function RootLayout({ children }) {
                 </header>
 
                 <div className="layout">{children}</div>
+                <KakaoScript />
             </body>
         </html>
     );

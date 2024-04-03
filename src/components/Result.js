@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import axios from 'axios';
 import styles from '../styles/ResultPage.module.css';
+import { FacebookShareButton, TwitterShareButton } from 'react-share';
+import KakaoShareButton from './KakaoShareButton';
 const Result = () => {
     const pathname = usePathname();
     const pathnameArray = pathname.split('/');
@@ -41,7 +43,9 @@ const Result = () => {
         const direction = cardNumber.endsWith('r') ? 'reverse direction' : 'forward direction';
         return `${number} ${direction}`;
     };
-
+    const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+    const shareTitle = 'Tarot Reading Result';
+    const shareDescription = response;
     return (
         <>
             <div className={styles['result_wrap']}>
@@ -82,23 +86,39 @@ const Result = () => {
                 <div>
                     <h2>Reading by AI</h2>
                     <p>
-                        For this health reading, the cards drawn are: 1. Mind - The High Priestess (Reversed): This card
-                        suggests a lack of intuition and disconnect with your inner wisdom. It may indicate confusion or
-                        unexplored emotions that are affecting your mental health. It's important to listen to your
-                        inner voice and pay attention to your thoughts and emotions to bring balance to your mind. 2.
-                        Body - The Lovers (Reversed): This card signifies disharmony and imbalance in your physical
-                        well-being. It may represent neglecting self-care or struggling with relationships that impact
-                        your health negatively. It's essential to address any physical issues and prioritize self-love
-                        and care for your body. 3. Soul - Death (Upright): Despite its ominous name, Death in the tarot
-                        represents transformation, change, and new beginnings. In the context of the soul, this card
-                        could indicate a period of deep inner growth and spiritual renewal. Embrace this change and
-                        allow yourself to let go of old patterns or beliefs that no longer serve your highest good.
-                        Overall, this reading suggests that you may be facing challenges in different aspects of your
-                        health - mental, physical, and spiritual. It's a time for reflection, healing, and embracing
-                        transformation. Take time to care for all aspects of yourself, seek inner clarity, nurture your
-                        body, and embrace the changes coming your way for holistic well-being.
+                        For the customer's question about money, the Major Arcana cards drawn provide insight into their
+                        current financial situation and the steps they can take to improve it. Areas for improvement: -
+                        The Tower (XVI reversed) indicates that the customer may be experiencing financial upheaval or
+                        unexpected changes that have disrupted their stability. This card reversed suggests that they
+                        may be avoiding necessary changes or resisting letting go of old financial patterns that no
+                        longer serve them. It's a sign that they need to confront their fears and embrace change in
+                        order to move forward towards financial stability. Strengths: - The Wheel of Fortune (X) in the
+                        upright position indicates that the customer has good luck and positive opportunities
+                        surrounding their finances. This card suggests that they have the ability to adapt to changes
+                        and make the most of unexpected events. They are encouraged to take advantage of these favorable
+                        circumstances and remain open to new possibilities that may come their way. Steps towards a
+                        better direction: - The Hermit (IX) in the upright position advises the customer to take some
+                        time for introspection and self-reflection when it comes to their finances. This card suggests
+                        that they may benefit from seeking guidance or advice from a financial advisor or mentor to gain
+                        clarity and perspective on their current situation. By taking a step back and evaluating their
+                        financial goals and priorities, they can make informed decisions that will lead them towards a
+                        better financial future. Overall, the cards indicate that the customer needs to embrace change,
+                        be open to new opportunities, and seek guidance in order to improve their financial situation.
+                        By facing their fears, making the most of their strengths, and taking the necessary steps
+                        towards financial clarity, they can work towards a more stable and prosperous financial future.
                     </p>
                     {/* <p>{response}</p> */}
+                    <div className={styles['share_buttons']}>
+                        <FacebookShareButton url={shareUrl} quote={shareDescription}>
+                            Share on Facebook
+                        </FacebookShareButton>
+                        <TwitterShareButton url={shareUrl} title={shareTitle}>
+                            Share on Twitter
+                        </TwitterShareButton>
+                        <KakaoShareButton url={shareUrl} title={shareTitle} description={shareDescription}>
+                            Share on Kakao
+                        </KakaoShareButton>
+                    </div>
                 </div>
             </div>
         </>

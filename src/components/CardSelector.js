@@ -8,6 +8,7 @@ export default function CardSelector({ theme, design }) {
     const [remainingCards, setRemainingCards] = useState([]);
     const [result, setResult] = useState([]);
     console.log(result);
+
     useEffect(() => {
         const cards = Array.from({ length: 22 }, (_, i) => ({
             number: i < 10 ? `0${i}` : `${i}`,
@@ -16,9 +17,11 @@ export default function CardSelector({ theme, design }) {
         const shuffledCards = shuffleArray(cards);
         setRemainingCards(shuffledCards);
     }, []);
+
     useEffect(() => {
         setResult(selectedCards.map((card) => `${card.number}${card.isReversed ? 'r' : ''}`).join(','));
     }, [selectedCards]);
+
     const shuffleArray = (array) => {
         const newArray = [...array];
         for (let i = newArray.length - 1; i > 0; i--) {
@@ -40,10 +43,18 @@ export default function CardSelector({ theme, design }) {
             }
         }
     };
-    console.log(selectedCards);
+
     return (
         <div>
-            <h2 className={styles['sub_title']}>CHOOSE YOUR DECK</h2>
+            <h2
+                className={styles['sub_title']}
+                style={{
+                    marginTop: '0px',
+                    paddingTop: '145px',
+                }}
+            >
+                CHOOSE YOUR DECK
+            </h2>
             <div className={styles['cards']}>
                 {remainingCards.map((card, idx) => (
                     <div

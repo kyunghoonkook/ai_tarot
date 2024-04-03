@@ -1,8 +1,10 @@
 .result_wrap {
     /* display: flex; */
+    padding-top: 170px;
 }
 .card_box {
     display: flex;
+    justify-content: space-around;
 }
 .card_wrap {
     display: flex;
@@ -12,4 +14,12 @@
 
 .card_wrap > h3 {
     color: #fff;
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+.card_wrap > img {
+    width: 190px;
+    height: 300px;
+    border: 10px solid #020122;
+    border-radius: 12px;
 }
