@@ -216,7 +216,9 @@
 .card.selected {
     transition: transform 0.6s ease-out, left 0.6s ease-out;
 }
-
+.card.selected.move-to-selected {
+    transform: translateY(400px);
+}
 .card.selected .card-inner {
     transform: rotateY(0deg);
     transition: transform 0.6s;
@@ -388,4 +390,54 @@
         font-size: 18px; /* 링크 텍스트 크기 조정 */
     }
     /* 여기에 480px 이하일 때 적용할 스타일 추가 */
+}
+css
+
+
+Copy code
+/* ... 생략 ... */
+
+.card.selected {
+    transition: transform 0.6s ease-out;
+}
+
+.card.selected.move-to-selected {
+    transform: translateY(400px);
+}
+
+/* ... 생략 ... */
+
+.card_sel {
+    display: flex;
+    justify-content: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+    width: 200px;
+    height: 300px;
+}
+
+.card_sel .front,
+.card_sel .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transition: transform 0.6s;
+}
+
+.card_sel .front {
+    transform: rotateY(0deg);
+}
+
+.card_sel .back {
+    transform: rotateY(180deg);
+}
+
+.card_sel.flipped .front {
+    transform: rotateY(180deg);
+}
+
+.card_sel.flipped .back {
+    transform: rotateY(0deg);
 }
