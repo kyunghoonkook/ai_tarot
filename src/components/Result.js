@@ -9,6 +9,30 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { FaSpinner } from 'react-icons/fa';
 
 const Result = () => {
+    const cardNames = {
+        '00': 'The Fool',
+        '01': 'The Magician',
+        '02': 'The High Priestess',
+        '03': 'The Empress',
+        '04': 'The Emperor',
+        '05': 'The Hierophant',
+        '06': 'The Lovers',
+        '07': 'The Chariot',
+        '08': 'Strength',
+        '09': 'The Hermit',
+        10: 'Wheel of Fortune',
+        11: 'Justice',
+        12: 'The Hanged Man',
+        13: 'Death',
+        14: 'Temperance',
+        15: 'The Devil',
+        16: 'The Tower',
+        17: 'The Star',
+        18: 'The Moon',
+        19: 'The Sun',
+        20: 'Judgement',
+        21: 'The World',
+    };
     const pathname = usePathname();
     const pathnameArray = pathname.split('/');
     const cardNumbers = pathnameArray[pathnameArray.length - 1]?.split(',') || [];
@@ -23,7 +47,7 @@ const Result = () => {
     const [loading, setLoading] = useState(true);
     const [displayText, setDisplayText] = useState('');
     const shareButtonsRef = useRef(null);
-
+    const [index, setIndex] = useState(0);
     const toggleShareButtons = () => {
         setShowShareButtons(!showShareButtons);
     };
@@ -67,27 +91,37 @@ const Result = () => {
     }, [pathname, theme, card1, card2, card3]);
 
     useEffect(() => {
-        if (!loading) {
-            let i = 0;
-            const typing = setInterval(() => {
-                setDisplayText((prevText) => prevText + response.charAt(i));
-                i++;
-                if (i > response.length) {
-                    clearInterval(typing);
-                }
-            }, 50);
-
-            return () => {
-                clearInterval(typing);
-            };
+        if (index < response.length) {
+            setTimeout(() => {
+                setDisplayText(displayText + response[index]);
+                setIndex(index + 1);
+            }, 50); // 100ms 간격으로 문자 출력
         }
-    }, [loading, response]);
+    }, [displayText, response, index]);
+
+    // useEffect(() => {
+    //     if (!loading) {
+    //         let i = 0;
+    //         const typing = setInterval(() => {
+    //             setDisplayText((prevText) => prevText + response.charAt(i));
+    //             i++;
+    //             if (i > response.length) {
+    //                 clearInterval(typing);
+    //             }
+    //         }, 50);
+
+    //         return () => {
+    //             clearInterval(typing);
+    //         };
+    //     }
+    // }, [loading, response]);
 
     const formatCardNumber = (cardNumber) => {
         if (!cardNumber) return '';
-        const number = cardNumber.replace(/\D/g, '');
+        const number = cardNumber.replace(/\D/g, '').padStart(2, '0');
         const direction = cardNumber.endsWith('r') ? 'reverse direction' : 'forward direction';
-        return `${number} ${direction}`;
+        const name = cardNames[number] || '';
+        return `${number} ${name} ${direction}`;
     };
 
     const shareUrl = typeof window !== 'undefined' ? window.location.href : '';

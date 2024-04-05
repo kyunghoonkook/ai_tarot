@@ -134,13 +134,16 @@ a {
     text-decoration: none;
 }
 .layout {
-    width: 1480px;
-    margin: 0 auto;
+    max-width: 1920px; /* 최대 너비 설정 */
+    width: 100%; /* 화면 너비에 맞게 조정 */
+    height: 100vh;
+    margin: 0 auto; /* 중앙 정렬 */
 }
 
 .header {
-    width: 1480px;
-    margin: 0 auto;
+    max-width: 1480px; /* 최대 너비 설정 */
+    width: 100%; /* 화면 너비에 맞게 조정 */
+    margin: 0 auto; /* 중앙 정렬 */
     position: relative;
 }
 
