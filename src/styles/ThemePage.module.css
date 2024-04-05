@@ -234,9 +234,52 @@
     transform: translateY(400px) translateX(250px);
 }
 
-.selected-cards > div > img.show {
-    opacity: 1;
+.card_sel {
+    display: flex;
+    justify-content: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+    width: 200px;
+    height: 300px;
 }
+
+.card_sel .front,
+.card_sel .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transition: transform 0.6s;
+}
+
+.card_sel .front {
+    transform: rotateY(0deg);
+}
+
+.card_sel .back {
+    transform: rotateY(180deg);
+}
+.card_sel .front img {
+    width: 200px;
+    height: 300px;
+    border: 10px solid #020122;
+    border-radius: 12px;
+}
+.card_sel.flipped .front {
+    transform: rotateY(180deg);
+}
+
+.card_sel.flipped .back {
+    transform: rotateY(0deg);
+}
+.card_sel .back img {
+    width: 200px;
+    height: 300px;
+    border: 10px solid #020122;
+    border-radius: 12px;
+}
+
 .selected-cards {
     display: flex;
     justify-content: center;
@@ -248,12 +291,14 @@
     margin: 0 10px;
     text-align: center;
 }
+
 .selected-cards > div > h3 {
     color: #fff;
     font-size: 20px;
     font-weight: 500;
     margin-bottom: 10px;
 }
+
 .selected-cards > div > img {
     width: 200px;
     height: 300px;
@@ -301,7 +346,7 @@
     transform: translateY(1px);
 }
 .button_wrap {
-    margin-top: 15px;
+    margin-top: 35px;
     width: 100%;
     display: flex;
     align-items: center;

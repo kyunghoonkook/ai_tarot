@@ -7,6 +7,7 @@ export default function CardSelector({ theme, design }) {
     const [selectedCards, setSelectedCards] = useState([]);
     const [remainingCards, setRemainingCards] = useState([]);
     const [result, setResult] = useState([]);
+    const [isButtonClicked, setIsButtonClicked] = useState(false);
 
     useEffect(() => {
         const cards = Array.from({ length: 22 }, (_, i) => ({
@@ -32,15 +33,31 @@ export default function CardSelector({ theme, design }) {
 
     const handleCardClick = (card) => {
         if (selectedCards.length < 3 && !selectedCards.includes(card)) {
-            setSelectedCards([...selectedCards, card]);
+            setSelectedCards([...selectedCards, { ...card, isFlipped: true }]);
             setRemainingCards(remainingCards.filter((c) => c !== card));
 
-            // Add 'selected' class to the selected card element
             const selectedCardElement = document.querySelector(`.card[data-card="${card.number}"]`);
             if (selectedCardElement) {
                 selectedCardElement.classList.add('selected');
             }
         }
+    };
+
+    useEffect(() => {
+        if (selectedCards.length === 3) {
+            const timeout = setTimeout(() => {
+                setSelectedCards(selectedCards.map((card) => ({ ...card, isFlipped: true })));
+            }, 1000);
+
+            return () => clearTimeout(timeout);
+        }
+    }, [selectedCards]);
+
+    const handleButtonClick = () => {
+        setIsButtonClicked(true);
+        setTimeout(() => {
+            window.location.href = `/${theme}/${design}/result/${result}`;
+        }, 2000);
     };
 
     return (
@@ -100,28 +117,43 @@ export default function CardSelector({ theme, design }) {
                                 {index === 2 && <h3>Spirit</h3>}
                             </>
                         )}
-                        <img
-                            src={`/images/${design}/${card.number}.png`}
+                        <div className={`${styles['card_sel']} ${isButtonClicked ? styles['flipped'] : ''}`}>
+                            <div className={styles['front']}>
+                                <img src={`/images/${design}/뒷면 1.png`} alt="Card Back" />
+                            </div>
+                            <div className={styles['back']}>
+                                <img
+                                    src={`/images/${design}/${card.number}.png`}
+                                    alt={`Card ${card.number}`}
+                                    className={card.isReversed ? styles['reversed'] : ''}
+                                    style={{
+                                        transform: card.isReversed ? 'rotateX(180deg)' : 'rotateX(0deg)',
+                                    }}
+                                />
+                            </div>
+                        </div>
+
+                        {/* <img
+                            src={`/images/${design}/${isButtonClicked ? card.number : '뒷면 1'}.png`}
                             alt={`Card ${parseInt(card.number)}`}
                             className={card.isReversed ? styles['reversed'] : ''}
                             style={{
-                                opacity: 0,
+                                opacity: isButtonClicked ? 1 : 0,
                                 transform: card.isReversed ? 'rotateX(180deg)' : 'rotateX(0deg)',
                                 transition: 'opacity 0.6s, transform 0.6s',
                             }}
                             onLoad={(e) => {
                                 e.target.style.opacity = 1;
-                                // e.target.style.transform = 'translateY(0px)';
                             }}
-                        />
+                        /> */}
                     </div>
                 ))}
             </div>
             <div className={styles['button_wrap']}>
                 {selectedCards.length === 3 && (
-                    <Link href={`/${theme}/${design}/result/${result}`}>
-                        <button className={styles['pretty-button']}>Start Reading</button>
-                    </Link>
+                    <button className={styles['pretty-button']} onClick={handleButtonClick}>
+                        Start Reading
+                    </button>
                 )}
             </div>
         </div>
