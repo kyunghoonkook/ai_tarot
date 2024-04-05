@@ -52,7 +52,7 @@ export default function CardSelector({ theme, design }) {
                     paddingTop: '125px',
                 }}
             >
-                CHOOSE YOUR DECK
+                CHOOSE YOUR CARD
             </h2>
             <div className={styles['cards']}>
                 {remainingCards.map((card, idx) => (
