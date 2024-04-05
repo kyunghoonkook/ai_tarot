@@ -1,8 +1,28 @@
 .main-bg {
     margin-left: -220px;
     margin-top: -30px;
+    width: 1920px; /* 기본 이미지 너비 설정 */
 }
 
 .bgWrap {
     width: 100%;
+    overflow: hidden; /* 넘치는 부분 숨김 처리 */
+}
+
+/* 태블릿 화면 사이즈에 맞게 조정 */
+@media (max-width: 1024px) {
+    .main-bg {
+        width: 100%; /* 화면 너비에 맞게 이미지 사이즈 조정 */
+        margin-left: 0; /* 태블릿에서의 위치 조정 */
+        margin-top: 0; /* 태블릿에서의 위치 조정 */
+    }
+}
+
+/* 모바일 화면 사이즈에 맞게 조정 */
+@media (max-width: 480px) {
+    .main-bg {
+        width: 100%; /* 화면 너비에 맞게 이미지 사이즈 조정 */
+        margin-left: 0; /* 모바일에서의 위치 조정 */
+        margin-top: 0; /* 모바일에서의 위치 조정 */
+    }
 }
