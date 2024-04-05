@@ -7,7 +7,6 @@ export default function CardSelector({ theme, design }) {
     const [selectedCards, setSelectedCards] = useState([]);
     const [remainingCards, setRemainingCards] = useState([]);
     const [result, setResult] = useState([]);
-    console.log(result);
 
     useEffect(() => {
         const cards = Array.from({ length: 22 }, (_, i) => ({
@@ -50,7 +49,7 @@ export default function CardSelector({ theme, design }) {
                 className={styles['sub_title']}
                 style={{
                     marginTop: '0px',
-                    paddingTop: '145px',
+                    paddingTop: '125px',
                 }}
             >
                 CHOOSE YOUR DECK
@@ -118,11 +117,13 @@ export default function CardSelector({ theme, design }) {
                     </div>
                 ))}
             </div>
-            {selectedCards.length === 3 && (
-                <Link href={`/${theme}/${design}/result/${result}`}>
-                    <button>Start Reading</button>
-                </Link>
-            )}
+            <div className={styles['button_wrap']}>
+                {selectedCards.length === 3 && (
+                    <Link href={`/${theme}/${design}/result/${result}`}>
+                        <button className={styles['pretty-button']}>Start Reading</button>
+                    </Link>
+                )}
+            </div>
         </div>
     );
 }

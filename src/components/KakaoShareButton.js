@@ -41,7 +41,8 @@ const KakaoShareButton = ({ url, title, description }) => {
 
     return (
         <button id="kakao-share-button" onClick={handleShareToKakao}>
-            Share on Kakao
+            <img src="/images/Icons/kakao-logo.png" alt="Kakao Talk" />
+            <span>Kakao Talk</span>
         </button>
     );
 };

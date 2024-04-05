@@ -1,10 +1,13 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import axios from 'axios';
 import styles from '../styles/ResultPage.module.css';
 import { FacebookShareButton, TwitterShareButton } from 'react-share';
 import KakaoShareButton from './KakaoShareButton';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { FaSpinner } from 'react-icons/fa';
+
 const Result = () => {
     const pathname = usePathname();
     const pathnameArray = pathname.split('/');
@@ -16,26 +19,69 @@ const Result = () => {
     const [design, setDesign] = useState('');
     const [response, setResponse] = useState('');
     const [selectedCards, setSelectedCards] = useState([]);
+    const [showShareButtons, setShowShareButtons] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [displayText, setDisplayText] = useState('');
+    const shareButtonsRef = useRef(null);
+
+    const toggleShareButtons = () => {
+        setShowShareButtons(!showShareButtons);
+    };
+
+    const handleOutsideClick = (event) => {
+        if (shareButtonsRef.current && !shareButtonsRef.current.contains(event.target)) {
+            setShowShareButtons(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleOutsideClick);
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick);
+        };
+    }, []);
+
     useEffect(() => {
         setTheme(pathnameArray[1]);
         setCard1(formatCardNumber(cardNumbers[0]));
         setCard2(formatCardNumber(cardNumbers[1]));
         setCard3(formatCardNumber(cardNumbers[2]));
         setDesign(pathnameArray[2]);
-        setSelectedCards(cardNumbers.length > 0 && cardNumbers.map((card) => card.replace(/\D/g, '')));
-        // const fetchData = async () => {
-        //     if (theme && card1 && card2 && card3) {
-        //         try {
-        //             const res = await axios.post('/api/tarot', { theme, card1, card2, card3 });
-        //             setResponse(res.data.message);
-        //         } catch (err) {
-        //             console.error(err);
-        //         }
-        //     }
-        // };
+        setSelectedCards(cardNumbers);
+        // setSelectedCards(cardNumbers.length > 0 && cardNumbers.map((card) => card.replace(/\D/g, '')));
 
-        // fetchData();
+        const fetchData = async () => {
+            if (theme && card1 && card2 && card3) {
+                try {
+                    const res = await axios.post('/api/tarot', { theme, card1, card2, card3 });
+                    setResponse(res.data.message);
+                    setLoading(false);
+                } catch (err) {
+                    console.error(err);
+                    setLoading(false);
+                }
+            }
+        };
+
+        fetchData();
     }, [pathname, theme, card1, card2, card3]);
+
+    useEffect(() => {
+        if (!loading) {
+            let i = 0;
+            const typing = setInterval(() => {
+                setDisplayText((prevText) => prevText + response.charAt(i));
+                i++;
+                if (i > response.length) {
+                    clearInterval(typing);
+                }
+            }, 50);
+
+            return () => {
+                clearInterval(typing);
+            };
+        }
+    }, [loading, response]);
 
     const formatCardNumber = (cardNumber) => {
         if (!cardNumber) return '';
@@ -43,9 +89,11 @@ const Result = () => {
         const direction = cardNumber.endsWith('r') ? 'reverse direction' : 'forward direction';
         return `${number} ${direction}`;
     };
+
     const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
     const shareTitle = 'Tarot Reading Result';
     const shareDescription = response;
+
     return (
         <>
             <div className={styles['result_wrap']}>
@@ -76,48 +124,57 @@ const Result = () => {
                                     </>
                                 )}
                                 <img
-                                    src={`/images/${design}/${card}.png`}
+                                    src={`/images/${design}/${card.replace('r', '')}.png`}
                                     alt={`Card ${parseInt(card)}`}
-                                    className={styles['reversed']}
+                                    className={`${styles['card-image']} ${
+                                        card.includes('r') ? styles['reversed'] : ''
+                                    }`}
                                 />
                             </div>
                         ))}
                 </div>
                 <div>
-                    <h2>Reading by AI</h2>
-                    <p>
-                        For the customer's question about money, the Major Arcana cards drawn provide insight into their
-                        current financial situation and the steps they can take to improve it. Areas for improvement: -
-                        The Tower (XVI reversed) indicates that the customer may be experiencing financial upheaval or
-                        unexpected changes that have disrupted their stability. This card reversed suggests that they
-                        may be avoiding necessary changes or resisting letting go of old financial patterns that no
-                        longer serve them. It's a sign that they need to confront their fears and embrace change in
-                        order to move forward towards financial stability. Strengths: - The Wheel of Fortune (X) in the
-                        upright position indicates that the customer has good luck and positive opportunities
-                        surrounding their finances. This card suggests that they have the ability to adapt to changes
-                        and make the most of unexpected events. They are encouraged to take advantage of these favorable
-                        circumstances and remain open to new possibilities that may come their way. Steps towards a
-                        better direction: - The Hermit (IX) in the upright position advises the customer to take some
-                        time for introspection and self-reflection when it comes to their finances. This card suggests
-                        that they may benefit from seeking guidance or advice from a financial advisor or mentor to gain
-                        clarity and perspective on their current situation. By taking a step back and evaluating their
-                        financial goals and priorities, they can make informed decisions that will lead them towards a
-                        better financial future. Overall, the cards indicate that the customer needs to embrace change,
-                        be open to new opportunities, and seek guidance in order to improve their financial situation.
-                        By facing their fears, making the most of their strengths, and taking the necessary steps
-                        towards financial clarity, they can work towards a more stable and prosperous financial future.
-                    </p>
-                    {/* <p>{response}</p> */}
-                    <div className={styles['share_buttons']}>
-                        <FacebookShareButton url={shareUrl} quote={shareDescription}>
-                            Share on Facebook
-                        </FacebookShareButton>
-                        <TwitterShareButton url={shareUrl} title={shareTitle}>
-                            Share on Twitter
-                        </TwitterShareButton>
-                        <KakaoShareButton url={shareUrl} title={shareTitle} description={shareDescription}>
-                            Share on Kakao
-                        </KakaoShareButton>
+                    <h2 className={styles['title_ai']}>Reading by AI</h2>
+                    {loading ? (
+                        <div className={styles['loading-spinner']}>
+                            <FaSpinner className={`${styles['spinner']} ${styles['spin']}`} />
+                            <span>Loading...</span>
+                        </div>
+                    ) : (
+                        <p className={styles['result-text-box']}>{displayText}</p>
+                    )}
+                    <div ref={shareButtonsRef} className={styles['share_wrap']}>
+                        <div className={styles['share_button_wrap']}>
+                            <button>
+                                <img src="/images/Icons/share-btn.png" alt="share-btn" />
+                            </button>
+                            <button onClick={toggleShareButtons}>
+                                <img src="/images/Icons/url-logo-white.png" alt="url-logo-white" />
+                            </button>
+                        </div>
+                        {showShareButtons && (
+                            <div className={styles['share_buttons']}>
+                                <FacebookShareButton url={shareUrl} quote={shareDescription}>
+                                    <img src="/images/Icons/facebook-logo-black.png" alt="Facebook" />
+                                    <span>Facebook</span>
+                                </FacebookShareButton>
+                                <TwitterShareButton url={shareUrl} title={shareTitle}>
+                                    <img src="/images/Icons/twitter-x-logo.png" alt="Twitter" />
+                                    <span>Twitter</span>
+                                </TwitterShareButton>
+                                <KakaoShareButton
+                                    url={shareUrl}
+                                    title={shareTitle}
+                                    description={shareDescription}
+                                ></KakaoShareButton>
+                                <CopyToClipboard text={shareUrl}>
+                                    <button>
+                                        <img src="/images/Icons/url-logo.png" alt="URL" />
+                                        <span>URL</span>
+                                    </button>
+                                </CopyToClipboard>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
