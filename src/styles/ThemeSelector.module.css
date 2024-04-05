@@ -25,13 +25,16 @@
     object-fit: cover;
     position: absolute;
 }
+
 .tarot-card img:first-child {
     left: 120px;
 }
+
 .tarot-card img:nth-child(2) {
     top: -50px;
     z-index: 1;
 }
+
 .tarot-card img:nth-child(3) {
     right: 120px;
 }
@@ -74,4 +77,40 @@
 .tarot-card p small {
     padding-top: 10px;
     font-weight: 300;
+}
+
+/* 태블릿 가로 및 더 작은 디스플레이를 위한 스타일 */
+@media (max-width: 1024px) {
+    .tarot-cards {
+        gap: 150px; /* 간격 줄임 */
+    }
+
+    .tarot-card img:first-child,
+    .tarot-card img:nth-child(3) {
+        display: none; /* 외부 이미지 숨김 */
+    }
+}
+
+/* 태블릿 세로 및 더 작은 디스플레이를 위한 스타일 */
+@media (max-width: 768px) {
+    .tarot-cards {
+        flex-direction: column; /* 카드를 세로로 정렬 */
+        gap: 50px; /* 세로 간격 조정 */
+    }
+
+    .tarot-card {
+        width: 150px; /* 카드 크기 조정 */
+        height: 225px;
+    }
+}
+
+/* 모바일 디바이스를 위한 스타일 */
+@media (max-width: 480px) {
+    .tarot-cards {
+        gap: 30px; /* 더 작은 간격 */
+    }
+
+    .tarot-card p {
+        bottom: -50px; /* 텍스트 위치 조정 */
+    }
 }

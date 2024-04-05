@@ -1,18 +1,25 @@
 .title {
     padding-top: 145px;
     text-align: center;
-    color: #b7ab84;
+    background: linear-gradient(to top right, #b7ab84, #6e664e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent; /* 대부분의 브라우저에서 필요함 */
+    -webkit-text-fill-color: transparent; /* Safari에서 필요함 */
     font-size: 36px;
     font-weight: 500;
 }
 
 .sub_title {
-    color: #b7ab84;
+    background: linear-gradient(to top right, #b7ab84, #6e664e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent; /* 대부분의 브라우저에서 필요함 */
+    -webkit-text-fill-color: transparent; /* Safari에서 필요함 */
     font-size: 48px;
     text-align: center;
     margin-top: 15px;
 }
-
 .link p {
     text-align: center;
     color: #fff !important;
@@ -240,9 +247,6 @@
 .selected-cards > div {
     margin: 0 10px;
     text-align: center;
-    /* opacity: 0; */
-    /* transform: translateY(-20px); */
-    /* transition: opacity 0.6s, transform 0.6s; */
 }
 .selected-cards > div > h3 {
     color: #fff;
@@ -256,10 +260,7 @@
     border: 10px solid #020122;
     border-radius: 12px;
 }
-/* .selected-cards > div.show {
-    opacity: 1;
-    transform: translateY(0);
-} */
+
 .card.selected .card-inner {
     transform: rotateY(0deg);
     transition: transform 0.6s;
@@ -271,21 +272,7 @@
 .selected-cards .reversed {
     transform: rotateX(180deg);
 }
-/* .reversed .card-inner {
-    transform: rotateY(180deg);
-}
-/* .reversed .card-front {
-    transform: rotateY(180deg);
-}
 
-.reversed .card-back {
-    transform: rotateY(0deg);
-} */
-
-/*.selected-cards .reversed {
-    transform: rotateY(180deg);
-}
- */
 .pretty-button {
     display: inline-block;
     padding: 12px 24px;
@@ -319,4 +306,41 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+@media screen and (max-width: 1024px) {
+    .cards_wrap {
+        gap: 150px;
+    }
+    .card {
+        width: 160px; /* 예시로 너비 조정 */
+        height: 240px; /* 예시로 높이 조정 */
+    }
+    /* 여기에 1024px 이하일 때 적용할 스타일 추가 */
+}
+
+@media screen and (max-width: 768px) {
+    .cards_wrap {
+        flex-direction: column; /* 카드를 세로로 나열 */
+        gap: 50px;
+    }
+    .card {
+        left: initial; /* 카드의 위치 조정 초기화 */
+        margin: 0 auto; /* 중앙 정렬 */
+    }
+    /* 여기에 768px 이하일 때 적용할 스타일 추가 */
+}
+
+@media screen and (max-width: 480px) {
+    .title,
+    .sub_title {
+        font-size: 24px; /* 제목 크기 조정 */
+    }
+    .card {
+        width: 140px; /* 예시로 너비 조정 */
+        height: 210px; /* 예시로 높이 조정 */
+    }
+    .link p {
+        font-size: 18px; /* 링크 텍스트 크기 조정 */
+    }
+    /* 여기에 480px 이하일 때 적용할 스타일 추가 */
 }
