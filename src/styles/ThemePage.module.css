@@ -391,12 +391,6 @@
     }
     /* 여기에 480px 이하일 때 적용할 스타일 추가 */
 }
-css
-
-
-Copy code
-/* ... 생략 ... */
-
 .card.selected {
     transition: transform 0.6s ease-out;
 }
@@ -404,8 +398,6 @@ Copy code
 .card.selected.move-to-selected {
     transform: translateY(400px);
 }
-
-/* ... 생략 ... */
 
 .card_sel {
     display: flex;

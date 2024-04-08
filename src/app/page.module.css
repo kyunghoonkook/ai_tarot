@@ -22,7 +22,9 @@
 /* 모바일 화면 사이즈에 맞게 조정 */
 @media (max-width: 480px) {
     .main-bg {
-        /*  width: 30%; 화면 너비에 맞게 이미지 사이즈 조정 */
+        /*  width: 30%; 화면 너비에 
+        맞게 이미지 사이즈 조정 */
+        display: none;
         margin-left: 0; /* 모바일에서의 위치 조정 */
         margin-top: 0; /* 모바일에서의 위치 조정 */
     }
