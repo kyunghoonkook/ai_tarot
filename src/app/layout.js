@@ -20,13 +20,13 @@ export const metadata = {
         title: 'AI Tarot - Unlock the Secrets of Your Future',
         description:
             "Discover the power of AI-generated tarot readings. Get personalized insights and guidance for your life's journey with our cutting-edge AI Tarot app.",
-        url: 'https://your-ai-tarot-url.com',
+        url: 'https://ai-tarot-five.vercel.app/',
         type: 'website',
         images: [
             {
-                url: 'https://your-ai-tarot-url.com/images/og-image.jpg',
-                width: 1200,
-                height: 630,
+                url: 'https://ai-tarot-five.vercel.app/images/bg.png',
+                // width: 1200,
+                // height: 630,
                 alt: 'AI Tarot Open Graph Image',
             },
         ],
