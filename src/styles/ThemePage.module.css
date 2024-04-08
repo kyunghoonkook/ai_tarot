@@ -473,5 +473,10 @@
     .cards {
         height: 250px;
     }
+    .selected-cards > div {
+        display: flex;
+        flex-direction: column; /* 추가 */
+        justify-content: space-between; /* 변경 */
+    }
     /* 여기에 480px 이하일 때 적용할 스타일 추가 */
 }
