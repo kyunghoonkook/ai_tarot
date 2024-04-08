@@ -204,7 +204,11 @@ button {
 }
 
 @media (max-width: 480px) {
+    .logo {
+        width: 50%;
+        height: 50%;
+    }
     body {
-        background-size: auto 25%; /* 모바일 화면 크기에 맞게 조정 */
+        background-size: auto 100%; /* 모바일 화면 크기에 맞게 조정 */
     }
 }
