@@ -107,6 +107,7 @@
 /* 모바일 디바이스를 위한 스타일 */
 @media (max-width: 480px) {
     .tarot-cards {
+        margin: 0 auto;
         gap: 30px; /* 더 작은 간격 */
     }
 
