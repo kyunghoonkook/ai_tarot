@@ -28,4 +28,7 @@
         margin-left: 0; /* 모바일에서의 위치 조정 */
         margin-top: 0; /* 모바일에서의 위치 조정 */
     }
+    .bgWrap {
+        overflow-y: scroll;
+    }
 }
