@@ -99,23 +99,6 @@ const Result = () => {
         }
     }, [displayText, response, index]);
 
-    // useEffect(() => {
-    //     if (!loading) {
-    //         let i = 0;
-    //         const typing = setInterval(() => {
-    //             setDisplayText((prevText) => prevText + response.charAt(i));
-    //             i++;
-    //             if (i > response.length) {
-    //                 clearInterval(typing);
-    //             }
-    //         }, 50);
-
-    //         return () => {
-    //             clearInterval(typing);
-    //         };
-    //     }
-    // }, [loading, response]);
-
     const formatCardNumber = (cardNumber) => {
         if (!cardNumber) return '';
         const number = cardNumber.replace(/\D/g, '').padStart(2, '0');
