@@ -2,6 +2,7 @@ import KakaoScript from '@/components/KakaoScript';
 import './globals.css';
 
 export const metadata = {
+    //  google-adsense-account:'ca-pub-6444523705828999' ,
     title: 'AI Tarot - Unlock the Secrets of Your Future',
     description:
         "Discover the power of AI-generated tarot readings. Get personalized insights and guidance for your life's journey with our cutting-edge AI Tarot app.",
@@ -51,9 +52,7 @@ export const metadata = {
             'max-snippet': -1,
         },
     },
-    metadataBase: {
-        'google-adsense-account': 'ca-pub-6444523705828999',
-    },
+
     // verification: {
     //     google: 'your-google-verification-code',
     //     yandex: 'your-yandex-verification-code',
