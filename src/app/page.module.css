@@ -10,6 +10,11 @@
     overflow: hidden; /* 넘치는 부분 숨김 처리 */
 }
 
+@media (max-width: 1470px) {
+    .main-bg {
+        margin-top: -130px;
+    }
+}
 /* 태블릿 화면 사이즈에 맞게 조정 */
 @media (max-width: 1024px) {
     .main-bg {

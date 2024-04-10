@@ -79,6 +79,20 @@
     font-weight: 300;
 }
 
+@media (max-width: 1470px) {
+    .tarot-card {
+        width: 150px; /* 카드 크기 조정 */
+        height: 225px;
+    }
+    .tarot-card p {
+        white-space: nowrap;
+        text-align: center;
+    }
+    .tarot-card img:nth-child(2) {
+        top: -40px;
+        z-index: 1;
+    }
+}
 /* 태블릿 가로 및 더 작은 디스플레이를 위한 스타일 */
 @media (max-width: 1024px) {
     .tarot-cards {
@@ -121,12 +135,6 @@
         white-space: nowrap;
         bottom: -12px;
         text-align: center;
-        /* left: 50%; */
-        /* transform: translateX(-50%); */
-        /* display: flex;
-        justify-content: center; */
-        /* position: relative; */
-        /* margin-top: 50px; */
     }
     .tarot-card p span {
         text-align: center;

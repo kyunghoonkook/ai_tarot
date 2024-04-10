@@ -397,7 +397,61 @@
 .card_sel.flipped .back {
     transform: rotateY(0deg);
 }
+@media screen and (max-width: 1470px) {
+    .title,
+    .sub_title {
+        font-size: 36px; /* 제목 크기 조정 */
+    }
+    .cards {
+        margin-top: 20px;
+    }
+    .cards_wrap {
+        gap: 150px;
+        margin-top: 50px;
+        align-items: center;
+        height: 270px;
+    }
+    .card {
+        width: 120px; /* 예시로 너비 조정 */
+        height: 220px; /* 예시로 높이 조정 */
+    }
+    .card::before {
+        top: -25px;
+    }
+    .card_sel {
+        width: 150px;
+        height: 225px;
+    }
+    .card_sel .front img {
+        width: 150px;
+        height: 225px;
+    }
+    .card_sel .back img {
+        width: 150px;
+        height: 225px;
+    }
+    /* .selected-cards {
+        gap: 30px;
+    } */
 
+    .card_sel .front img {
+        border: 3px solid #020122;
+        border-radius: 12px;
+    }
+
+    .card_sel .back img {
+        border: 3px solid #020122;
+        border-radius: 12px;
+    }
+    .cards {
+        height: 220px;
+    }
+    .selected-cards > div {
+        display: flex;
+        flex-direction: column; /* 추가 */
+        justify-content: space-between; /* 변경 */
+    }
+}
 @media screen and (max-width: 1024px) {
     .cards_wrap {
         gap: 150px;

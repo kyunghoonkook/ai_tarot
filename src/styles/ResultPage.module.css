@@ -153,6 +153,21 @@
 .reversed {
     transform: rotate(180deg);
 }
+@media (max-width: 1470px) {
+    .title_ai {
+        font-size: 18px;
+    }
+
+    /* .share_buttons button,
+    .share_button_wrap > button {
+        width: 30px;
+        height: 30px;
+    } */
+    .result-text-box {
+        width: 80%;
+        line-height: 1.8;
+    }
+}
 
 @media (max-width: 1024px) {
     .card_wrap > img {
