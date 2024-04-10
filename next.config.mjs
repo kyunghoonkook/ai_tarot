@@ -32,6 +32,7 @@ const nextConfig = {
         });
         return config;
     },
+    optimizeFonts: false,
 };
 
 export default nextConfig;

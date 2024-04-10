@@ -1,5 +1,3 @@
-import { Head } from 'next/head';
-import Script from 'next/script';
 import KakaoScript from '@/components/KakaoScript';
 import './globals.css';
 
