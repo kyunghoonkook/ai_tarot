@@ -1,4 +1,5 @@
-import Head from 'next/head';
+import { Head } from 'next/head';
+import Script from 'next/script';
 import KakaoScript from '@/components/KakaoScript';
 import './globals.css';
 
@@ -68,13 +69,13 @@ export const viewport = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
-            <Head>
+            <head>
                 <script
                     async
                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6444523705828999"
-                    crossorigin="anonymous"
+                    crossOrigin="anonymous"
                 ></script>
-            </Head>
+            </head>
             <body>
                 <header className="header">
                     <img src="/images/logo1.svg" className="logo" />
