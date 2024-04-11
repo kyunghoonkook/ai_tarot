@@ -17,6 +17,9 @@ export const metadata = {
     formatDetection: {
         telephone: false,
     },
+    icons: {
+        icon: '/favicon.ico',
+    },
     openGraph: {
         title: 'AI Tarot - Unlock the Secrets of Your Future',
         description:
