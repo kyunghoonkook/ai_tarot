@@ -21,9 +21,9 @@ const nextConfig = {
             },
         ];
     },
-    images: {
-        domains: ['your-ai-tarot-url.com'],
-    },
+    // images: {
+    //     domains: ['your-ai-tarot-url.com'],
+    // },
     webpack(config) {
         config.module.rules.push({
             test: /\.svg$/i,
