@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import KakaoScript from '@/components/KakaoScript';
 import './globals.css';
 
@@ -79,7 +80,9 @@ export default function RootLayout({ children }) {
             </head>
             <body>
                 <header className="header">
-                    <img src="/images/logo1.svg" className="logo" />
+                    <Link href="/">
+                        <img src="/images/logo1.svg" className="logo" />
+                    </Link>
                 </header>
 
                 <div className="layout">{children}</div>
