@@ -22,6 +22,16 @@ export default function CardSelector({ theme, design }) {
         setResult(selectedCards.map((card) => `${card.number}${card.isReversed ? 'r' : ''}`).join(','));
     }, [selectedCards]);
 
+    useEffect(() => {
+        if (selectedCards.length === 3) {
+            const timeout = setTimeout(() => {
+                setSelectedCards(selectedCards.map((card) => ({ ...card, isFlipped: true })));
+            }, 1000);
+
+            return () => clearTimeout(timeout);
+        }
+    }, [selectedCards]);
+
     const shuffleArray = (array) => {
         const newArray = [...array];
         for (let i = newArray.length - 1; i > 0; i--) {
@@ -43,21 +53,11 @@ export default function CardSelector({ theme, design }) {
         }
     };
 
-    useEffect(() => {
-        if (selectedCards.length === 3) {
-            const timeout = setTimeout(() => {
-                setSelectedCards(selectedCards.map((card) => ({ ...card, isFlipped: true })));
-            }, 1000);
-
-            return () => clearTimeout(timeout);
-        }
-    }, [selectedCards]);
-
     const handleButtonClick = () => {
         setIsButtonClicked(true);
         setTimeout(() => {
             window.location.href = `/${theme}/${design}/result/${result}`;
-        }, 2000);
+        }, 1500);
     };
 
     return (

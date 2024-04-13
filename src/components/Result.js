@@ -52,12 +52,6 @@ const Result = () => {
         setShowShareButtons(!showShareButtons);
     };
 
-    const handleOutsideClick = (event) => {
-        if (shareButtonsRef.current && !shareButtonsRef.current.contains(event.target)) {
-            setShowShareButtons(false);
-        }
-    };
-
     useEffect(() => {
         document.addEventListener('mousedown', handleOutsideClick);
         return () => {
@@ -98,6 +92,12 @@ const Result = () => {
             }, 50); // 100ms 간격으로 문자 출력
         }
     }, [displayText, response, index]);
+
+    const handleOutsideClick = (event) => {
+        if (shareButtonsRef.current && !shareButtonsRef.current.contains(event.target)) {
+            setShowShareButtons(false);
+        }
+    };
 
     const formatCardNumber = (cardNumber) => {
         if (!cardNumber) return '';
