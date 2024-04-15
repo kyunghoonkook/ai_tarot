@@ -265,7 +265,7 @@
 .card_sel .front img {
     width: 200px;
     height: 300px;
-    border: 10px solid #020122;
+    /* border: 10px solid #020122; */
     border-radius: 12px;
 }
 .card_sel.flipped .front {

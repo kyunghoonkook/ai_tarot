@@ -9,7 +9,7 @@ export const metadata = {
         "Discover the power of AI-generated tarot readings. Get personalized insights and guidance for your life's journey with our cutting-edge AI Tarot app.",
     keywords:
         'AI tarot, tarot reading, online tarot, tarot cards, fortune telling, divination, spiritual guidance, personal growth, self-discovery',
-    author: 'Your Name or Company Name',
+    author: 'make-money',
     applicationName: 'AI Tarot',
     generator: 'Next.js',
     // themeColor: '#ffffff',
