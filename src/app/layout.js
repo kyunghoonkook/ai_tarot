@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import KakaoScript from '@/components/KakaoScript';
 import './globals.css';
-
+import { Analytics } from '@vercel/analytics/react';
 export const metadata = {
     //  google-adsense-account:'ca-pub-6444523705828999' ,
     title: 'AI Tarot - Unlock the Secrets of Your Future',
@@ -87,6 +87,7 @@ export default function RootLayout({ children }) {
 
                 <div className="layout">{children}</div>
                 <KakaoScript />
+                <Analytics />
             </body>
         </html>
     );
