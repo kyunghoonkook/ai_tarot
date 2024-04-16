@@ -87,7 +87,7 @@ export default function CardSelector({ theme, design }) {
                                 />
                             </div>
                             <div className={styles['card-back']}>
-                                <img src={`/images/${design}/뒷면 1.png`} alt={'1'} />
+                                <img src={`/images/${design}/뒷면 1.png`} alt={'카드 뒷면'} />
                             </div>
                         </div>
                     </div>
