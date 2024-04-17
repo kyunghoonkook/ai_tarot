@@ -4,9 +4,9 @@ import styles from '../styles/ThemeSelector.module.css';
 
 export default function ThemeSelector() {
     const cards = [
-        { theme: 'Love', image: '/images/cardBG.png', text: 'Love Tarot\n3-Card Tarot Spread' },
-        { theme: 'Money', image: '/images/cardBG.png', text: 'Money Tarot\n3-Card Tarot Spread' },
-        { theme: 'Health', image: '/images/cardBG.png', text: 'Health Tarot\n3-Card Tarot Spread' },
+        { theme: 'Love', image: '/images/love.png', text: 'Love Tarot\n3-Card Tarot Spread' },
+        { theme: 'Money', image: '/images/money.png', text: 'Money Tarot\n3-Card Tarot Spread' },
+        { theme: 'Health', image: '/images/health.png', text: 'Health Tarot\n3-Card Tarot Spread' },
     ];
 
     return (
