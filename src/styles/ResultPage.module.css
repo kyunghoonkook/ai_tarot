@@ -46,7 +46,9 @@
     margin: 0 auto;
     overflow-y: auto; /* 수직 스크롤만 허용 */
 }
-
+.result-text-box > p > p {
+    margin-bottom: 15px;
+}
 .result-text-box:hover {
     box-shadow: 0px 6px 12px rgba(0, 128, 128, 0.3);
     transform: translateY(-2px);
