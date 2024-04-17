@@ -2,17 +2,18 @@
     display: flex;
     justify-content: center;
     gap: 305px;
-    margin-top: 80px;
+    margin-top: 30px;
 }
 
 .tarot-card {
     position: relative;
     width: 300px;
-    height: 400px;
-    /* border-radius: 10px; */
+    height: 300px;
+    border-radius: 10px;
     /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
     transition: transform 0.3s;
     cursor: pointer;
+    background-color: #fff;
 }
 
 .tarot-card:hover {
