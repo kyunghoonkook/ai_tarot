@@ -7,8 +7,8 @@
 
 .tarot-card {
     position: relative;
-    width: 200px;
-    height: 300px;
+    width: 300px;
+    height: 400px;
     /* border-radius: 10px; */
     /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
     transition: transform 0.3s;
@@ -26,9 +26,9 @@
     position: absolute;
 }
 
-.tarot-card img:first-child {
+/* .tarot-card img:first-child {
     left: 120px;
-}
+} */
 
 .tarot-card img:nth-child(2) {
     top: -50px;
