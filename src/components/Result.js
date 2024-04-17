@@ -158,7 +158,7 @@ const Result = () => {
                             <span>Loading...</span>
                         </div>
                     ) : (
-                        <p className={styles['result-text-box']}>{displayText}</p>
+                        <div className={styles['result-text-box']} dangerouslySetInnerHTML={{ __html: response }}></div>
                     )}
                     <div ref={shareButtonsRef} className={styles['share_wrap']}>
                         <div className={styles['share_button_wrap']}>
