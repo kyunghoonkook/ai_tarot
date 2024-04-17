@@ -41,12 +41,29 @@ async function generateTarotReading(theme, card1, card2, card3) {
         throw error;
     }
 }
+function formatReadingResponse(reading) {
+    // 빈 줄을 기준으로 문단 나누기
+    const paragraphs = reading.split('\n\n');
+
+    // 각 문단을 <p> 태그로 감싸기
+    const formattedParagraphs = paragraphs.map((paragraph) => `<p>${paragraph}</p>`);
+
+    // 문단들을 하나의 문자열로 합치기
+    const formattedReading = formattedParagraphs.join('');
+
+    return formattedReading;
+}
 
 export async function POST(request) {
     const { theme, card1, card2, card3 } = await request.json();
+
     try {
         const reading = await generateTarotReading(theme, card1, card2, card3);
-        return new Response(JSON.stringify({ message: reading }), {
+
+        // 받아온 응답을 문단으로 나누고 형식화하기
+        const formattedReading = formatReadingResponse(reading);
+
+        return new Response(JSON.stringify({ message: formattedReading }), {
             status: 200,
             headers: {
                 'Content-Type': 'application/json',
@@ -54,6 +71,7 @@ export async function POST(request) {
         });
     } catch (err) {
         console.error(err);
+
         return new Response(JSON.stringify({ error: 'An error occurred' }), {
             status: 500,
             headers: {

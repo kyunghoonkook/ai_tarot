@@ -173,11 +173,25 @@ a {
     font-style: normal;
 }
 body {
-    background: url('/images/symbolBG.png') no-repeat, linear-gradient(to bottom, #042831, #253438, #122d34);
+    position: relative;
+    background: linear-gradient(to bottom, #042831, #253438, #122d34);
     background-position: center;
-    background-size: cover; /* 배경 이미지를 화면에 맞게 조정 */
+    background-size: cover;
     min-height: 100vh;
     font-family: 'SUIT', sans-serif;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/images/symbolBG.png') no-repeat center;
+    background-size: cover;
+    opacity: 0.5; /* 투명도 조절 (0부터 1 사이의 값) */
+    z-index: -1;
 }
 button {
     appearance: none;
