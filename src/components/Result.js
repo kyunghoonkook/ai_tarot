@@ -45,7 +45,7 @@ const Result = () => {
     const [selectedCards, setSelectedCards] = useState([]);
     const [showShareButtons, setShowShareButtons] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [displayText, setDisplayText] = useState('');
+    const [displayText, setDisplayText] = useState([]);
     const [currentParagraphIndex, setCurrentParagraphIndex] = useState(0);
     const [currentCharIndex, setCurrentCharIndex] = useState(0);
     const shareButtonsRef = useRef(null);
@@ -94,6 +94,7 @@ const Result = () => {
     //         }, 50); // 100ms 간격으로 문자 출력
     //     }
     // }, [displayText, response, index]);
+
     useEffect(() => {
         if (response) {
             const paragraphs = response.split('\n\n');
@@ -188,9 +189,10 @@ const Result = () => {
                         </div>
                     ) : (
                         <div className={styles['result-text-box']}>
-                            {displayText.map((paragraph, index) => (
-                                <p key={index} dangerouslySetInnerHTML={{ __html: paragraph }}></p>
-                            ))}
+                            {Array.isArray(displayText) &&
+                                displayText.map((paragraph, index) => (
+                                    <p key={index} dangerouslySetInnerHTML={{ __html: paragraph }}></p>
+                                ))}
                         </div>
                     )}
                     <div ref={shareButtonsRef} className={styles['share_wrap']}>
