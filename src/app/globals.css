@@ -192,6 +192,7 @@ body::before {
     background-size: cover;
     opacity: 0.5; /* 투명도 조절 (0부터 1 사이의 값) */
     z-index: -1;
+    transform: scale(0.8);
 }
 button {
     appearance: none;
