@@ -7,7 +7,7 @@ import { FacebookShareButton, TwitterShareButton } from 'react-share';
 import KakaoShareButton from './KakaoShareButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { FaSpinner } from 'react-icons/fa';
-
+import { jsPDF } from 'jspdf';
 const Result = () => {
     const cardNames = {
         '00': 'The Fool',
@@ -137,6 +137,22 @@ const Result = () => {
         return `${number} ${name} ${direction}`;
     };
 
+    const generatePDF = () => {
+        const doc = new jsPDF();
+
+        // 텍스트 추가
+        doc.text(response, 10, 10);
+
+        // 이미지 추가
+        selectedCards.forEach((card, index) => {
+            const imgData = document.querySelector(`.${styles['card-image']}:nth-child(${index + 1})`).src;
+            doc.addImage(imgData, 'PNG', 10, 50 + index * 70, 50, 70);
+        });
+
+        // PDF 저장
+        doc.save('tarot_reading_result.pdf');
+    };
+
     const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
     const shareTitle = 'Tarot Reading Result';
     const shareDescription = response;
@@ -197,7 +213,7 @@ const Result = () => {
                     )}
                     <div ref={shareButtonsRef} className={styles['share_wrap']}>
                         <div className={styles['share_button_wrap']}>
-                            <button>
+                            <button onClick={generatePDF}>
                                 <img src="/images/Icons/share-btn.png" alt="share-btn" />
                             </button>
                             <button onClick={toggleShareButtons}>
