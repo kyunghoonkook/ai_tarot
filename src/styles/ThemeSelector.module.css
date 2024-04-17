@@ -23,7 +23,9 @@
     width: 100%;
     height: 100%;
     background-color: #fff;
-    transform: translate(-50%, -50%) scale(0.8);
+    transform: translate(-50%, -50%) scale(0.9);
+    z-index: 1;
+    border-radius: 10px;
 }
 .tarot-card:hover {
     transform: translateY(-5px);
@@ -34,6 +36,7 @@
     height: 100%;
     object-fit: cover;
     position: absolute;
+    z-index: 2;
 }
 
 /* .tarot-card img:first-child {
