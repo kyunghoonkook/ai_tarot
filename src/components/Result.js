@@ -46,6 +46,8 @@ const Result = () => {
     const [showShareButtons, setShowShareButtons] = useState(false);
     const [loading, setLoading] = useState(true);
     const [displayText, setDisplayText] = useState('');
+    const [currentParagraphIndex, setCurrentParagraphIndex] = useState(0);
+    const [currentCharIndex, setCurrentCharIndex] = useState(0);
     const shareButtonsRef = useRef(null);
     const [index, setIndex] = useState(0);
     const toggleShareButtons = () => {
@@ -84,14 +86,41 @@ const Result = () => {
         fetchData();
     }, [pathname, theme, card1, card2, card3]);
 
+    // useEffect(() => {
+    //     if (index < response.length) {
+    //         setTimeout(() => {
+    //             setDisplayText(displayText + response[index]);
+    //             setIndex(index + 1);
+    //         }, 50); // 100ms 간격으로 문자 출력
+    //     }
+    // }, [displayText, response, index]);
     useEffect(() => {
-        if (index < response.length) {
-            setTimeout(() => {
-                setDisplayText(displayText + response[index]);
-                setIndex(index + 1);
-            }, 50); // 100ms 간격으로 문자 출력
+        if (response) {
+            const paragraphs = response.split('\n\n');
+            setDisplayText(paragraphs.map(() => ''));
+            setCurrentParagraphIndex(0);
+            setCurrentCharIndex(0);
         }
-    }, [displayText, response, index]);
+    }, [response]);
+
+    useEffect(() => {
+        if (currentParagraphIndex < displayText.length) {
+            const currentParagraph = response.split('\n\n')[currentParagraphIndex];
+            if (currentCharIndex < currentParagraph.length) {
+                setTimeout(() => {
+                    setDisplayText((prevDisplayText) => {
+                        const updatedDisplayText = [...prevDisplayText];
+                        updatedDisplayText[currentParagraphIndex] += currentParagraph[currentCharIndex];
+                        return updatedDisplayText;
+                    });
+                    setCurrentCharIndex((prevCharIndex) => prevCharIndex + 1);
+                }, 50);
+            } else {
+                setCurrentParagraphIndex((prevParagraphIndex) => prevParagraphIndex + 1);
+                setCurrentCharIndex(0);
+            }
+        }
+    }, [currentParagraphIndex, currentCharIndex, displayText, response]);
 
     const handleOutsideClick = (event) => {
         if (shareButtonsRef.current && !shareButtonsRef.current.contains(event.target)) {
@@ -158,7 +187,11 @@ const Result = () => {
                             <span>Loading...</span>
                         </div>
                     ) : (
-                        <p className={styles['result-text-box']}>{displayText}</p>
+                        <div className={styles['result-text-box']}>
+                            {displayText.map((paragraph, index) => (
+                                <p key={index} dangerouslySetInnerHTML={{ __html: paragraph }}></p>
+                            ))}
+                        </div>
                     )}
                     <div ref={shareButtonsRef} className={styles['share_wrap']}>
                         <div className={styles['share_button_wrap']}>
