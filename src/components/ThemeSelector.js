@@ -15,8 +15,8 @@ export default function ThemeSelector() {
                 <Link key={card.theme} href={`/${card.theme}`}>
                     <div className={styles['tarot-card']}>
                         <img src={card.image} alt={`${card.theme} tarot`} />
-                        <img src={card.image} alt={`${card.theme} tarot`} />
-                        <img src={card.image} alt={`${card.theme} tarot`} />
+                        {/* <img src={card.image} alt={`${card.theme} tarot`} />
+                        <img src={card.image} alt={`${card.theme} tarot`} /> */}
                         <p>
                             {card.text.split('\n').map((line, index) => (
                                 <React.Fragment key={index}>
