@@ -15,7 +15,7 @@
     cursor: pointer;
     background: linear-gradient(45deg, #007f7f, #ffd700);
 }
-.tarot-card ::after {
+.tarot-card::after {
     content: '';
     position: absolute;
     top: 50%;
