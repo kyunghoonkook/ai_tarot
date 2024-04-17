@@ -140,14 +140,13 @@ const Result = () => {
     const generatePDF = () => {
         const doc = new jsPDF();
 
-        // 텍스트 추가
-        doc.text(response, 10, 10);
-
         // 이미지 추가
         selectedCards.forEach((card, index) => {
             const imgData = document.querySelector(`.${styles['card-image']}:nth-child(${index + 1})`).src;
             doc.addImage(imgData, 'PNG', 10, 50 + index * 70, 50, 70);
         });
+        // 텍스트 추가
+        doc.text(response, 10, 10);
 
         // PDF 저장
         doc.save('tarot_reading_result.pdf');
