@@ -138,18 +138,94 @@ const Result = () => {
     };
 
     const generatePDF = () => {
-        const doc = new jsPDF();
+        const doc = new jsPDF('p', 'mm', 'a4');
 
-        // 이미지 추가
-        selectedCards.forEach((card, index) => {
-            const imgData = document.querySelector(`.${styles['card-image']}:nth-child(${index + 1})`).src;
-            doc.addImage(imgData, 'PNG', 10, 50 + index * 70, 50, 70);
+        // 타이틀 추가
+        doc.setFontSize(24);
+        doc.text('Tarot Result', 105, 20, { align: 'center' });
+
+        // 이미지 로드 및 추가
+        const imagePromises = selectedCards.map((card, index) => {
+            return new Promise((resolve, reject) => {
+                const imgElement = document.querySelector(
+                    `.${styles['card_wrap']}:nth-child(${index + 1}) .${styles['card-image']}`
+                );
+                if (imgElement) {
+                    const imgSrc = imgElement.src;
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.onload = function () {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = this.width;
+                        canvas.height = this.height;
+                        ctx.drawImage(this, 0, 0);
+                        const dataURL = canvas.toDataURL('image/png');
+                        const imgWidth = 50;
+                        const imgHeight = 70;
+                        const x = 95 - (imgWidth * selectedCards.length) / 2 + index * 60;
+                        const y = 40;
+                        doc.addImage(dataURL, 'PNG', x, y, imgWidth, imgHeight);
+
+                        // 카드 의미 텍스트 추가
+                        doc.setFontSize(12);
+                        const textX = x + imgWidth / 2;
+                        const textY = y - 5;
+                        if (theme === 'Love') {
+                            if (index === 0) doc.text('Past', textX, textY, { align: 'center' });
+                            if (index === 1) doc.text('Present', textX, textY, { align: 'center' });
+                            if (index === 2) doc.text('Future', textX, textY, { align: 'center' });
+                        } else if (theme === 'Money') {
+                            if (index === 0) doc.text('What am I doing wrong', textX, textY, { align: 'center' });
+                            if (index === 1) doc.text('What am I doing right', textX, textY, { align: 'center' });
+                            if (index === 2) doc.text('What to do next', textX, textY, { align: 'center' });
+                        } else if (theme === 'Health') {
+                            if (index === 0) doc.text('Mind', textX, textY, { align: 'center' });
+                            if (index === 1) doc.text('Body', textX, textY, { align: 'center' });
+                            if (index === 2) doc.text('Spirit', textX, textY, { align: 'center' });
+                        }
+
+                        resolve();
+                    };
+                    img.onerror = function () {
+                        reject(new Error(`Failed to load image: ${imgSrc}`));
+                    };
+                    img.src = imgSrc;
+                } else {
+                    resolve();
+                }
+            });
         });
-        // 텍스트 추가
-        doc.text(response, 10, 10);
 
-        // PDF 저장
-        doc.save('tarot_reading_result.pdf');
+        Promise.all(imagePromises)
+            .then(() => {
+                // 텍스트 추가
+                const text = response.replace(/<\/?p>/g, '');
+                const paragraphs = text.split('\n');
+                let y = 120;
+                doc.setFontSize(12);
+                paragraphs.forEach((paragraph) => {
+                    const lines = doc.splitTextToSize(paragraph, 180);
+                    lines.forEach((line) => {
+                        const textWidth =
+                            (doc.getStringUnitWidth(line) * doc.internal.getFontSize()) / doc.internal.scaleFactor;
+                        const x = (210 - textWidth) / 2;
+                        doc.text(line, x, y);
+                        y += 7;
+                    });
+                    y += 10;
+                });
+
+                // 도메인 추가
+                doc.setFontSize(10);
+                doc.text('Visit https://www.aifree-tarot.com/ for more!', 105, 287, { align: 'center' });
+
+                // PDF 저장
+                doc.save('tarot_reading_result.pdf');
+            })
+            .catch((error) => {
+                console.error('Error generating PDF:', error);
+            });
     };
 
     const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
