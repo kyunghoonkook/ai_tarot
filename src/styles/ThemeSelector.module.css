@@ -117,11 +117,6 @@
     .tarot-cards {
         gap: 150px; /* 간격 줄임 */
     }
-
-    .tarot-card img:first-child,
-    .tarot-card img:nth-child(3) {
-        display: none; /* 외부 이미지 숨김 */
-    }
 }
 
 /* 태블릿 세로 및 더 작은 디스플레이를 위한 스타일 */
@@ -152,7 +147,7 @@
 
     .tarot-card p {
         white-space: nowrap;
-        bottom: -25px;
+        /* bottom: -25px; */
         text-align: center;
     }
     .tarot-card p span {
