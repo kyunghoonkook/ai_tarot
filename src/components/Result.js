@@ -140,11 +140,9 @@ const Result = () => {
     const generatePDF = () => {
         const doc = new jsPDF('p', 'mm', 'a4');
 
-        // 타이틀 추가
         doc.setFontSize(24);
         doc.text('Tarot Result', 105, 20, { align: 'center' });
 
-        // 이미지 로드 및 추가
         const imagePromises = selectedCards.map((card, index) => {
             return new Promise((resolve, reject) => {
                 const imgElement = document.querySelector(
@@ -160,7 +158,6 @@ const Result = () => {
                         canvas.width = this.width;
                         canvas.height = this.height;
 
-                        // 이미지 회전 설정
                         if (card.includes('r')) {
                             ctx.translate(canvas.width / 2, canvas.height / 2);
                             ctx.rotate(Math.PI);
@@ -176,7 +173,6 @@ const Result = () => {
                         const y = 40;
                         doc.addImage(dataURL, 'PNG', x, y, imgWidth, imgHeight);
 
-                        // 카드 의미 텍스트 추가
                         doc.setFontSize(12);
                         const textX = x + imgWidth / 2;
                         const textY = y - 5;
@@ -208,7 +204,6 @@ const Result = () => {
 
         Promise.all(imagePromises)
             .then(() => {
-                // 텍스트 추가
                 const text = response;
                 const paragraphs = text.split(/<\/p>/);
                 let y = 120;
@@ -219,7 +214,6 @@ const Result = () => {
                         const lines = doc.splitTextToSize(cleanedParagraph, 180);
                         lines.forEach((line) => {
                             if (y > 280) {
-                                // 페이지 높이를 초과하는 경우 새 페이지 생성
                                 doc.addPage();
                                 y = 20;
                             }
@@ -227,15 +221,13 @@ const Result = () => {
                                 (doc.getStringUnitWidth(line) * doc.internal.getFontSize()) / doc.internal.scaleFactor;
                             const x = (210 - textWidth) / 2;
                             doc.text(line, x, y);
-                            y += 7; // 수정된 부분: 각 줄 간격을 7로 설정
+                            y += 7;
                         });
-                        y += 10; // 수정된 부분: 문단 간격을 10으로 설정
+                        y += 10;
                     }
                 });
 
-                // 도메인 추가
                 if (y > 280) {
-                    // 페이지 높이를 초과하는 경우 새 페이지 생성
                     doc.addPage();
                     y = 20;
                 }

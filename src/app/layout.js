@@ -86,6 +86,9 @@ export default function RootLayout({ children }) {
                 </header>
 
                 <div className="layout">{children}</div>
+                <footer className="footer">
+                    <p>COPYRIGHT (C) www.aifree-tarot.com ALL RIGHTS RESERVED. </p>
+                </footer>
                 <KakaoScript />
                 <Analytics />
             </body>

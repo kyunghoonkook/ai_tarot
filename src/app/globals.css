@@ -133,10 +133,11 @@ table {
 a {
     text-decoration: none;
 }
+
 .layout {
     max-width: 1920px; /* 최대 너비 설정 */
     width: 100%; /* 화면 너비에 맞게 조정 */
-    height: 100vh;
+    height: 95vh;
     margin: 0 auto; /* 중앙 정렬 */
 }
 
@@ -152,6 +153,18 @@ a {
     left: 0;
     top: 0;
 }
+.footer {
+    border-top: 1px solid #272e2f;
+    max-width: 1480px;
+    height: 5vh;
+    margin: 0 auto;
+    padding: 20px;
+    /* background-color: #f8f8f8; */
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}
+
 @font-face {
     font-family: 'SUIT';
     src: url('/font/SUIT-Light.woff2') format('woff2');
@@ -205,6 +218,7 @@ button {
     cursor: pointer;
     outline: none;
 }
+
 /* 미디어 쿼리를 사용하여 브레이크 포인트별 배경 사이즈 조정 */
 @media (max-width: 1024px) {
     body {
