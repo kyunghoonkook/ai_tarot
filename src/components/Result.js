@@ -159,7 +159,16 @@ const Result = () => {
                         const ctx = canvas.getContext('2d');
                         canvas.width = this.width;
                         canvas.height = this.height;
-                        ctx.drawImage(this, 0, 0);
+
+                        // 이미지 회전 설정
+                        if (card.includes('r')) {
+                            ctx.translate(canvas.width / 2, canvas.height / 2);
+                            ctx.rotate(Math.PI);
+                            ctx.drawImage(this, -canvas.width / 2, -canvas.height / 2);
+                        } else {
+                            ctx.drawImage(this, 0, 0);
+                        }
+
                         const dataURL = canvas.toDataURL('image/png');
                         const imgWidth = 50;
                         const imgHeight = 70;
@@ -209,6 +218,11 @@ const Result = () => {
                     if (cleanedParagraph !== '') {
                         const lines = doc.splitTextToSize(cleanedParagraph, 180);
                         lines.forEach((line) => {
+                            if (y > 280) {
+                                // 페이지 높이를 초과하는 경우 새 페이지 생성
+                                doc.addPage();
+                                y = 20;
+                            }
                             const textWidth =
                                 (doc.getStringUnitWidth(line) * doc.internal.getFontSize()) / doc.internal.scaleFactor;
                             const x = (210 - textWidth) / 2;
@@ -220,8 +234,13 @@ const Result = () => {
                 });
 
                 // 도메인 추가
+                if (y > 280) {
+                    // 페이지 높이를 초과하는 경우 새 페이지 생성
+                    doc.addPage();
+                    y = 20;
+                }
                 doc.setFontSize(10);
-                doc.text('Visit https://www.aifree-tarot.com/ for more!', 105, 287, { align: 'center' });
+                doc.text('Visit https://www.aifree-tarot.com/ for more!', 105, y, { align: 'center' });
 
                 // PDF 저장
                 doc.save('tarot_reading_result.pdf');
