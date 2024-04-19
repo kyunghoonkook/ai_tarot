@@ -200,20 +200,23 @@ const Result = () => {
         Promise.all(imagePromises)
             .then(() => {
                 // 텍스트 추가
-                const text = response.replace(/<\/?p>/g, '');
-                const paragraphs = text.split('\n');
+                const text = response;
+                const paragraphs = text.split(/<\/p>/);
                 let y = 120;
                 doc.setFontSize(12);
                 paragraphs.forEach((paragraph) => {
-                    const lines = doc.splitTextToSize(paragraph, 180);
-                    lines.forEach((line) => {
-                        const textWidth =
-                            (doc.getStringUnitWidth(line) * doc.internal.getFontSize()) / doc.internal.scaleFactor;
-                        const x = (210 - textWidth) / 2;
-                        doc.text(line, x, y);
-                        y += 7;
-                    });
-                    y += 10;
+                    const cleanedParagraph = paragraph.replace(/<p>/g, '').trim();
+                    if (cleanedParagraph !== '') {
+                        const lines = doc.splitTextToSize(cleanedParagraph, 180);
+                        lines.forEach((line) => {
+                            const textWidth =
+                                (doc.getStringUnitWidth(line) * doc.internal.getFontSize()) / doc.internal.scaleFactor;
+                            const x = (210 - textWidth) / 2;
+                            doc.text(line, x, y);
+                            y += 7; // 수정된 부분: 각 줄 간격을 7로 설정
+                        });
+                        y += 10; // 수정된 부분: 문단 간격을 10으로 설정
+                    }
                 });
 
                 // 도메인 추가
