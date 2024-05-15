@@ -83,6 +83,17 @@ export default function RootLayout({ children }) {
                     <Link href="/">
                         <img src="/images/logo1.svg" className="logo" />
                     </Link>
+                    <ul>
+                        <li>
+                            <Link href="major">Major Arcana</Link>
+                        </li>
+                        <li>
+                            <Link href="guide">Guide</Link>
+                        </li>
+                        <li>
+                            <Link href="history">History</Link>
+                        </li>
+                    </ul>
                 </header>
 
                 <div className="layout">{children}</div>

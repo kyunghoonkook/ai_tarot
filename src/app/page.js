@@ -7,6 +7,7 @@ function App() {
     return (
         <div className={styles['bgWrap']}>
             <img src="/images/mainBG.png" className={styles['main-bg']} />
+
             <ThemeSelector />
         </div>
     );

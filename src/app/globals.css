@@ -102,7 +102,7 @@ section {
 }
 body {
     line-height: 1;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 ol,
 ul {
@@ -124,20 +124,15 @@ table {
     border-spacing: 0;
 }
 
-* {
-    /* background: linear-gradient(to top right, #998b5e, #b7ab84);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; */
-}
-
 a {
     text-decoration: none;
+    color: #fff;
 }
 
 .layout {
     max-width: 1920px; /* 최대 너비 설정 */
     width: 100%; /* 화면 너비에 맞게 조정 */
-    height: 95vh;
+    flex: 1;
     margin: 0 auto; /* 중앙 정렬 */
 }
 
@@ -146,8 +141,16 @@ a {
     width: 100%; /* 화면 너비에 맞게 조정 */
     margin: 0 auto; /* 중앙 정렬 */
     position: relative;
+    color: #fff;
+    height: 100%;
 }
-
+.header ul {
+    float: right;
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    margin-right: 30px;
+}
 .logo {
     position: absolute;
     left: 0;
@@ -192,6 +195,8 @@ body {
     background-size: cover;
     min-height: 100vh;
     font-family: 'SUIT', sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
 body::before {
