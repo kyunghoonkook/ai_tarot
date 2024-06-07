@@ -42,7 +42,7 @@ export const metadata = {
         creator: '@your_twitter_handle',
         title: 'AI Tarot - Unlock the Secrets of Your Future',
         description:
-            "Discover the power of AI-generated tarot readings. Get personalized insights and guidance for your life's journey with our cutting-edge AI Tarot app.",
+            "Discover the power of AI-generated tarot readings. Get personalized insights and guidance for your life's journey with our cutting-edge AI Tarot app. !",
         // images: ['https://your-ai-tarot-url.com/images/twitter-image.jpg'],
     },
     robots: {
