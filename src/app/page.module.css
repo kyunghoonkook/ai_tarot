@@ -35,6 +35,7 @@
         margin-top: 0; /* 모바일에서의 위치 조정 */
     }
     .bgWrap {
-        overflow-y: scroll;
+        /* overflow-y: scroll; */
+        padding-top: 50px;
     }
 }
