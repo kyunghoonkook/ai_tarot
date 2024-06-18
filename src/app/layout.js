@@ -93,6 +93,9 @@ export default function RootLayout({ children }) {
                         <li>
                             <Link href="history">History</Link>
                         </li>
+                        <li>
+                            <Link href="quiz">Quiz</Link>
+                        </li>
                     </ul>
                 </header>
 
