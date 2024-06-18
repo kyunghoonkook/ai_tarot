@@ -1,4 +1,5 @@
 // app/quiz/page.js
+'use client';
 import React, { useState } from 'react';
 import styles from '../../styles/Quiz.module.css';
 const questions = [
