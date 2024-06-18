@@ -3,18 +3,14 @@ import KakaoScript from '@/components/KakaoScript';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 export const metadata = {
-    //  google-adsense-account:'ca-pub-6444523705828999' ,
-    title: 'AI Tarot - Unlock the Secrets of Your Future',
+    title: 'AI Tarot - Unlock the Secrets of Your Future with AI-Powered Tarot Readings',
     description:
-        "Discover the power of AI-generated tarot readings. Get personalized insights and guidance for your life's journey with our cutting-edge AI Tarot app.",
+        'Discover the power of AI-generated tarot readings. Get personalized insights and guidance for love, career, health, and more. Our cutting-edge AI Tarot app offers accurate and insightful readings 24/7.',
     keywords:
-        'AI tarot, tarot reading, online tarot, tarot cards, fortune telling, divination, spiritual guidance, personal growth, self-discovery',
-    author: 'make-money',
+        'AI tarot, tarot reading, online tarot, tarot cards, fortune telling, divination, spiritual guidance, personal growth, self-discovery, love tarot, career tarot, health tarot, tarot predictions, tarot insights',
+    author: 'AIFreeTarot',
     applicationName: 'AI Tarot',
     generator: 'Next.js',
-    // themeColor: '#ffffff',
-    // colorScheme: 'light',
-    // viewport: 'width=device-width, initial-scale=1.0',
     formatDetection: {
         telephone: false,
     },
@@ -22,28 +18,28 @@ export const metadata = {
         icon: '/favicon.ico',
     },
     openGraph: {
-        title: 'AI Tarot - Unlock the Secrets of Your Future',
+        title: 'AI Tarot - Unlock the Secrets of Your Future with AI-Powered Tarot Readings',
         description:
-            "Discover the power of AI-generated tarot readings. Get personalized insights and guidance for your life's journey with our cutting-edge AI Tarot app.",
-        url: 'https://ai-tarot-five.vercel.app/',
+            'Discover the power of AI-generated tarot readings. Get personalized insights and guidance for love, career, health, and more. Our cutting-edge AI Tarot app offers accurate and insightful readings 24/7.',
+        url: 'https://www.aifree-tarot.com/',
         type: 'website',
         images: [
             {
-                url: 'https://ai-tarot-five.vercel.app/images/bg.png',
-                // width: 1200,
-                // height: 630,
+                url: 'https://www.aifree-tarot.com/images/og-image.jpg',
+                width: 1200,
+                height: 630,
                 alt: 'AI Tarot Open Graph Image',
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        site: '@your_twitter_handle',
-        creator: '@your_twitter_handle',
-        title: 'AI Tarot - Unlock the Secrets of Your Future',
+        site: '@AIFreeTarot',
+        creator: '@AIFreeTarot',
+        title: 'AI Tarot - Unlock the Secrets of Your Future with AI-Powered Tarot Readings',
         description:
-            "Discover the power of AI-generated tarot readings. Get personalized insights and guidance for your life's journey with our cutting-edge AI Tarot app. !",
-        // images: ['https://your-ai-tarot-url.com/images/twitter-image.jpg'],
+            'Discover the power of AI-generated tarot readings. Get personalized insights and guidance for love, career, health, and more. Our cutting-edge AI Tarot app offers accurate and insightful readings 24/7.',
+        images: ['https://www.aifree-tarot.com/images/twitter-image.jpg'],
     },
     robots: {
         index: true,
@@ -56,12 +52,11 @@ export const metadata = {
             'max-snippet': -1,
         },
     },
-
-    // verification: {
-    //     google: 'your-google-verification-code',
-    //     yandex: 'your-yandex-verification-code',
-    //     'me.js': 'your-me.js-verification-code',
-    // },
+    verification: {
+        google: 'your-google-verification-code',
+        yandex: 'your-yandex-verification-code',
+        me: 'your-me-verification-code',
+    },
 };
 export const viewport = {
     width: 'device-width',
