@@ -1,14 +1,18 @@
-// app/quiz/result.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../styles/Result.module.css';
 
 const ResultPage = () => {
     const router = useRouter();
-    const { results } = router.query;
+    const [parsedResults, setParsedResults] = useState([]);
 
-    // results가 undefined일 경우 빈 배열로 초기화
-    const parsedResults = results ? JSON.parse(results) : [];
+    useEffect(() => {
+        if (router.isReady) {
+            const { results } = router.query;
+            // results가 undefined일 경우 빈 배열로 초기화
+            setParsedResults(results ? JSON.parse(results) : []);
+        }
+    }, [router.isReady, router.query]);
 
     return (
         <div className={styles.resultContainer}>
