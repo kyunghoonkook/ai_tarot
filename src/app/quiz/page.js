@@ -1,8 +1,8 @@
-// app/quiz/page.js
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../styles/Quiz.module.css';
+
 const questions = [
     {
         question: '당신의 현재 기분은?',
@@ -28,6 +28,12 @@ const QuizPage = () => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [results, setResults] = useState([]);
     const router = useRouter();
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        // 클라이언트 사이드에서만 실행
+        setIsClient(true);
+    }, []);
 
     const handleAnswerClick = (answer) => {
         const newResult = {
@@ -41,10 +47,12 @@ const QuizPage = () => {
             setCurrentQuestion(currentQuestion + 1);
         } else {
             // 퀴즈가 끝나면 결과 페이지로 이동
-            router.push({
-                pathname: '/quiz/result',
-                query: { results: JSON.stringify(updatedResults) },
-            });
+            if (isClient) {
+                router.push({
+                    pathname: '/quiz/result',
+                    query: { results: JSON.stringify(updatedResults) },
+                });
+            }
         }
     };
 
