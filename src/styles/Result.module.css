@@ -1,0 +1,20 @@
+/* app/quiz/result.module.css */
+.resultContainer {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.resultList {
+    list-style-type: none;
+    padding: 0;
+}
+
+.resultItem {
+    background-color: #f0f0f0;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
