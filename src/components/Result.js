@@ -115,7 +115,7 @@ const Result = () => {
                         return updatedDisplayText;
                     });
                     setCurrentCharIndex((prevCharIndex) => prevCharIndex + 1);
-                }, 50);
+                }, 5);
             } else {
                 setCurrentParagraphIndex((prevParagraphIndex) => prevParagraphIndex + 1);
                 setCurrentCharIndex(0);
