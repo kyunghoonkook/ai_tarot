@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const KakaoShareButton = ({ url, title, description }) => {
+const KakaoShareButton = ({ url, title, description, onSuccess }) => {
     // useEffect(() => {
     //     if (window.Kakao) {
     //         window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
@@ -26,14 +26,30 @@ const KakaoShareButton = ({ url, title, description }) => {
                 },
                 buttons: [
                     {
-                        title: '웹으로 이동',
+                        title: 'View on Web',
                         link: {
                             mobileWebUrl: url,
                             webUrl: url,
                         },
                     },
                 ],
+                // Callback for share completion
+                serverCallbackArgs: {
+                    successCallback: () => {
+                        if (onSuccess && typeof onSuccess === 'function') {
+                            onSuccess();
+                        }
+                    }
+                }
             });
+            
+            // Call success callback after a delay
+            // (Kakao SDK doesn't reliably report share success)
+            setTimeout(() => {
+                if (onSuccess && typeof onSuccess === 'function') {
+                    onSuccess();
+                }
+            }, 2000);
         } else {
             console.log('Kakao SDK not loaded');
         }

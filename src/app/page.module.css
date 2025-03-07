@@ -1,41 +1,255 @@
 .main-bg {
     /* margin-left: -220px; */
     margin-top: -40px;
-    width: 1905px; /* 기본 이미지 너비 설정 */
+    width: 1905px; /* Base image width */
+    position: absolute;
+    z-index: -1;
 }
 
 .bgWrap {
     width: 100%;
     height: 100%;
     /* height: 55vh; */
-    /* overflow: hidden; 넘치는 부분 숨김 처리 */
+    /* overflow: hidden; Hide overflowing content */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.hero-content {
+    text-align: center;
+    padding: 180px 20px 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(to bottom right, #ffffff, #b7ab84);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-description {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: #f0f0f0;
+    margin-bottom: 40px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.features-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+    padding: 20px;
+    width: 160px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.feature-text {
+    font-size: 1.1rem;
+    color: #ffffff;
+    text-align: center;
+}
+
+.theme-selector-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.theme-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Testimonials Section */
+.testimonials-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.testimonials-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 40px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.testimonial {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.testimonial:hover {
+    transform: translateY(-10px);
+}
+
+.testimonial-stars {
+    color: #FFD700;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.testimonial-text {
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.testimonial-author {
+    color: #b7ab84;
+    font-size: 0.9rem;
+    text-align: right;
+    font-weight: 500;
 }
 
 @media (max-width: 1470px) {
     .main-bg {
         margin-top: -130px;
     }
-}
-/* 태블릿 화면 사이즈에 맞게 조정 */
-@media (max-width: 1024px) {
-    .main-bg {
-        /* width: 60%;화면 너비에 맞게 이미지 사이즈 조정 */
-        margin-left: 0; /* 태블릿에서의 위치 조정 */
-        margin-top: 0; /* 태블릿에서의 위치 조정 */
+    
+    .hero-title {
+        font-size: 3rem;
     }
 }
 
-/* 모바일 화면 사이즈에 맞게 조정 */
+/* Tablet optimization */
+@media (max-width: 1024px) {
+    .main-bg {
+        margin-left: 0;
+        margin-top: 0;
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
+    }
+    
+    .hero-content {
+        padding: 120px 20px 40px 20px;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .features-container {
+        gap: 20px;
+    }
+    
+    .feature {
+        width: 130px;
+        padding: 15px;
+    }
+    
+    .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Small mobile optimization */
 @media (max-width: 480px) {
     .main-bg {
-        /*  width: 30%; 화면 너비에 
-        맞게 이미지 사이즈 조정 */
-        display: none;
-        margin-left: 0; /* 모바일에서의 위치 조정 */
-        margin-top: 0; /* 모바일에서의 위치 조정 */
+        display: block;
+        opacity: 0.4;
+        margin-left: 0;
+        margin-top: 0;
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
     }
+    
     .bgWrap {
-        /* overflow-y: scroll; */
-        padding-top: 50px;
+        padding-top: 0;
+    }
+    
+    .hero-content {
+        padding: 100px 15px 30px 15px;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+    }
+    
+    .features-container {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .feature {
+        width: 200px;
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 10px 15px;
+    }
+    
+    .feature-icon {
+        font-size: 2rem;
+        margin-bottom: 0;
+        margin-right: 15px;
+    }
+    
+    .theme-title {
+        font-size: 1.5rem;
+    }
+    
+    .testimonials-title {
+        font-size: 1.5rem;
     }
 }

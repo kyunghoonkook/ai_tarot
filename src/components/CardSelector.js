@@ -8,15 +8,57 @@ export default function CardSelector({ theme, design }) {
     const [remainingCards, setRemainingCards] = useState([]);
     const [result, setResult] = useState([]);
     const [isButtonClicked, setIsButtonClicked] = useState(false);
+    const [isShuffling, setIsShuffling] = useState(true);
+    const [touchStartPos, setTouchStartPos] = useState(null);
+    const [cardThemeText, setCardThemeText] = useState({
+        title: '',
+        positions: []
+    });
 
     useEffect(() => {
-        const cards = Array.from({ length: 22 }, (_, i) => ({
-            number: i < 10 ? `0${i}` : `${i}`,
-            isReversed: Math.random() < 0.3, // 30% 확률로 카드가 뒤집어지도록 설정
-        }));
-        const shuffledCards = shuffleArray(cards);
-        setRemainingCards(shuffledCards);
-    }, []);
+        // Set theme-specific card positions text
+        switch(theme) {
+            case 'Love':
+                setCardThemeText({
+                    title: 'Explore Your Romantic Journey',
+                    positions: ['Past', 'Present', 'Future']
+                });
+                break;
+            case 'Money':
+                setCardThemeText({
+                    title: 'Discover Your Financial Path',
+                    positions: ['Areas to Improve', 'Your Strengths', 'Next Steps']
+                });
+                break;
+            case 'Health':
+                setCardThemeText({
+                    title: 'Understand Your Wellness Journey',
+                    positions: ['Mind', 'Body', 'Soul']
+                });
+                break;
+            default:
+                setCardThemeText({
+                    title: 'Tarot Reading',
+                    positions: ['Card 1', 'Card 2', 'Card 3']
+                });
+        }
+        
+        // Show shuffling animation first
+        setIsShuffling(true);
+        
+        const shuffleTimer = setTimeout(() => {
+            // 모든 카드의 isReversed를 false로 초기화 - 처음에는 회전 없음
+            const cards = Array.from({ length: 22 }, (_, i) => ({
+                number: i < 10 ? `0${i}` : `${i}`,
+                isReversed: false // 처음에는 회전 없이 표시
+            }));
+            const shuffledCards = shuffleArray(cards);
+            setRemainingCards(shuffledCards);
+            setIsShuffling(false);
+        }, 2000);
+        
+        return () => clearTimeout(shuffleTimer);
+    }, [theme]);
 
     useEffect(() => {
         setResult(selectedCards.map((card) => `${card.number}${card.isReversed ? 'r' : ''}`).join(','));
@@ -43,119 +85,154 @@ export default function CardSelector({ theme, design }) {
 
     const handleCardClick = (card) => {
         if (selectedCards.length < 3 && !selectedCards.includes(card)) {
-            setSelectedCards([...selectedCards, { ...card, isFlipped: true }]);
+            // 카드 선택 시 50% 확률로 회전 설정 (테스트를 위해 확률 증가)
+            const isCardReversed = Math.random() < 0.5; // 50% 확률로 카드 회전
+            const updatedCard = { 
+                ...card, 
+                isFlipped: true,
+                isReversed: isCardReversed
+            };
+            
+            console.log("Card selected:", updatedCard.number, "Reversed:", isCardReversed);
+            
+            const newSelectedCards = [...selectedCards, updatedCard];
+            setSelectedCards(newSelectedCards);
+            console.log("Selected cards:", newSelectedCards.map(c => ({number: c.number, reversed: c.isReversed})));
+            
             setRemainingCards(remainingCards.filter((c) => c !== card));
 
-            const selectedCardElement = document.querySelector(`.card[data-card="${card.number}"]`);
+            // 선택된 카드에 애니메이션 클래스 추가
+            const selectedCardElement = document.querySelector(`.${styles.card}[data-card="${card.number}"]`);
             if (selectedCardElement) {
-                selectedCardElement.classList.add('selected');
+                // 기본 선택 클래스 추가
+                selectedCardElement.classList.add(styles['card-selected']);
+                selectedCardElement.classList.add(styles['flipped']);
+                
+                // 위치 기반 애니메이션 클래스 추가 (1,2,3번 위치)
+                const positionClass = `card-position-${selectedCards.length + 1}`;
+                selectedCardElement.classList.add(styles[positionClass]);
             }
         }
     };
 
-    const handleButtonClick = () => {
-        setIsButtonClicked(true);
-        setTimeout(() => {
-            window.location.href = `/${theme}/${design}/result/${result}`;
-        }, 1500);
+    // Handle touch events for better mobile experience
+    const handleTouchStart = (e, card) => {
+        setTouchStartPos({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+    };
+
+    const handleTouchEnd = (e, card) => {
+        if (!touchStartPos) return;
+        
+        const touchEndPos = { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+        const distance = Math.sqrt(
+            Math.pow(touchEndPos.x - touchStartPos.x, 2) + 
+            Math.pow(touchEndPos.y - touchStartPos.y, 2)
+        );
+        
+        // If it's a tap (not a swipe)
+        if (distance < 10) {
+            handleCardClick(card);
+        }
+        
+        setTouchStartPos(null);
     };
 
     return (
-        <div>
-            <h2
-                className={styles['sub_title']}
-                style={{
-                    marginTop: '0px',
-                    paddingTop: '125px',
-                }}
-            >
-                CHOOSE YOUR CARD
-            </h2>
-            <div className={styles['cards']}>
-                {remainingCards.map((card, idx) => (
-                    <div
-                        key={idx}
-                        className={`${styles['card']}`}
-                        data-card={card.number}
-                        onClick={() => handleCardClick(card)}
-                    >
-                        <div className={`${styles['card-inner']} ${card.isReversed ? styles['reversed'] : ''}`}>
-                            <div className={styles['card-front']}>
-                                <img
-                                    src={`/images/${design}/${card.number}.png`}
-                                    alt={`Card ${parseInt(card.number)}`}
-                                />
-                            </div>
-                            <div className={styles['card-back']}>
-                                <img src={`/images/${design}/뒷면 1.png`} alt={'카드 뒷면'} />
-                            </div>
-                        </div>
+        <div className={styles.container}>
+            {isShuffling ? (
+                <>
+                    <div className={styles.instruction}>
+                        <h2>{cardThemeText.title}</h2>
+                        <p>Focus on your question as you select your cards. Trust your intuition.</p>
                     </div>
-                ))}
-            </div>
-            <div className={styles['selected-cards']}>
-                {selectedCards.map((card, index) => (
-                    <div key={index}>
-                        {theme === 'Love' && (
-                            <>
-                                {index === 0 && <h3>Past</h3>}
-                                {index === 1 && <h3>Present</h3>}
-                                {index === 2 && <h3>Future</h3>}
-                            </>
-                        )}
-                        {theme === 'Money' && (
-                            <>
-                                {index === 0 && <h3>What am i doing wrong</h3>}
-                                {index === 1 && <h3>What am i doing right</h3>}
-                                {index === 2 && <h3>What to do next</h3>}
-                            </>
-                        )}
-                        {theme === 'Health' && (
-                            <>
-                                {index === 0 && <h3>Mind</h3>}
-                                {index === 1 && <h3>Body</h3>}
-                                {index === 2 && <h3>Spirit</h3>}
-                            </>
-                        )}
-                        <div className={`${styles['card_sel']} ${isButtonClicked ? styles['flipped'] : ''}`}>
-                            <div className={styles['front']}>
-                                <img src={`/images/${design}/뒷면 1.png`} alt="Card Back" />
-                            </div>
-                            <div className={styles['back']}>
-                                <img
-                                    src={`/images/${design}/${card.number}.png`}
-                                    alt={`Card ${card.number}`}
-                                    className={card.isReversed ? styles['reversed'] : ''}
-                                    style={{
-                                        transform: card.isReversed ? 'rotateX(180deg)' : 'rotateX(0deg)',
-                                    }}
-                                />
+                    <div className={styles.shuffling}>
+                        <div className={styles['shuffling-cards']}>
+                            {Array.from({ length: 5 }).map((_, index) => (
+                                <div 
+                                    key={index} 
+                                    className={styles['shuffling-card']} 
+                                    style={{ animationDelay: `${index * 0.2}s` }}
+                                ></div>
+                            ))}
+                        </div>
+                        <p>Shuffling the cards...</p>
+                    </div>
+                </>
+            ) : (
+                <>
+                    <div className={styles.instruction}>
+                        <h2>{cardThemeText.title}</h2>
+                        <p>Focus on your question as you select your cards. Trust your intuition.</p>
+                    </div>
+                    <div className={styles.cardSection}>
+                        <div className={styles.cardsContainer}>
+                            {remainingCards.map((card, idx) => (
+                                <div
+                                    key={idx}
+                                    className={`${styles.card}`}
+                                    data-card={card.number}
+                                    onClick={() => handleCardClick(card)}
+                                    onTouchStart={(e) => handleTouchStart(e, card)}
+                                    onTouchEnd={(e) => handleTouchEnd(e, card)}
+                                >
+                                    <div className={styles.cardInner}>
+                                        <div className={styles.cardFront}>
+                                            <img src={`/images/${design}/뒷면 1.png`} alt="Card Back" />
+                                        </div>
+                                        <div className={styles.cardBack}>
+                                            <img
+                                                src={`/images/${design}/${card.number}.png`}
+                                                alt={`Card ${card.number}`}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className={styles.selectedCardsSection}>
+                            <h3>Your Selected Cards: {selectedCards.length}/3</h3>
+                            <div className={styles.selectedCardsContainer}>
+                                {selectedCards.map((card, idx) => (
+                                    <div key={idx} className={styles.selectedCardWrapper}>
+                                        <h4>{cardThemeText.positions[idx]}</h4>
+                                        <div
+                                            className={`${styles.selectedCard} ${card.isFlipped ? styles.flipped : ''} ${card.isReversed ? styles.reversed : ''}`}
+                                        >
+                                            <div className={styles.selectedCardInner}>
+                                                <div className={styles.selectedCardFront}>
+                                                    <img src={`/images/${design}/뒷면 1.png`} alt="Card Back" />
+                                                </div>
+                                                <div className={styles.selectedCardBack}>
+                                                    <img
+                                                        src={`/images/${design}/${card.number}.png`}
+                                                        alt={`Card ${card.number}`}
+                                                        style={card.isReversed ? { transform: 'rotate(180deg)' } : {}}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 
-                        {/* <img
-                            src={`/images/${design}/${isButtonClicked ? card.number : '뒷면 1'}.png`}
-                            alt={`Card ${parseInt(card.number)}`}
-                            className={card.isReversed ? styles['reversed'] : ''}
-                            style={{
-                                opacity: isButtonClicked ? 1 : 0,
-                                transform: card.isReversed ? 'rotateX(180deg)' : 'rotateX(0deg)',
-                                transition: 'opacity 0.6s, transform 0.6s',
-                            }}
-                            onLoad={(e) => {
-                                e.target.style.opacity = 1;
-                            }}
-                        /> */}
+                        {selectedCards.length === 3 && (
+                            <div className={styles.getResultSection}>
+                                <p>All cards selected! Ready to see your reading?</p>
+                                <Link href={`/${theme}/${design}/result/${result}`}>
+                                    <button
+                                        onClick={() => setIsButtonClicked(true)}
+                                        className={`${styles.getResultBtn} ${isButtonClicked ? styles.clicked : ''}`}
+                                    >
+                                        Reveal My Reading
+                                    </button>
+                                </Link>
+                            </div>
+                        )}
                     </div>
-                ))}
-            </div>
-            <div className={styles['button_wrap']}>
-                {selectedCards.length === 3 && (
-                    <button className={styles['pretty-button']} onClick={handleButtonClick}>
-                        Start Reading
-                    </button>
-                )}
-            </div>
+                </>
+            )}
         </div>
     );
 }

@@ -50,6 +50,8 @@ const Result = () => {
     const [currentCharIndex, setCurrentCharIndex] = useState(0);
     const shareButtonsRef = useRef(null);
     const [index, setIndex] = useState(0);
+    const [showShareSuccessMessage, setShowShareSuccessMessage] = useState(false);
+    const [unlockedSpecialCard, setUnlockedSpecialCard] = useState(false);
     const toggleShareButtons = () => {
         setShowShareButtons(!showShareButtons);
     };
@@ -242,8 +244,17 @@ const Result = () => {
             });
     };
 
+    // Function to call when sharing is successful
+    const handleShareSuccess = () => {
+        setShowShareSuccessMessage(true);
+        setUnlockedSpecialCard(true);
+        setTimeout(() => {
+            setShowShareSuccessMessage(false);
+        }, 5000);
+    };
+
     const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
-    const shareTitle = 'Tarot Reading Result';
+    const shareTitle = 'My AI Tarot Reading Result';
     const shareDescription = response;
 
     return (
@@ -286,53 +297,90 @@ const Result = () => {
                         ))}
                 </div>
                 <div>
-                    <h2 className={styles['title_ai']}>Reading by AI</h2>
+                    <h2 className={styles['title_ai']}>AI Tarot Interpretation</h2>
                     {loading ? (
-                        <div className={styles['loading-spinner']}>
-                            <FaSpinner className={`${styles['spinner']} ${styles['spin']}`} />
-                            <span>Loading...</span>
+                        <div className={styles['loading-container']}>
+                            <FaSpinner className={styles['loading-spinner']} />
+                            <p>Our AI is interpreting your tarot cards...</p>
                         </div>
                     ) : (
-                        <div className={styles['result-text-box']}>
-                            {Array.isArray(displayText) &&
-                                displayText.map((paragraph, index) => (
-                                    <p key={index} dangerouslySetInnerHTML={{ __html: paragraph }}></p>
-                                ))}
-                        </div>
-                    )}
-                    <div ref={shareButtonsRef} className={styles['share_wrap']}>
-                        <div className={styles['share_button_wrap']}>
-                            <button onClick={generatePDF}>
-                                <img src="/images/Icons/share-btn.png" alt="share-btn" />
-                            </button>
-                            <button onClick={toggleShareButtons}>
-                                <img src="/images/Icons/url-logo-white.png" alt="url-logo-white" />
-                            </button>
-                        </div>
-                        {showShareButtons && (
-                            <div className={styles['share_buttons']}>
-                                <FacebookShareButton url={shareUrl} quote={shareDescription}>
-                                    <img src="/images/Icons/facebook-logo-black.png" alt="Facebook" />
-                                    <span>Facebook</span>
-                                </FacebookShareButton>
-                                <TwitterShareButton url={shareUrl} title={shareTitle}>
-                                    <img src="/images/Icons/twitter-x-logo.png" alt="Twitter" />
-                                    <span>Twitter</span>
-                                </TwitterShareButton>
-                                <KakaoShareButton
-                                    url={shareUrl}
-                                    title={shareTitle}
-                                    description={shareDescription}
-                                ></KakaoShareButton>
-                                <CopyToClipboard text={shareUrl}>
-                                    <button>
-                                        <img src="/images/Icons/url-logo.png" alt="URL" />
-                                        <span>URL</span>
-                                    </button>
-                                </CopyToClipboard>
+                        <>
+                            <div
+                                className={styles['result-text-box']}
+                                dangerouslySetInnerHTML={{ __html: response }}
+                            ></div>
+
+                            <div className={styles['action-buttons']}>
+                                <button onClick={generatePDF} className={styles['action-button']}>
+                                    <img src="/images/Icons/pdf-icon.png" alt="PDF" className={styles['button-icon']} />
+                                    <span>Save as PDF</span>
+                                </button>
+                                <button onClick={toggleShareButtons} className={styles['action-button']}>
+                                    <img src="/images/Icons/share-icon.png" alt="Share" className={styles['button-icon']} />
+                                    <span>Share with Friends</span>
+                                </button>
                             </div>
-                        )}
-                    </div>
+
+                            <div className={styles['incentive-message']}>
+                                <p>Share with friends to unlock a special tarot card insight!</p>
+                                <span>Daily readings across different themes provide more accurate future predictions.</span>
+                            </div>
+
+                            {showShareSuccessMessage && (
+                                <div className={styles['share-success']}>
+                                    <p>Thank you for sharing! You've unlocked a special insight for your next tarot session.</p>
+                                </div>
+                            )}
+
+                            {unlockedSpecialCard && (
+                                <div className={styles['special-card']}>
+                                    <h3>🎴 Your Special Card: The Star ✨</h3>
+                                    <div className={styles['special-card-content']}>
+                                        <img src="/images/special-card.png" alt="Special Card" className={styles['special-card-image']} />
+                                        <p>This special card represents hope, inspiration, and spiritual guidance. Its appearance suggests that you should maintain faith in yourself during challenging times.</p>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className={styles['next-action']}>
+                                <a href="/" className={styles['home-button']}>
+                                    Start a New Tarot Reading
+                                </a>
+                            </div>
+
+                            <div className={styles['daily-tip']}>
+                                <h3>🔮 Tarot Tip of the Day</h3>
+                                <p>Tarot cards don't predict a fixed future but help you understand your current situation and make better choices that align with your true path.</p>
+                            </div>
+
+                            <div ref={shareButtonsRef} className={styles['share-buttons-container']}>
+                                {showShareButtons && (
+                                    <div className={styles['share-buttons']}>
+                                        <FacebookShareButton url={shareUrl} quote={shareTitle} onShareWindowClose={handleShareSuccess}>
+                                            <img src="/images/Icons/facebook-logo.png" alt="Facebook" />
+                                            <span>Facebook</span>
+                                        </FacebookShareButton>
+                                        <TwitterShareButton url={shareUrl} title={shareTitle} onShareWindowClose={handleShareSuccess}>
+                                            <img src="/images/Icons/twitter-logo.png" alt="Twitter" />
+                                            <span>Twitter</span>
+                                        </TwitterShareButton>
+                                        <KakaoShareButton
+                                            url={shareUrl}
+                                            title={shareTitle}
+                                            description={shareDescription}
+                                            onSuccess={handleShareSuccess}
+                                        ></KakaoShareButton>
+                                        <CopyToClipboard text={shareUrl} onCopy={handleShareSuccess}>
+                                            <button>
+                                                <img src="/images/Icons/url-logo.png" alt="URL" />
+                                                <span>Copy Link</span>
+                                            </button>
+                                        </CopyToClipboard>
+                                    </div>
+                                )}
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </>
