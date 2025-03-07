@@ -318,11 +318,9 @@ const Result = () => {
 
                             <div className={styles['action-buttons']}>
                                 <button onClick={generatePDF} className={styles['action-button']}>
-                                    <img src="/images/Icons/pdf-icon.png" alt="PDF" className={styles['button-icon']} />
                                     <span>Save as PDF</span>
                                 </button>
                                 <button onClick={toggleShareButtons} className={styles['action-button']}>
-                                    <img src="/images/Icons/share-icon.png" alt="Share" className={styles['button-icon']} />
                                     <span>Share with Friends</span>
                                 </button>
                             </div>
@@ -363,11 +361,11 @@ const Result = () => {
                                 {showShareButtons && (
                                     <div className={styles['share-buttons']}>
                                         <FacebookShareButton url={shareUrl} quote={shareTitle} onShareWindowClose={handleShareSuccess}>
-                                            <img src="/images/Icons/facebook-logo.png" alt="Facebook" />
+                                            <img src="/images/Icons/facebook-logo-black.png" alt="Facebook" />
                                             <span>Facebook</span>
                                         </FacebookShareButton>
                                         <TwitterShareButton url={shareUrl} title={shareTitle} onShareWindowClose={handleShareSuccess}>
-                                            <img src="/images/Icons/twitter-logo.png" alt="Twitter" />
+                                            <img src="/images/Icons/twitter-x-logo.png" alt="Twitter" />
                                             <span>Twitter</span>
                                         </TwitterShareButton>
                                         <KakaoShareButton

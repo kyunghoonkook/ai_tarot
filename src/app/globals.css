@@ -200,25 +200,42 @@ body {
     overflow-x: hidden; /* 가로 스크롤 방지 */
 }
 
+/* 메인 페이지에서는 body::before가 표시되지 않도록 설정 */
 body::before {
     content: '';
-    position: fixed; /* absolute에서 fixed로 변경 */
+    position: absolute;
     top: 50%;
     left: 50%;
-    width: 100vw; /* 100%에서 100vw로 변경 */
-    height: 100vh; /* 100%에서 100vh로 변경 */
+    width: 100%;
+    height: 100%;
     background: url('/images/symbolBG.png') no-repeat center;
     background-size: contain;
-    opacity: 0.5;
+    opacity: 0; /* 완전히 투명하게 설정하여 메인 페이지에서는 보이지 않게 함 */
     z-index: -1;
     transform: translate(-50%, -50%) scale(0.8);
-    pointer-events: none; /* 배경 요소가 상호작용을 방해하지 않도록 */
+    pointer-events: none;
 }
 
-/* 새로운 스타일 추가 - 모든 페이지에 배경 이미지가 표시되도록 함 */
+/* 결과 페이지에서만 배경 이미지를 보이도록 설정 */
+.result-page-container::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    background: url('/images/symbolBG.png') no-repeat center;
+    background-size: contain;
+    opacity: 0.5; /* 결과 페이지에서는 보이게 함 */
+    z-index: -1;
+    transform: translate(-50%, -50%) scale(0.8);
+    pointer-events: none;
+}
+
+/* layout과 result-page-container의 z-index 유지 */
 .layout, .result-page-container {
     position: relative;
-    z-index: 1; /* body::before 위에 표시 */
+    z-index: 1;
 }
 
 button {
@@ -242,12 +259,18 @@ button {
 
 @media (max-width: 768px) {
     body {
-        background-size: auto 100%; /* 태블릿 화면 크기에 맞게 조정 */
+        background-size: auto 100%;
     }
     
     body::before {
-        width: 150vw; /* 더 넓게 설정하여 짤림 방지 */
+        width: 150%;
         transform: translate(-50%, -50%) scale(1);
+    }
+    
+    .result-page-container::before {
+        width: 150vw;
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.5;
     }
 }
 @media (max-width: 1470px) {
@@ -291,7 +314,13 @@ button {
     } */
     
     body::before {
-        width: 200vw; /* 더 넓게 설정하여 짤림 방지 */
+        width: 200%;
         transform: translate(-50%, -50%) scale(1.2);
+    }
+    
+    .result-page-container::before {
+        width: 200vw;
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.5;
     }
 }
