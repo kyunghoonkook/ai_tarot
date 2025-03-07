@@ -24,6 +24,7 @@
     border-radius: 12px;
     aspect-ratio: 2/3;
     object-fit: cover;
+    object-position: center;
 }
 
 .title_ai {
@@ -248,7 +249,10 @@
         width: 130px;
         height: 195px; /* 2:3 비율 유지 */
         border: 5px solid #020122;
+        border-radius: 10px;
+        aspect-ratio: 2/3;
         object-fit: cover;
+        object-position: center;
     }
     
     .title_ai {
@@ -323,7 +327,10 @@
         width: 100px;
         height: 150px; /* 2:3 비율 유지 */
         border: 3px solid #020122;
+        border-radius: 8px;
+        aspect-ratio: 2/3;
         object-fit: cover;
+        object-position: center;
     }
     
     .card_wrap > h3 {

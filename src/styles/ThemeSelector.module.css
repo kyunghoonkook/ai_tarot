@@ -54,6 +54,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     transition: transform 0.5s ease;
 }
 
@@ -187,9 +188,10 @@
     }
     
     .tarot-card {
-        width: 280px;
-        height: 373px; /* 3:4 비율 유지 */
+        width: 220px;
+        height: 293px; /* 3:4 비율 유지 */
         transform: scale(1);
+        margin-bottom: 20px;
     }
     
     .cards-explanation {
@@ -216,9 +218,9 @@
 
 @media (max-width: 480px) {
     .tarot-card {
-        width: 260px;
-        height: 347px; /* 3:4 비율 유지 */
-        max-width: 90vw; /* 화면 너비의 90%로 제한 */
+        width: 200px;
+        height: 266px; /* 3:4 비율 유지 */
+        max-width: 80vw; /* 화면 너비의 80%로 제한 */
         margin-left: auto;
         margin-right: auto;
     }

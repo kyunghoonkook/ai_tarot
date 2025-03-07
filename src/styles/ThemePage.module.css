@@ -95,8 +95,11 @@
 }
 
 .cards_wrap img {
-    width: 90%;
-    height: auto;
+    width: 180px;
+    height: 270px;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    object-position: center;
 }
 
 .cards {
@@ -110,15 +113,14 @@
 
 /* ============== 카드 스타일 ============== */
 .card {
-    width: 180px;
-    height: 270px;
-    perspective: 1000px;
-    cursor: pointer;
-    text-align: center;
+    width: 120px;
+    height: 220px;
     position: absolute;
-    transition: transform 0.6s, top 0.6s, left 0.6s;
+    cursor: pointer;
+    margin-left: -40px;
+    transition: all 0.5s ease;
     transform-style: preserve-3d;
-    top: 0;
+    perspective: 1000px;
     aspect-ratio: 2/3;
 }
 
@@ -208,8 +210,9 @@
 }
 
 .card img {
-    width: 100%;
-    height: 100%;
+    width: 120px;
+    height: 220px;
+    border-radius: 12px;
     object-fit: cover;
     object-position: center;
 }
@@ -301,8 +304,8 @@
 }
 
 .selectedCard {
-    width: 150px;
-    height: 225px;
+    width: 130px;
+    height: 195px;
     perspective: 1000px;
     margin-bottom: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -369,8 +372,9 @@
     transition: transform 0.6s;
     transform-style: preserve-3d;
     position: relative;
-    width: 200px;
-    height: 300px;
+    width: 150px;
+    height: 225px;
+    aspect-ratio: 2/3;
 }
 
 .card_sel .front,
@@ -391,9 +395,11 @@
 }
 
 .card_sel .front img {
-    width: 200px;
-    height: 300px;
+    width: 150px;
+    height: 225px;
     border-radius: 12px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .card_sel.flipped .front {
@@ -405,8 +411,8 @@
 }
 
 .card_sel .back img {
-    width: 200px;
-    height: 300px;
+    width: 150px;
+    height: 225px;
     border: 10px solid #020122;
     border-radius: 12px;
 }
@@ -591,9 +597,17 @@
         height: 270px;
     }
     
+    .cards_wrap img {
+        width: 150px;
+        height: 225px;
+        aspect-ratio: 2/3;
+        object-fit: cover;
+    }
+    
     .card {
         width: 120px;
         height: 220px;
+        aspect-ratio: 2/3;
     }
     
     .card::before {
@@ -603,6 +617,7 @@
     .card_sel {
         width: 150px;
         height: 225px;
+        aspect-ratio: 2/3;
     }
     
     .card_sel .front img,
@@ -610,6 +625,8 @@
         width: 150px;
         height: 225px;
         border-radius: 12px;
+        object-fit: cover;
+        object-position: center;
     }
     
     .card_sel .front img,
@@ -675,8 +692,9 @@
     }
     
     .card {
-        width: 120px;
-        height: 180px;
+        width: 60px;
+        height: 110px;
+        aspect-ratio: 2/3;
     }
     
     .selectedCardsContainer {
@@ -687,8 +705,9 @@
     }
     
     .selectedCard {
-        width: 120px;
-        height: 180px;
+        width: 130px;
+        height: 195px;
+        aspect-ratio: 2/3;
     }
     
     .selectedCardWrapper h4 {
@@ -757,6 +776,17 @@
         90% { transform: translateY(200px) translateX(150px) rotateY(180deg); opacity: 0.8; }
         100% { transform: translateY(200px) translateX(150px) rotateY(180deg); opacity: 0; }
     }
+    
+    .cards_wrap {
+        gap: 50px;
+    }
+    
+    .cards_wrap img {
+        width: 120px;
+        height: 180px;
+        aspect-ratio: 2/3;
+        object-fit: cover;
+    }
 }
 
 @media (max-width: 480px) {
@@ -784,9 +814,9 @@
     }
     
     .card {
-        width: 90px;
-        height: 135px;
-        font-size: 0.8em;
+        width: 50px;
+        height: 75px;
+        aspect-ratio: 2/3;
     }
     
     .selectedCardsContainer {
@@ -840,6 +870,14 @@
         border: 5px solid #020122;
         border-radius: 8px;
         object-fit: cover;
+    }
+    
+    .card img {
+        width: 50px;
+        height: 75px;
+        border-radius: 8px;
+        object-fit: cover;
+        object-position: center;
     }
     
     .card:nth-child(1) { left: 5%; }
@@ -904,5 +942,16 @@
     .getResultBtn {
         padding: 12px 25px;
         font-size: 1rem;
+    }
+    
+    .cards_wrap {
+        gap: 30px;
+    }
+    
+    .cards_wrap img {
+        width: 100px;
+        height: 150px;
+        aspect-ratio: 2/3;
+        object-fit: cover;
     }
 }
