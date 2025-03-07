@@ -1,6 +1,8 @@
 .result_wrap {
     /* display: flex; */
     padding-top: 170px;
+    position: relative;
+    z-index: 1;
 }
 .card_box {
     display: flex;
@@ -233,6 +235,8 @@
 @media (max-width: 768px) {
     .result_wrap {
         padding-top: 120px;
+        position: relative;
+        z-index: 1;
     }
     
     .card_box {
@@ -317,6 +321,8 @@
 @media (max-width: 480px) {
     .result_wrap {
         padding-top: 100px;
+        position: relative;
+        z-index: 1;
     }
     
     .card_box {

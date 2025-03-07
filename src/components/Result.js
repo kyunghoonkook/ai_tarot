@@ -259,7 +259,13 @@ const Result = () => {
 
     return (
         <>
-            <div className={styles['result_wrap']}>
+            <div className={styles['result_wrap']} style={{
+                position: 'relative',
+                zIndex: 1,
+                width: '100%',
+                maxWidth: '1480px',
+                margin: '0 auto'
+            }}>
                 <div className={styles['card_box']}>
                     {selectedCards.length > 0 &&
                         design !== '' &&
