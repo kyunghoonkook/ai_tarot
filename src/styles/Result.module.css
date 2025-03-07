@@ -17,4 +17,36 @@
     margin: 10px 0;
     padding: 10px;
     border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.resultItem:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* 모바일 반응형 스타일 */
+@media (max-width: 768px) {
+    .resultContainer {
+        padding: 15px;
+        max-width: 100%;
+    }
+    
+    .resultItem {
+        padding: 12px;
+        margin: 8px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .resultContainer {
+        padding: 10px;
+    }
+    
+    .resultItem {
+        padding: 10px;
+        margin: 6px 0;
+        font-size: 0.9em;
+    }
 }

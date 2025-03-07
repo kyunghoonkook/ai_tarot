@@ -25,8 +25,48 @@
     font-size: 1em;
     margin: 5px;
     cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
 .answerButton:hover {
     background-color: #005bb5;
+}
+
+/* 모바일 반응형 스타일 */
+@media (max-width: 768px) {
+    .quizContainer {
+        padding: 15px;
+        max-width: 100%;
+    }
+    
+    .question {
+        font-size: 1.3em;
+        margin-bottom: 15px;
+    }
+    
+    .answerButton {
+        width: 90%;
+        padding: 12px 15px;
+        margin: 8px auto;
+        font-size: 0.95em;
+    }
+}
+
+@media (max-width: 480px) {
+    .quizContainer {
+        padding: 10px;
+    }
+    
+    .question {
+        font-size: 1.1em;
+        margin-bottom: 12px;
+    }
+    
+    .answerButton {
+        width: 95%;
+        padding: 10px;
+        margin: 6px auto;
+        font-size: 0.9em;
+    }
 }

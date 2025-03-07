@@ -8,6 +8,7 @@
     color: blanchedalmond;
     font-weight: bold;
     margin-bottom: 15px;
+    line-height: 1.6;
 }
 .title {
     color: aliceblue;
@@ -22,9 +23,42 @@
 
 .listWrap {
     color: #fff;
+    padding-left: 20px;
 }
 .listWrap > li {
     margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+/* 태블릿 반응형 스타일 */
+@media (max-width: 1480px) {
+    .layout {
+        width: 95%;
+    }
+    
+    .title {
+        width: 40%;
+    }
+}
+
+@media (max-width: 768px) {
+    .layout {
+        width: 90%;
+        padding-top: 120px;
+    }
+    
+    .title {
+        width: 60%;
+        font-size: 18px;
+    }
+    
+    .layout p {
+        font-size: 15px;
+    }
+    
+    .listWrap > li {
+        margin-bottom: 12px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -32,10 +66,26 @@
         min-height: 100vh;
         max-height: 100%;
         height: 100%;
-        width: 100%;
-        padding: 100px 10px;
+        width: 95%;
+        padding: 100px 10px 30px;
     }
+    
     .title {
-        font-size: 18px;
+        width: 80%;
+        font-size: 16px;
+    }
+    
+    .layout p {
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+    
+    .listWrap {
+        padding-left: 15px;
+    }
+    
+    .listWrap > li {
+        margin-bottom: 10px;
+        font-size: 14px;
     }
 }

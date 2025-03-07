@@ -17,24 +17,76 @@
 
 .listWrap {
     color: #fff;
+    padding-left: 20px;
 }
+
 .listWrap > li {
     margin-bottom: 15px;
+    line-height: 1.5;
 }
 
 .listWrap > li > strong {
     color: blanchedalmond;
     font-weight: bold;
 }
+
+/* 태블릿 반응형 스타일 */
+@media (max-width: 1480px) {
+    .layout {
+        width: 95%;
+    }
+    
+    .title {
+        width: 40%;
+    }
+}
+
+@media (max-width: 768px) {
+    .layout {
+        width: 90%;
+        padding-top: 120px;
+    }
+    
+    .title {
+        width: 60%;
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+    
+    .listWrap > li {
+        margin-bottom: 12px;
+    }
+    
+    .listWrap > li > strong {
+        font-size: 15px;
+    }
+}
+
 @media (max-width: 480px) {
     .layout {
         min-height: 100vh;
         max-height: 100%;
         height: 100%;
-        width: 100%;
-        padding: 100px 10px;
+        width: 95%;
+        padding: 100px 10px 30px;
     }
+    
     .title {
+        width: 80%;
         font-size: 18px;
+        padding-bottom: 3px;
+    }
+    
+    .listWrap {
+        padding-left: 15px;
+    }
+    
+    .listWrap > li {
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+    
+    .listWrap > li > strong {
+        font-size: 14px;
     }
 }

@@ -195,6 +195,22 @@
         margin-top: 20px;
         padding: 20px;
     }
+    
+    .tarot-cards-container {
+        padding: 0 15px;
+    }
+    
+    .card-title {
+        font-size: 1.2rem;
+    }
+    
+    .card-title span {
+        font-size: 1.4rem;
+    }
+    
+    .card-content {
+        padding: 15px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -214,6 +230,7 @@
     
     .card-title {
         font-size: 1rem;
+        margin-bottom: 5px;
     }
     
     .card-title span {
@@ -227,6 +244,7 @@
     
     .cards-explanation {
         padding: 15px;
+        margin: 30px auto 40px;
     }
     
     .cards-explanation h3 {
@@ -236,5 +254,18 @@
     .cards-explanation p {
         font-size: 0.9rem;
         line-height: 1.4;
+    }
+    
+    .tarot-cards-container {
+        padding: 0 10px;
+    }
+    
+    .tarot-card:hover {
+        transform: translateY(-10px) scale(1);
+    }
+    
+    .tarot-card:active {
+        transform: translateY(-5px) scale(0.98);
+        transition: all 0.2s ease;
     }
 }
