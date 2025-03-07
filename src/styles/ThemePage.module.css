@@ -64,6 +64,10 @@
     width: 100%;
     position: relative;
     z-index: 1;
+    background-image: url('/images/symbolBG.png');
+    background-repeat: repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 .instruction {
@@ -115,82 +119,83 @@
 }
 
 /* ============== 카드 스타일 ============== */
-.card {
-    width: 120px;
-    height: 220px;
+.cardSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 0;
     position: relative;
-    cursor: pointer;
-    margin: 10px;
-    transition: all 0.5s ease;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    aspect-ratio: 2/3;
     z-index: 2;
-    display: inline-block;
 }
 
-/* 카드 위치 */
-.card:nth-child(1) { left: 8%; }
-.card:nth-child(2) { left: 11%; }
-.card:nth-child(3) { left: 14%; }
-.card:nth-child(4) { left: 17%; }
-.card:nth-child(5) { left: 20%; }
-.card:nth-child(6) { left: 23%; }
-.card:nth-child(7) { left: 26%; }
-.card:nth-child(8) { left: 29%; }
-.card:nth-child(9) { left: 32%; }
-.card:nth-child(10) { left: 35%; }
-.card:nth-child(11) { left: 38%; }
-.card:nth-child(12) { left: 41%; }
-.card:nth-child(13) { left: 44%; }
-.card:nth-child(14) { left: 47%; }
-.card:nth-child(15) { left: 50%; }
-.card:nth-child(16) { left: 53%; }
-.card:nth-child(17) { left: 56%; }
-.card:nth-child(18) { left: 59%; }
-.card:nth-child(19) { left: 62%; }
-.card:nth-child(20) { left: 65%; }
-.card:nth-child(21) { left: 68%; }
-.card:nth-child(22) { left: 71%; }
+.cardsContainer {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    max-width: 1200px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    perspective: 1000px;
+    overflow: visible;
+}
+
+/* 카드 스타일 - 완전히 새로운 방식 */
+.card {
+    position: absolute;
+    width: 100px;
+    height: 150px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.5s, top 0.5s, left 0.5s;
+    border-radius: 10px;
+    z-index: 1;
+    transform-origin: bottom;
+}
+
+/* 첫째 줄 - 더 넓게 펼침 */
+.card:nth-child(1) { transform: rotate(-28deg) translateX(-280px); z-index: 1; }
+.card:nth-child(2) { transform: rotate(-24deg) translateX(-240px); z-index: 2; }
+.card:nth-child(3) { transform: rotate(-20deg) translateX(-200px); z-index: 3; }
+.card:nth-child(4) { transform: rotate(-16deg) translateX(-160px); z-index: 4; }
+.card:nth-child(5) { transform: rotate(-12deg) translateX(-120px); z-index: 5; }
+.card:nth-child(6) { transform: rotate(-8deg) translateX(-80px); z-index: 6; }
+.card:nth-child(7) { transform: rotate(-4deg) translateX(-40px); z-index: 7; }
+.card:nth-child(8) { transform: rotate(0deg) translateX(0); z-index: 8; }
+.card:nth-child(9) { transform: rotate(4deg) translateX(40px); z-index: 9; }
+.card:nth-child(10) { transform: rotate(8deg) translateX(80px); z-index: 10; }
+.card:nth-child(11) { transform: rotate(12deg) translateX(120px); z-index: 11; }
+.card:nth-child(12) { transform: rotate(16deg) translateX(160px); z-index: 12; }
+.card:nth-child(13) { transform: rotate(20deg) translateX(200px); z-index: 13; }
+.card:nth-child(14) { transform: rotate(24deg) translateX(240px); z-index: 14; }
+.card:nth-child(15) { transform: rotate(28deg) translateX(280px); z-index: 15; }
+
+/* 둘째 줄 - 더 넓게 펼침 */
+.card:nth-child(16) { transform: rotate(-20deg) translateX(-200px) translateY(170px); z-index: 16; }
+.card:nth-child(17) { transform: rotate(-15deg) translateX(-150px) translateY(170px); z-index: 17; }
+.card:nth-child(18) { transform: rotate(-10deg) translateX(-100px) translateY(170px); z-index: 18; }
+.card:nth-child(19) { transform: rotate(-5deg) translateX(-50px) translateY(170px); z-index: 19; }
+.card:nth-child(20) { transform: rotate(0deg) translateX(0) translateY(170px); z-index: 20; }
+.card:nth-child(21) { transform: rotate(5deg) translateX(50px) translateY(170px); z-index: 21; }
+.card:nth-child(22) { transform: rotate(10deg) translateX(100px) translateY(170px); z-index: 22; }
 
 .card:hover {
-    transform: translateY(-10px);
-    z-index: 10;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    transform: translateY(-20px) !important;
+    z-index: 100 !important;
 }
 
-.card p {
-    margin-top: 10px;
-}
-
-.card::before {
-    content: '';
-    position: absolute;
-    top: -45px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-top: 20px solid #fff;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    z-index: 3;
-}
-
-.card:hover::before {
-    opacity: 1;
-}
-
-/* 카드 내부 구조 */
 .cardInner {
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.6s;
     transform-style: preserve-3d;
-    transform: rotateY(0deg);
+    transition: transform 0.8s;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .cardFront, .cardBack {
@@ -201,25 +206,25 @@
     backface-visibility: hidden;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(108, 91, 123, 0.5);
 }
 
 .cardFront {
-    background-color: #020122;
-    transform: rotateY(0deg);
+    background-color: #120638;
+    background-image: linear-gradient(135deg, #2e0f6e 0%, #120638 100%);
 }
 
 .cardBack {
     transform: rotateY(180deg);
-    background-color: #fff;
+    background-color: white;
 }
 
 .card img {
-    width: 120px;
-    height: 220px;
-    border-radius: 12px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: center;
+    border-radius: 8px;
 }
 
 /* 카드 방향 처리 */
@@ -481,33 +486,6 @@
     animation: shuffleAnimation 1.5s infinite ease-in-out;
 }
 
-/* ============== 카드 레이아웃 섹션 ============== */
-.cardSection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    margin: 0 auto;
-    padding-top: 0;
-    position: relative;
-    z-index: 2;
-}
-
-.cardsContainer {
-    position: relative;
-    width: 90%;
-    height: auto;
-    min-height: 320px;
-    max-width: 1000px;
-    margin: 10px auto 30px;
-    padding: 0 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    overflow: visible;
-}
-
 /* ============== 결과 버튼 섹션 ============== */
 .getResultSection {
     margin: 40px 0;
@@ -699,72 +677,39 @@
     }
     
     .cardsContainer {
-        height: auto;
-        min-height: 500px;
-        margin: 0 auto 30px;
-        max-width: 95%;
-        padding: 10px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: flex-start;
-        overflow: visible;
+        height: 300px;
+        transform: scale(0.8);
     }
     
     .card {
-        position: relative;
-        width: 70px;
-        height: 110px;
-        aspect-ratio: 2/3;
-        margin: 10px;
-        top: auto !important;
-        left: auto !important;
+        width: 80px;
+        height: 120px;
     }
     
-    .selectedCardsContainer {
-        gap: 15px;
-        margin-top: 30px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+    /* 첫째 줄 조정 */
+    .card:nth-child(1) { transform: rotate(-20deg) translateX(-180px); }
+    .card:nth-child(2) { transform: rotate(-16deg) translateX(-144px); }
+    .card:nth-child(3) { transform: rotate(-12deg) translateX(-108px); }
+    .card:nth-child(4) { transform: rotate(-8deg) translateX(-72px); }
+    .card:nth-child(5) { transform: rotate(-4deg) translateX(-36px); }
+    .card:nth-child(6) { transform: rotate(0deg) translateX(0); }
+    .card:nth-child(7) { transform: rotate(4deg) translateX(36px); }
+    .card:nth-child(8) { transform: rotate(8deg) translateX(72px); }
+    .card:nth-child(9) { transform: rotate(12deg) translateX(108px); }
+    .card:nth-child(10) { transform: rotate(16deg) translateX(144px); }
+    .card:nth-child(11) { transform: rotate(20deg) translateX(180px); }
+    .card:nth-child(12) { transform: rotate(0deg) translateX(-120px) translateY(130px); }
+    .card:nth-child(13) { transform: rotate(0deg) translateX(-60px) translateY(130px); }
+    .card:nth-child(14) { transform: rotate(0deg) translateX(0px) translateY(130px); }
+    .card:nth-child(15) { transform: rotate(0deg) translateX(60px) translateY(130px); }
+    .card:nth-child(16) { transform: rotate(0deg) translateX(120px) translateY(130px); }
+    .card:nth-child(17) { transform: rotate(0deg) translateX(-90px) translateY(180px); }
+    .card:nth-child(18) { transform: rotate(0deg) translateX(-30px) translateY(180px); }
+    .card:nth-child(19) { transform: rotate(0deg) translateX(30px) translateY(180px); }
+    .card:nth-child(20) { transform: rotate(0deg) translateX(90px) translateY(180px); }
+    .card:nth-child(21) { transform: rotate(0deg) translateX(-30px) translateY(230px); }
+    .card:nth-child(22) { transform: rotate(0deg) translateX(30px) translateY(230px); }
     
-    .selectedCard {
-        width: 130px;
-        height: 195px;
-        aspect-ratio: 2/3;
-    }
-    
-    .selectedCardWrapper h4 {
-        font-size: 1rem;
-        padding: 6px 12px;
-        min-width: 100px;
-    }
-    
-    /* 태블릿 화면 카드 위치 */
-    .card:nth-child(1) { left: 8%; }
-    .card:nth-child(2) { left: 14%; }
-    .card:nth-child(3) { left: 20%; }
-    .card:nth-child(4) { left: 26%; }
-    .card:nth-child(5) { left: 32%; }
-    .card:nth-child(6) { left: 38%; }
-    .card:nth-child(7) { left: 44%; }
-    .card:nth-child(8) { left: 50%; }
-    .card:nth-child(9) { left: 56%; }
-    .card:nth-child(10) { left: 62%; }
-    .card:nth-child(11) { left: 68%; }
-    .card:nth-child(12) { left: 74%; }
-    .card:nth-child(13) { left: 8%; top: 200px; }
-    .card:nth-child(14) { left: 14%; top: 200px; }
-    .card:nth-child(15) { left: 20%; top: 200px; }
-    .card:nth-child(16) { left: 26%; top: 200px; }
-    .card:nth-child(17) { left: 32%; top: 200px; }
-    .card:nth-child(18) { left: 38%; top: 200px; }
-    .card:nth-child(19) { left: 44%; top: 200px; }
-    .card:nth-child(20) { left: 50%; top: 200px; }
-    .card:nth-child(21) { left: 56%; top: 200px; }
-    .card:nth-child(22) { left: 62%; top: 200px; }
-    
-    /* 태블릿 환경에서의 애니메이션 */
     .card-position-1 {
         animation: slideToPosition1-tablet 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
     }
@@ -828,166 +773,43 @@
     }
     
     .cardsContainer {
-        height: auto;
-        min-height: 450px;
-        margin: 0 auto 20px;
-        max-width: 95%;
-        padding: 10px 5px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: flex-start;
-        overflow: visible;
+        height: 280px;
+        transform: scale(0.7);
     }
     
     .card {
-        position: relative;
-        width: 60px;
-        height: 90px;
-        aspect-ratio: 2/3;
-        margin: 8px;
-        top: auto !important;
-        left: auto !important;
+        width: 70px;
+        height: 105px;
     }
     
-    .selectedCardsContainer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 20px;
-        gap: 20px;
-    }
+    /* 모바일에선 일렬로 정렬 */
+    .card:nth-child(1) { transform: translateX(-160px); }
+    .card:nth-child(2) { transform: translateX(-128px); }
+    .card:nth-child(3) { transform: translateX(-96px); }
+    .card:nth-child(4) { transform: translateX(-64px); }
+    .card:nth-child(5) { transform: translateX(-32px); }
+    .card:nth-child(6) { transform: translateX(0); }
+    .card:nth-child(7) { transform: translateX(32px); }
+    .card:nth-child(8) { transform: translateX(64px); }
+    .card:nth-child(9) { transform: translateX(96px); }
+    .card:nth-child(10) { transform: translateX(128px); }
+    .card:nth-child(11) { transform: translateX(160px); }
     
-    .selectedCardWrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 150px;
-        margin-bottom: 25px;
-    }
-    
-    .selectedCardWrapper h4 {
-        font-size: 0.9rem;
-        padding: 5px 10px;
-        min-width: 90px;
-    }
-    
-    .card_sel {
-        width: 100px;
-        height: 150px;
-        aspect-ratio: 2/3;
-    }
-    
-    .card_sel .front img,
-    .card_sel .back img {
-        width: 100px;
-        height: 150px;
-        object-fit: cover;
-        object-position: center;
-    }
-    
-    .card_wrap > img {
-        width: 100px;
-        height: 150px;
-        border: 3px solid #020122;
-        border-radius: 8px;
-        object-fit: cover;
-    }
-    
-    .selected-cards > div > img {
-        width: 100px;
-        height: 150px;
-        border: 5px solid #020122;
-        border-radius: 8px;
-        object-fit: cover;
-    }
-    
-    .card img {
-        width: 60px;
-        height: 90px;
-        border-radius: 8px;
-        object-fit: cover;
-        object-position: center;
-    }
-    
-    .card:nth-child(1) { left: 15%; }
-    .card:nth-child(2) { left: 35%; }
-    .card:nth-child(3) { left: 55%; }
-    .card:nth-child(4) { left: 75%; }
-    .card:nth-child(5) { left: 15%; top: 150px; }
-    .card:nth-child(6) { left: 35%; top: 150px; }
-    .card:nth-child(7) { left: 55%; top: 150px; }
-    .card:nth-child(8) { left: 75%; top: 150px; }
-    .card:nth-child(9) { left: 15%; top: 300px; }
-    .card:nth-child(10) { left: 35%; top: 300px; }
-    .card:nth-child(11) { left: 55%; top: 300px; }
-    .card:nth-child(12) { left: 75%; top: 300px; }
-    .card:nth-child(13) { left: 15%; top: 450px; }
-    .card:nth-child(14) { left: 35%; top: 450px; }
-    .card:nth-child(15) { left: 55%; top: 450px; }
-    .card:nth-child(16) { left: 75%; top: 450px; }
-    .card:nth-child(17) { left: 15%; top: 600px; }
-    .card:nth-child(18) { left: 35%; top: 600px; }
-    .card:nth-child(19) { left: 55%; top: 600px; }
-    .card:nth-child(20) { left: 75%; top: 600px; }
-    .card:nth-child(21) { left: 35%; top: 750px; }
-    .card:nth-child(22) { left: 55%; top: 750px; }
-    
-    .card-position-1 {
-        animation: slideToPosition1-mobile 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
-    }
-    
-    .card-position-2 {
-        animation: slideToPosition2-mobile 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
-    }
-    
-    .card-position-3 {
-        animation: slideToPosition3-mobile 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
-    }
-    
-    @keyframes slideToPosition1-mobile {
-        0% { transform: translateY(0) rotateY(0); opacity: 1; }
-        30% { transform: translateY(-60px) rotateY(90deg); opacity: 1; }
-        50% { transform: translateY(-30px) rotateY(180deg); opacity: 1; }
-        90% { transform: translateY(150px) translateX(-100px) rotateY(180deg); opacity: 0.8; }
-        100% { transform: translateY(150px) translateX(-100px) rotateY(180deg); opacity: 0; }
-    }
-    
-    @keyframes slideToPosition2-mobile {
-        0% { transform: translateY(0) rotateY(0); opacity: 1; }
-        30% { transform: translateY(-60px) rotateY(90deg); opacity: 1; }
-        50% { transform: translateY(-30px) rotateY(180deg); opacity: 1; }
-        90% { transform: translateY(150px) translateX(0) rotateY(180deg); opacity: 0.8; }
-        100% { transform: translateY(150px) translateX(0) rotateY(180deg); opacity: 0; }
-    }
-    
-    @keyframes slideToPosition3-mobile {
-        0% { transform: translateY(0) rotateY(0); opacity: 1; }
-        30% { transform: translateY(-60px) rotateY(90deg); opacity: 1; }
-        50% { transform: translateY(-30px) rotateY(180deg); opacity: 1; }
-        90% { transform: translateY(150px) translateX(100px) rotateY(180deg); opacity: 0.8; }
-        100% { transform: translateY(150px) translateX(100px) rotateY(180deg); opacity: 0; }
-    }
-    
-    .getResultBtn {
-        padding: 12px 25px;
-        font-size: 1rem;
-    }
-    
-    .cards_wrap {
-        gap: 30px;
-    }
-    
-    .cards_wrap img {
-        width: 100px;
-        height: 150px;
-        aspect-ratio: 2/3;
-        object-fit: cover;
-    }
+    /* 모바일 둘째 줄 */
+    .card:nth-child(12) { transform: translateX(-160px) translateY(115px); }
+    .card:nth-child(13) { transform: translateX(-128px) translateY(115px); }
+    .card:nth-child(14) { transform: translateX(-96px) translateY(115px); }
+    .card:nth-child(15) { transform: translateX(-64px) translateY(115px); }
+    .card:nth-child(16) { transform: translateX(-32px) translateY(115px); }
+    .card:nth-child(17) { transform: translateX(0) translateY(115px); }
+    .card:nth-child(18) { transform: translateX(32px) translateY(115px); }
+    .card:nth-child(19) { transform: translateX(64px) translateY(115px); }
+    .card:nth-child(20) { transform: translateX(96px) translateY(115px); }
+    .card:nth-child(21) { transform: translateX(128px) translateY(115px); }
+    .card:nth-child(22) { transform: translateX(160px) translateY(115px); }
     
     .selectedCardsSection {
-        margin-top: 0;
+        margin-top: 10px;
         padding: 10px;
     }
 }

@@ -200,6 +200,35 @@ body {
     overflow-x: hidden; /* 가로 스크롤 방지 */
 }
 
+/* 전체 페이지에 배경 심볼 표시 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    background: url('/images/symbolBG.png') no-repeat center;
+    background-size: contain;
+    opacity: 0.3; /* 약간 투명하게 설정 */
+    z-index: -1;
+    transform: translate(-50%, -50%) scale(0.8);
+    pointer-events: none;
+}
+
+/* 페이지 컨테이너 스타일 */
+.container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(4, 40, 49, 0.7); /* 반투명 배경 */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
 /* 메인 페이지에서는 body::before가 표시되지 않도록 설정 */
 body::before {
     content: '';
