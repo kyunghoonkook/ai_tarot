@@ -55,7 +55,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    padding-top: 120px;
+    padding-top: 90px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -151,40 +151,38 @@
     height: 150px;
     cursor: pointer;
     transform-style: preserve-3d;
-    transition: transform 0.5s, top 0.5s, left 0.5s;
+    transition: all 0.3s ease;
     border-radius: 10px;
     z-index: 1;
     transform-origin: bottom;
 }
 
-/* 첫째 줄 - 더 넓게 펼침 */
-.card:nth-child(1) { transform: rotate(-28deg) translateX(-280px); z-index: 1; }
-.card:nth-child(2) { transform: rotate(-24deg) translateX(-240px); z-index: 2; }
-.card:nth-child(3) { transform: rotate(-20deg) translateX(-200px); z-index: 3; }
-.card:nth-child(4) { transform: rotate(-16deg) translateX(-160px); z-index: 4; }
-.card:nth-child(5) { transform: rotate(-12deg) translateX(-120px); z-index: 5; }
-.card:nth-child(6) { transform: rotate(-8deg) translateX(-80px); z-index: 6; }
-.card:nth-child(7) { transform: rotate(-4deg) translateX(-40px); z-index: 7; }
-.card:nth-child(8) { transform: rotate(0deg) translateX(0); z-index: 8; }
-.card:nth-child(9) { transform: rotate(4deg) translateX(40px); z-index: 9; }
-.card:nth-child(10) { transform: rotate(8deg) translateX(80px); z-index: 10; }
-.card:nth-child(11) { transform: rotate(12deg) translateX(120px); z-index: 11; }
-.card:nth-child(12) { transform: rotate(16deg) translateX(160px); z-index: 12; }
-.card:nth-child(13) { transform: rotate(20deg) translateX(200px); z-index: 13; }
-.card:nth-child(14) { transform: rotate(24deg) translateX(240px); z-index: 14; }
-.card:nth-child(15) { transform: rotate(28deg) translateX(280px); z-index: 15; }
-
-/* 둘째 줄 - 더 넓게 펼침 */
-.card:nth-child(16) { transform: rotate(-20deg) translateX(-200px) translateY(170px); z-index: 16; }
-.card:nth-child(17) { transform: rotate(-15deg) translateX(-150px) translateY(170px); z-index: 17; }
-.card:nth-child(18) { transform: rotate(-10deg) translateX(-100px) translateY(170px); z-index: 18; }
-.card:nth-child(19) { transform: rotate(-5deg) translateX(-50px) translateY(170px); z-index: 19; }
-.card:nth-child(20) { transform: rotate(0deg) translateX(0) translateY(170px); z-index: 20; }
-.card:nth-child(21) { transform: rotate(5deg) translateX(50px) translateY(170px); z-index: 21; }
-.card:nth-child(22) { transform: rotate(10deg) translateX(100px) translateY(170px); z-index: 22; }
+/* 모든 카드를 한 줄로 펼침 */
+.card:nth-child(1) { transform: rotate(-55deg) translateX(-320px) translateY(-60px); z-index: 1; }
+.card:nth-child(2) { transform: rotate(-50deg) translateX(-300px) translateY(-60px); z-index: 2; }
+.card:nth-child(3) { transform: rotate(-45deg) translateX(-280px) translateY(-60px); z-index: 3; }
+.card:nth-child(4) { transform: rotate(-40deg) translateX(-260px) translateY(-60px); z-index: 4; }
+.card:nth-child(5) { transform: rotate(-35deg) translateX(-240px) translateY(-60px); z-index: 5; }
+.card:nth-child(6) { transform: rotate(-30deg) translateX(-220px) translateY(-60px); z-index: 6; }
+.card:nth-child(7) { transform: rotate(-25deg) translateX(-190px) translateY(-60px); z-index: 7; }
+.card:nth-child(8) { transform: rotate(-20deg) translateX(-160px) translateY(-60px); z-index: 8; }
+.card:nth-child(9) { transform: rotate(-15deg) translateX(-130px) translateY(-60px); z-index: 9; }
+.card:nth-child(10) { transform: rotate(-10deg) translateX(-100px) translateY(-60px); z-index: 10; }
+.card:nth-child(11) { transform: rotate(-5deg) translateX(-70px) translateY(-60px); z-index: 11; }
+.card:nth-child(12) { transform: rotate(0deg) translateX(0) translateY(-60px); z-index: 12; }
+.card:nth-child(13) { transform: rotate(5deg) translateX(70px) translateY(-60px); z-index: 13; }
+.card:nth-child(14) { transform: rotate(10deg) translateX(100px) translateY(-60px); z-index: 14; }
+.card:nth-child(15) { transform: rotate(15deg) translateX(130px) translateY(-60px); z-index: 15; }
+.card:nth-child(16) { transform: rotate(20deg) translateX(160px) translateY(-60px); z-index: 16; }
+.card:nth-child(17) { transform: rotate(25deg) translateX(190px) translateY(-60px); z-index: 17; }
+.card:nth-child(18) { transform: rotate(30deg) translateX(220px) translateY(-60px); z-index: 18; }
+.card:nth-child(19) { transform: rotate(35deg) translateX(240px) translateY(-60px); z-index: 19; }
+.card:nth-child(20) { transform: rotate(40deg) translateX(260px) translateY(-60px); z-index: 20; }
+.card:nth-child(21) { transform: rotate(45deg) translateX(280px) translateY(-60px); z-index: 21; }
+.card:nth-child(22) { transform: rotate(50deg) translateX(300px) translateY(-60px); z-index: 22; }
 
 .card:hover {
-    transform: translateY(-20px) !important;
+    margin-top: -10px;
     z-index: 100 !important;
 }
 
@@ -659,7 +657,7 @@
 @media (max-width: 768px) {
     .container {
         padding: 10px;
-        padding-top: 100px;
+        padding-top: 80px;
         min-height: 100vh;
         justify-content: center;
     }
@@ -686,29 +684,29 @@
         height: 120px;
     }
     
-    /* 첫째 줄 조정 */
-    .card:nth-child(1) { transform: rotate(-20deg) translateX(-180px); }
-    .card:nth-child(2) { transform: rotate(-16deg) translateX(-144px); }
-    .card:nth-child(3) { transform: rotate(-12deg) translateX(-108px); }
-    .card:nth-child(4) { transform: rotate(-8deg) translateX(-72px); }
-    .card:nth-child(5) { transform: rotate(-4deg) translateX(-36px); }
-    .card:nth-child(6) { transform: rotate(0deg) translateX(0); }
-    .card:nth-child(7) { transform: rotate(4deg) translateX(36px); }
-    .card:nth-child(8) { transform: rotate(8deg) translateX(72px); }
-    .card:nth-child(9) { transform: rotate(12deg) translateX(108px); }
-    .card:nth-child(10) { transform: rotate(16deg) translateX(144px); }
-    .card:nth-child(11) { transform: rotate(20deg) translateX(180px); }
-    .card:nth-child(12) { transform: rotate(0deg) translateX(-120px) translateY(130px); }
-    .card:nth-child(13) { transform: rotate(0deg) translateX(-60px) translateY(130px); }
-    .card:nth-child(14) { transform: rotate(0deg) translateX(0px) translateY(130px); }
-    .card:nth-child(15) { transform: rotate(0deg) translateX(60px) translateY(130px); }
-    .card:nth-child(16) { transform: rotate(0deg) translateX(120px) translateY(130px); }
-    .card:nth-child(17) { transform: rotate(0deg) translateX(-90px) translateY(180px); }
-    .card:nth-child(18) { transform: rotate(0deg) translateX(-30px) translateY(180px); }
-    .card:nth-child(19) { transform: rotate(0deg) translateX(30px) translateY(180px); }
-    .card:nth-child(20) { transform: rotate(0deg) translateX(90px) translateY(180px); }
-    .card:nth-child(21) { transform: rotate(0deg) translateX(-30px) translateY(230px); }
-    .card:nth-child(22) { transform: rotate(0deg) translateX(30px) translateY(230px); }
+    /* 태블릿에서도 한 줄로 펼침 (회전 각도 줄이고 간격 좁힘) */
+    .card:nth-child(1) { transform: rotate(-40deg) translateX(-180px) translateY(-50px); }
+    .card:nth-child(2) { transform: rotate(-36deg) translateX(-165px) translateY(-50px); }
+    .card:nth-child(3) { transform: rotate(-32deg) translateX(-150px) translateY(-50px); }
+    .card:nth-child(4) { transform: rotate(-28deg) translateX(-135px) translateY(-50px); }
+    .card:nth-child(5) { transform: rotate(-24deg) translateX(-120px) translateY(-50px); }
+    .card:nth-child(6) { transform: rotate(-20deg) translateX(-105px) translateY(-50px); }
+    .card:nth-child(7) { transform: rotate(-16deg) translateX(-90px) translateY(-50px); }
+    .card:nth-child(8) { transform: rotate(-12deg) translateX(-75px) translateY(-50px); }
+    .card:nth-child(9) { transform: rotate(-8deg) translateX(-60px) translateY(-50px); }
+    .card:nth-child(10) { transform: rotate(-4deg) translateX(-45px) translateY(-50px); }
+    .card:nth-child(11) { transform: rotate(0deg) translateX(-30px) translateY(-50px); }
+    .card:nth-child(12) { transform: rotate(4deg) translateX(-15px) translateY(-50px); }
+    .card:nth-child(13) { transform: rotate(8deg) translateX(0px) translateY(-50px); }
+    .card:nth-child(14) { transform: rotate(12deg) translateX(15px) translateY(-50px); }
+    .card:nth-child(15) { transform: rotate(16deg) translateX(30px) translateY(-50px); }
+    .card:nth-child(16) { transform: rotate(20deg) translateX(45px) translateY(-50px); }
+    .card:nth-child(17) { transform: rotate(24deg) translateX(60px) translateY(-50px); }
+    .card:nth-child(18) { transform: rotate(28deg) translateX(75px) translateY(-50px); }
+    .card:nth-child(19) { transform: rotate(32deg) translateX(90px) translateY(-50px); }
+    .card:nth-child(20) { transform: rotate(36deg) translateX(105px) translateY(-50px); }
+    .card:nth-child(21) { transform: rotate(40deg) translateX(120px) translateY(-50px); }
+    .card:nth-child(22) { transform: rotate(44deg) translateX(135px) translateY(-50px); }
     
     .card-position-1 {
         animation: slideToPosition1-tablet 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
@@ -761,7 +759,7 @@
 @media (max-width: 480px) {
     .container {
         padding: 5px;
-        padding-top: 80px;
+        padding-top: 70px;
     }
     
     .instruction {
@@ -782,31 +780,29 @@
         height: 105px;
     }
     
-    /* 모바일에선 일렬로 정렬 */
-    .card:nth-child(1) { transform: translateX(-160px); }
-    .card:nth-child(2) { transform: translateX(-128px); }
-    .card:nth-child(3) { transform: translateX(-96px); }
-    .card:nth-child(4) { transform: translateX(-64px); }
-    .card:nth-child(5) { transform: translateX(-32px); }
-    .card:nth-child(6) { transform: translateX(0); }
-    .card:nth-child(7) { transform: translateX(32px); }
-    .card:nth-child(8) { transform: translateX(64px); }
-    .card:nth-child(9) { transform: translateX(96px); }
-    .card:nth-child(10) { transform: translateX(128px); }
-    .card:nth-child(11) { transform: translateX(160px); }
-    
-    /* 모바일 둘째 줄 */
-    .card:nth-child(12) { transform: translateX(-160px) translateY(115px); }
-    .card:nth-child(13) { transform: translateX(-128px) translateY(115px); }
-    .card:nth-child(14) { transform: translateX(-96px) translateY(115px); }
-    .card:nth-child(15) { transform: translateX(-64px) translateY(115px); }
-    .card:nth-child(16) { transform: translateX(-32px) translateY(115px); }
-    .card:nth-child(17) { transform: translateX(0) translateY(115px); }
-    .card:nth-child(18) { transform: translateX(32px) translateY(115px); }
-    .card:nth-child(19) { transform: translateX(64px) translateY(115px); }
-    .card:nth-child(20) { transform: translateX(96px) translateY(115px); }
-    .card:nth-child(21) { transform: translateX(128px) translateY(115px); }
-    .card:nth-child(22) { transform: translateX(160px) translateY(115px); }
+    /* 모바일에서는 회전 없이 한 줄로 촘촘하게 배열 */
+    .card:nth-child(1) { transform: translateX(-160px) translateY(-40px); }
+    .card:nth-child(2) { transform: translateX(-150px) translateY(-40px); }
+    .card:nth-child(3) { transform: translateX(-140px) translateY(-40px); }
+    .card:nth-child(4) { transform: translateX(-130px) translateY(-40px); }
+    .card:nth-child(5) { transform: translateX(-120px) translateY(-40px); }
+    .card:nth-child(6) { transform: translateX(-110px) translateY(-40px); }
+    .card:nth-child(7) { transform: translateX(-100px) translateY(-40px); }
+    .card:nth-child(8) { transform: translateX(-90px) translateY(-40px); }
+    .card:nth-child(9) { transform: translateX(-80px) translateY(-40px); }
+    .card:nth-child(10) { transform: translateX(-70px) translateY(-40px); }
+    .card:nth-child(11) { transform: translateX(-60px) translateY(-40px); }
+    .card:nth-child(12) { transform: translateX(-50px) translateY(-40px); }
+    .card:nth-child(13) { transform: translateX(-40px) translateY(-40px); }
+    .card:nth-child(14) { transform: translateX(-30px) translateY(-40px); }
+    .card:nth-child(15) { transform: translateX(-20px) translateY(-40px); }
+    .card:nth-child(16) { transform: translateX(-10px) translateY(-40px); }
+    .card:nth-child(17) { transform: translateX(0) translateY(-40px); }
+    .card:nth-child(18) { transform: translateX(10px) translateY(-40px); }
+    .card:nth-child(19) { transform: translateX(20px) translateY(-40px); }
+    .card:nth-child(20) { transform: translateX(30px) translateY(-40px); }
+    .card:nth-child(21) { transform: translateX(40px) translateY(-40px); }
+    .card:nth-child(22) { transform: translateX(50px) translateY(-40px); }
     
     .selectedCardsSection {
         margin-top: 10px;
