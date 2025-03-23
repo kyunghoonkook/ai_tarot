@@ -93,11 +93,11 @@ export default function CardSelector({ theme, design }) {
                 isReversed: isCardReversed
             };
             
-            console.log("Card selected:", updatedCard.number, "Reversed:", isCardReversed);
+            // console.log("Card selected:", updatedCard.number, "Reversed:", isCardReversed);
             
             const newSelectedCards = [...selectedCards, updatedCard];
             setSelectedCards(newSelectedCards);
-            console.log("Selected cards:", newSelectedCards.map(c => ({number: c.number, reversed: c.isReversed})));
+            // console.log("Selected cards:", newSelectedCards.map(c => ({number: c.number, reversed: c.isReversed})));
             
             setRemainingCards(remainingCards.filter((c) => c !== card));
 
