@@ -65,29 +65,31 @@ export const viewport = {
 };
 
 export default function RootLayout({ children }) {
+    //   useEffect(() => {
+    //       (window.adsbygoogle = window.adsbygoogle || []).push({});
+    //   }, []);
     return (
         <html lang="en">
             <head>
-                {/* 중복된 애드센스 스크립트 제거 */}
-            </head>
-            <body>
+               
                 <Script
                     async
                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6444523705828999"
                     crossOrigin="anonymous"
-                    strategy="afterInteractive"
+                    strategy="lazyOnload"
                 />
-                
+            </head>
+            <body>
                 <div className="ad-container">
-                    <ins className="adsbygoogle"
-                        style={{display: 'block'}}
+                    <ins
+                        className="adsbygoogle"
+                        style={{ display: 'block' }}
                         data-ad-client="ca-pub-6444523705828999"
                         data-ad-slot="6447010341"
                         data-ad-format="auto"
-                        data-full-width-responsive="true" />
-                    <Script id="adsense-init">
-                        {`(adsbygoogle = window.adsbygoogle || []).push({});`}
-                    </Script>
+                        data-full-width-responsive="true"
+                    />
+                    <Script id="adsense-init">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
                 </div>
 
                 <header className="header">
