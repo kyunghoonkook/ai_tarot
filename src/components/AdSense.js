@@ -57,7 +57,7 @@ export default function AdSense() {
                     console.error('애드센스 스크립트 로드 실패:', e);
                 }}
             />
-            <div className="ad-container" style={{ minHeight: '280px', width: '100%', margin: '20px 0', overflow: 'hidden', background: '#f9f9f9' }}>
+            {/* <div className="ad-container" style={{ minHeight: '280px', width: '100%', margin: '20px 0', overflow: 'hidden', background: '#f9f9f9' }}>
                 <ins
                     className="adsbygoogle"
                     style={{ display: 'block', width: '100%', height: '280px' }}
@@ -67,7 +67,7 @@ export default function AdSense() {
                     data-full-width-responsive="true"
                     ref={advertRef}
                 />
-            </div>
+            </div> */}
         </>
     );
 } 
