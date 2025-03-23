@@ -7,36 +7,37 @@ export default function AdSense() {
     const advertRef = useRef(null);
     
     useEffect(() => {
-        try {
-            // 스크립트가 이미 로드된 후에만 광고 초기화
-            if (window.adsbygoogle) {
-                window.adsbygoogle.push({});
-                console.log('애드센스 초기화 시도');
+        // 컴포넌트가 마운트된 후에 한 번만 실행
+        const initAd = setTimeout(() => {
+            try {
+                if (typeof window !== 'undefined' && window.adsbygoogle) {
+                    console.log('애드센스 초기화 시도');
+                    (window.adsbygoogle = window.adsbygoogle || []).push({});
+                }
+            } catch (error) {
+                console.error('애드센스 초기화 오류:', error);
             }
-        } catch (error) {
-            console.error('애드센스 초기화 오류:', error);
-        }
+        }, 100); // 약간의 지연을 두어 스크립트 로드 시간 확보
+        
+        return () => clearTimeout(initAd);
     }, []);
 
     return (
         <>
             <Script
                 id="adsbygoogle-init"
-                async
                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6444523705828999"
+                strategy="afterInteractive"
+                async
                 crossOrigin="anonymous"
-                strategy="beforeInteractive"
                 onLoad={() => {
                     console.log('애드센스 스크립트 로드 완료');
-                    try {
-                        window.adsbygoogle = window.adsbygoogle || [];
-                        window.adsbygoogle.push({});
-                    } catch (error) {
-                        console.error('스크립트 로드 후 초기화 오류:', error);
-                    }
+                }}
+                onError={(e) => {
+                    console.error('애드센스 스크립트 로드 실패:', e);
                 }}
             />
-            <div className="ad-container" style={{ minHeight: '280px', width: '100%', margin: '20px 0', overflow: 'hidden' }}>
+            {/* <div className="ad-container" style={{ minHeight: '280px', width: '100%', margin: '20px 0', overflow: 'hidden', background: '#f9f9f9' }}>
                 <ins
                     className="adsbygoogle"
                     style={{ display: 'block', width: '100%', height: '280px' }}
@@ -46,7 +47,7 @@ export default function AdSense() {
                     data-full-width-responsive="true"
                     ref={advertRef}
                 />
-            </div>
+            </div> */}
         </>
     );
 } 

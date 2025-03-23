@@ -1,12 +1,12 @@
 /** @type {import('next').NextConfig} */
 const ContentSecurityPolicy = `
     default-src 'self';
-    script-src 'self' 'unsafe-eval' 'unsafe-inline' https://developers.kakao.com https://t1.kakaocdn.net https://pagead2.googlesyndication.com https://*.googleadservices.com https://*.google-analytics.com https://*.googleapis.com https://*.doubleclick.net https://*.g.doubleclick.net;
+    script-src 'self' 'unsafe-eval' 'unsafe-inline' https://developers.kakao.com https://t1.kakaocdn.net https://pagead2.googlesyndication.com https://adservice.google.com https://googleads.g.doubleclick.net https://www.googletagservices.com https://*.googleadservices.com https://tpc.googlesyndication.com https://*.google-analytics.com https://*.analytics.google.com https://*.googleapis.com https://*.doubleclick.net https://*.g.doubleclick.net https://www.google.com https://www.googletagmanager.com;
     style-src 'self' 'unsafe-inline';
-    img-src 'self' data: https://your-ai-tarot-url.com https://*.googleusercontent.com https://*.google.com https://*.googleapis.com https://*.gstatic.com https://*.doubleclick.net https://*.ggpht.com;
-    frame-src 'self' https://googleads.g.doubleclick.net https://*.googlesyndication.com https://*.doubleclick.net;
-    connect-src 'self' https://*.google-analytics.com https://*.googleapis.com https://*.doubleclick.net https://*.g.doubleclick.net https://pagead2.googlesyndication.com https://*.adtrafficquality.google https://*.google.com;
-    font-src 'self' data:;
+    img-src 'self' data: https://your-ai-tarot-url.com https://*.googleusercontent.com https://*.google.com https://*.googleapis.com https://*.gstatic.com https://*.doubleclick.net https://*.ggpht.com https://pagead2.googlesyndication.com https://www.google.com https://www.google.co.kr https://tpc.googlesyndication.com;
+    frame-src 'self' https://googleads.g.doubleclick.net https://*.googlesyndication.com https://*.doubleclick.net https://www.google.com https://tpc.googlesyndication.com;
+    connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googleapis.com https://*.doubleclick.net https://*.g.doubleclick.net https://pagead2.googlesyndication.com https://adservice.google.com https://tpc.googlesyndication.com https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google https://www.google.com https://www.google.co.kr https://www.googletagmanager.com;
+    font-src 'self' data: https://fonts.gstatic.com;
     object-src 'none';
     base-uri 'self';
 `;
