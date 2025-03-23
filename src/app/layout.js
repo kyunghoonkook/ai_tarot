@@ -1,8 +1,12 @@
+'use client'
+
 import Link from 'next/link';
 import Script from 'next/script';
 import KakaoScript from '@/components/KakaoScript';
+import AdSense from '@/components/AdSense';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
+
 export const metadata = {
     title: 'AI Tarot - Unlock the Secrets of Your Future with AI-Powered Tarot Readings',
     description:
@@ -59,38 +63,20 @@ export const metadata = {
         me: 'your-me-verification-code',
     },
 };
+
 export const viewport = {
     width: 'device-width',
     initialScale: 1,
 };
 
 export default function RootLayout({ children }) {
-    //   useEffect(() => {
-    //       (window.adsbygoogle = window.adsbygoogle || []).push({});
-    //   }, []);
     return (
         <html lang="en">
             <head>
                
-                <Script
-                    async
-                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6444523705828999"
-                    crossOrigin="anonymous"
-                    strategy="lazyOnload"
-                />
             </head>
             <body>
-                <div className="ad-container">
-                    <ins
-                        className="adsbygoogle"
-                        style={{ display: 'block' }}
-                        data-ad-client="ca-pub-6444523705828999"
-                        data-ad-slot="6447010341"
-                        data-ad-format="auto"
-                        data-full-width-responsive="true"
-                    />
-                    <Script id="adsense-init">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
-                </div>
+                <AdSense />
 
                 <header className="header">
                     <Link href="/">
