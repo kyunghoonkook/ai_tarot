@@ -74,6 +74,18 @@ export default function RootLayout({ children }) {
                 ></script>
             </head>
             <body>
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6444523705828999"
+     crossorigin="anonymous"></script>
+
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6444523705828999"
+     data-ad-slot="6447010341"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
                 <header className="header">
                     <Link href="/">
                         <img src="/images/logo1.svg" className="logo" />
