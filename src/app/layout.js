@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Script from 'next/script';
 import KakaoScript from '@/components/KakaoScript';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
@@ -67,25 +68,28 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <head>
-                <script
-                    async
-                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6444523705828999"
-                    crossorigin="anonymous"
-                ></script>
+                {/* 중복된 애드센스 스크립트 제거 */}
             </head>
             <body>
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6444523705828999"
-     crossorigin="anonymous"></script>
+                <Script
+                    async
+                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6444523705828999"
+                    crossOrigin="anonymous"
+                    strategy="afterInteractive"
+                />
+                
+                <div className="ad-container">
+                    <ins className="adsbygoogle"
+                        style={{display: 'block'}}
+                        data-ad-client="ca-pub-6444523705828999"
+                        data-ad-slot="6447010341"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true" />
+                    <Script id="adsense-init">
+                        {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+                    </Script>
+                </div>
 
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6444523705828999"
-     data-ad-slot="6447010341"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
                 <header className="header">
                     <Link href="/">
                         <img src="/images/logo1.svg" className="logo" />
