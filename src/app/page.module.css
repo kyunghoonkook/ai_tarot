@@ -1,10 +1,11 @@
 .main-bg {
-    /* margin-left: -220px; */
-    margin-top: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    position: absolute;
+    height: 100%;
+    object-fit: cover;
     z-index: -1;
-    top: -84px;
 }
 
 .bgWrap {
@@ -38,11 +39,12 @@
 }
 
 .hero-description {
-    font-size: 1.3rem;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
     line-height: 1.6;
-    color: #f0f0f0;
-    margin-bottom: 40px;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 
 .features-container {
@@ -284,5 +286,181 @@
     
     .feature-description {
         font-size: 0.9rem;
+    }
+}
+
+.cta-button {
+    margin: 2rem auto;
+    text-align: center;
+}
+
+.primary-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #ffd700, #e0c068);
+    color: #000;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(224, 192, 104, 0.5);
+    transition: all 0.3s ease;
+}
+
+.primary-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(224, 192, 104, 0.6);
+    background: linear-gradient(135deg, #ffe866, #ffd700);
+}
+
+/* 소셜 공유 컨테이너 스타일 */
+.social-share-container {
+    background: rgba(15, 23, 42, 0.7);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 3rem auto;
+    max-width: 800px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.social-share-title {
+    color: #ffd700;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.social-share-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(224, 192, 104, 0.2));
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.social-button:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.4), rgba(224, 192, 104, 0.4));
+    box-shadow: 0 4px 10px rgba(224, 192, 104, 0.3);
+}
+
+/* 블로그 프리뷰 섹션 스타일 */
+.blog-preview-container {
+    background: rgba(15, 23, 42, 0.7);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 3rem auto;
+    max-width: 1000px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.blog-preview-title {
+    color: #ffd700;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.blog-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.blog-preview-card {
+    background: rgba(22, 30, 46, 0.7);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    text-decoration: none;
+    border: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.blog-preview-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.blog-preview-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.blog-preview-heading {
+    color: #ffd700;
+    padding: 1rem 1rem 0.5rem;
+    font-size: 1.1rem;
+}
+
+.blog-preview-excerpt {
+    color: #ffffff;
+    padding: 0 1rem 1rem;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.blog-preview-link {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.blog-preview-link a {
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.blog-preview-link a:hover {
+    color: #ffe866;
+    text-decoration: underline;
+}
+
+/* 반응형 디자인 개선 */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+    
+    .blog-preview-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.7rem;
+    }
+    
+    .social-share-buttons {
+        flex-wrap: wrap;
+    }
+    
+    .primary-button {
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
     }
 }

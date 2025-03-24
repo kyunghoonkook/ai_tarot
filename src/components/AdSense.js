@@ -11,8 +11,8 @@ export default function AdSense() {
         // 이미 초기화되었는지 확인하고 중복 초기화 방지
         if (initialized.current) return;
         
-        // 컴포넌트가 마운트된 후에 한 번만 실행
-        const initAd = setTimeout(() => {
+        // 사용자 인터랙션 후에 광고 로드 (페이지 로딩 속도 향상)
+        const loadAdsAfterInteraction = () => {
             try {
                 if (typeof window !== 'undefined' && window.adsbygoogle) {
                     console.log('애드센스 초기화 시도');
@@ -38,9 +38,31 @@ export default function AdSense() {
             } catch (error) {
                 console.error('애드센스 초기화 오류:', error);
             }
-        }, 200); // 약간의 지연을 두어 스크립트 로드 시간 확보
+            
+            // 이벤트 리스너 제거
+            window.removeEventListener('scroll', loadAdsAfterInteraction);
+            window.removeEventListener('mousemove', loadAdsAfterInteraction);
+            window.removeEventListener('touchstart', loadAdsAfterInteraction);
+        };
         
-        return () => clearTimeout(initAd);
+        // 사용자 인터랙션 감지하여 광고 로드
+        window.addEventListener('scroll', loadAdsAfterInteraction, { once: true, passive: true });
+        window.addEventListener('mousemove', loadAdsAfterInteraction, { once: true, passive: true });
+        window.addEventListener('touchstart', loadAdsAfterInteraction, { once: true, passive: true });
+        
+        // 페이지가 완전히 로드된 후에도 광고 초기화되지 않았다면 로드
+        const fallbackTimer = setTimeout(() => {
+            if (!initialized.current) {
+                loadAdsAfterInteraction();
+            }
+        }, 3000);
+        
+        return () => {
+            clearTimeout(fallbackTimer);
+            window.removeEventListener('scroll', loadAdsAfterInteraction);
+            window.removeEventListener('mousemove', loadAdsAfterInteraction);
+            window.removeEventListener('touchstart', loadAdsAfterInteraction);
+        };
     }, []);
 
     return (
@@ -48,7 +70,7 @@ export default function AdSense() {
             <Script
                 id="adsbygoogle-init"
                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6444523705828999"
-                strategy="beforeInteractive"
+                strategy="lazyOnload"
                 crossOrigin="anonymous"
                 onLoad={() => {
                     console.log('애드센스 스크립트 로드 완료');

@@ -1,6 +1,9 @@
 User-agent: *
 Allow: /
 
+# Sitemap
+Sitemap: https://www.aifree-tarot.com/sitemap.xml
+
 # CSS, JS, Images
 Allow: /*.css$
 Allow: /*.js$
@@ -10,11 +13,23 @@ Allow: /*.jpeg$
 Allow: /*.gif$
 Allow: /*.svg$
 Allow: /*.ico$
+Allow: /fonts/
 
 # Disallow
 Disallow: /api/
 Disallow: /admin/
 Disallow: /private/
+Disallow: /error
+Disallow: /*.json$
 
-# Sitemap
-Sitemap: https://www.aifree-tarot.com/sitemap.xml
+# Crawl delay
+Crawl-delay: 1
+
+# Social media bots
+User-agent: Twitterbot
+Allow: /images/
+Allow: /twitter-image.jpg
+
+User-agent: facebookexternalhit
+Allow: /images/
+Allow: /og-image.jpg

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Script from 'next/script';
 import KakaoScript from '@/components/KakaoScript';
 import AdSense from '@/components/AdSense';
+import PerformanceOptimizer from '@/components/PerformanceOptimizer';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 
@@ -124,28 +125,106 @@ export default function RootLayout({ children }) {
             <head>
                 <Script id="structured-data" type="application/ld+json">
                     {`
-                    {
-                        "@context": "https://schema.org",
-                        "@type": "WebSite",
-                        "name": "AI Tarot - Free Tarot Card Readings",
-                        "url": "https://www.aifree-tarot.com",
-                        "potentialAction": {
-                            "@type": "SearchAction",
-                            "target": "https://www.aifree-tarot.com/search?q={search_term_string}",
-                            "query-input": "required name=search_term_string"
+                    [
+                        {
+                            "@context": "https://schema.org",
+                            "@type": "WebSite",
+                            "name": "AI Tarot - Free Tarot Card Readings",
+                            "url": "https://www.aifree-tarot.com",
+                            "potentialAction": {
+                                "@type": "SearchAction",
+                                "target": "https://www.aifree-tarot.com/search?q={search_term_string}",
+                                "query-input": "required name=search_term_string"
+                            },
+                            "description": "Discover the power of AI-generated tarot readings. Get personalized insights and guidance for love, career, health, and more. Our cutting-edge AI Tarot app offers accurate and insightful readings 24/7.",
+                            "sameAs": [
+                                "https://www.facebook.com/AIFreeTarot",
+                                "https://www.instagram.com/AIFreeTarot",
+                                "https://twitter.com/AIFreeTarot"
+                            ]
                         },
-                        "description": "Discover the power of AI-generated tarot readings. Get personalized insights and guidance for love, career, health, and more. Our cutting-edge AI Tarot app offers accurate and insightful readings 24/7.",
-                        "sameAs": [
-                            "https://www.facebook.com/AIFreeTarot",
-                            "https://www.instagram.com/AIFreeTarot",
-                            "https://twitter.com/AIFreeTarot"
-                        ]
-                    }
+                        {
+                            "@context": "https://schema.org",
+                            "@type": "FAQPage",
+                            "mainEntity": [
+                                {
+                                    "@type": "Question",
+                                    "name": "How does AI Tarot reading work?",
+                                    "acceptedAnswer": {
+                                        "@type": "Answer",
+                                        "text": "Our AI Tarot reading uses advanced artificial intelligence to interpret tarot cards in the context of your question. The AI analyzes the traditional meanings of each card, their positions, and relationships to provide personalized insights."
+                                    }
+                                },
+                                {
+                                    "@type": "Question",
+                                    "name": "Are AI Tarot readings accurate?",
+                                    "acceptedAnswer": {
+                                        "@type": "Answer",
+                                        "text": "AI Tarot readings provide insights based on the symbolic meanings of tarot cards. The accuracy depends on how you interpret and apply these insights to your situation. Many users find the readings surprisingly relevant and helpful for self-reflection."
+                                    }
+                                },
+                                {
+                                    "@type": "Question",
+                                    "name": "Is the AI Tarot reading service completely free?",
+                                    "acceptedAnswer": {
+                                        "@type": "Answer",
+                                        "text": "Yes, our basic AI Tarot reading service is completely free. We offer various reading types including daily, love, career, and general readings at no cost. Premium features may be available for enhanced readings."
+                                    }
+                                },
+                                {
+                                    "@type": "Question",
+                                    "name": "How often should I get a tarot reading?",
+                                    "acceptedAnswer": {
+                                        "@type": "Answer",
+                                        "text": "This depends on your personal preference. Some people enjoy daily readings for guidance, while others prefer weekly or monthly readings for bigger life questions. We recommend not asking the same question repeatedly in a short timeframe."
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "@context": "https://schema.org",
+                            "@type": "ItemList",
+                            "name": "Major Arcana Tarot Cards",
+                            "itemListElement": [
+                                {
+                                    "@type": "ListItem",
+                                    "position": 1,
+                                    "item": {
+                                        "@type": "Thing",
+                                        "name": "The Fool",
+                                        "description": "The Fool represents new beginnings, innocence, and spontaneity. It suggests taking a leap of faith and embarking on a new journey.",
+                                        "url": "https://www.aifree-tarot.com/cards/the-fool"
+                                    }
+                                },
+                                {
+                                    "@type": "ListItem",
+                                    "position": 2,
+                                    "item": {
+                                        "@type": "Thing",
+                                        "name": "The Magician",
+                                        "description": "The Magician symbolizes manifestation, power, and action. It indicates having the tools, resources, and energy to make your dreams a reality.",
+                                        "url": "https://www.aifree-tarot.com/cards/the-magician"
+                                    }
+                                },
+                                {
+                                    "@type": "ListItem",
+                                    "position": 3,
+                                    "item": {
+                                        "@type": "Thing",
+                                        "name": "The High Priestess",
+                                        "description": "The High Priestess represents intuition, sacred knowledge, and the subconscious mind. She encourages you to listen to your inner voice and trust your instincts.",
+                                        "url": "https://www.aifree-tarot.com/cards/the-high-priestess"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
                     `}
                 </Script>
             </head>
             <body>
                 <AdSense />
+                <PerformanceOptimizer />
 
                 <header className="header">
                     <Link href="/">
@@ -157,6 +236,12 @@ export default function RootLayout({ children }) {
                         </li>
                         <li>
                             <Link href="guide">Guide</Link>
+                        </li>
+                        <li>
+                            <Link href="blog">Blog</Link>
+                        </li>
+                        <li>
+                            <Link href="faq">FAQ</Link>
                         </li>
                         <li>
                             <Link href="history">History</Link>
