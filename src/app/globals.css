@@ -247,6 +247,16 @@ body::before {
     pointer-events: none;
 }
 
+/* 메인 페이지에서는 배경 심볼 숨기기 */
+.home-page body::before {
+    display: none !important;
+}
+
+/* 메인 페이지에서 body 스타일 */
+.home-page {
+    background: linear-gradient(to bottom, #042831, #253438, #122d34) !important;
+}
+
 /* 페이지 컨테이너 스타일 */
 .container {
     position: relative;
@@ -258,22 +268,6 @@ body::before {
     background-color: rgba(4, 40, 49, 0.7); /* 반투명 배경 */
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-}
-
-/* 메인 페이지에서는 body::before가 표시되지 않도록 설정 */
-body::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    background: url('/images/symbolBG.png') no-repeat center;
-    background-size: contain;
-    opacity: 0.3; /* 모든 페이지에서 보이도록 변경 */
-    z-index: -1;
-    transform: translate(-50%, -50%) scale(0.8);
-    pointer-events: none;
 }
 
 /* 결과 페이지에서만 배경 이미지를 보이도록 설정 */

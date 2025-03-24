@@ -6,6 +6,17 @@ import PerformanceOptimizer from '@/components/PerformanceOptimizer';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 
+// 개발 환경에서 Analytics 비활성화 처리를 위한 컴포넌트
+function SafeAnalytics() {
+  // 클라이언트 사이드에서만 실행
+  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+    return null; // 개발 환경에서는 비활성화
+  }
+  
+  // 프로덕션 환경에서만 활성화
+  return <Analytics />
+}
+
 export const metadata = {
     metadataBase: new URL('https://www.aifree-tarot.com'),
     title: 'AI Tarot - Unlock the Secrets of Your Future with AI-Powered Readings',
@@ -38,13 +49,12 @@ export const metadata = {
         { media: '(prefers-color-scheme: light)', color: '#ffffff' }
     ],
     icons: {
-        icon: '/favicon.ico',
-        shortcut: '/favicon.ico',
-        apple: '/apple-touch-icon.png',
-        other: {
-            rel: 'apple-touch-icon-precomposed',
-            url: '/apple-touch-icon-precomposed.png',
-        },
+        icon: [
+            { url: '/images/logo1.svg' },
+            { url: '/favicon.ico' }
+        ],
+        shortcut: '/images/logo1.svg',
+        apple: '/images/logo1.svg',
     },
     manifest: '/manifest.json',
     openGraph: {
@@ -120,9 +130,18 @@ export const viewport = {
 };
 
 export default function RootLayout({ children }) {
+    const isHomePage = true; // 실제로는 현재 경로를 확인하는 로직이 필요
+    const isDevelopment = process.env.NODE_ENV === 'development';
+
     return (
         <html lang="en">
             <head>
+                {/* 개발 환경에서는 CSP 완화 */}
+                {isDevelopment ? (
+                    <meta httpEquiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';" />
+                ) : (
+                    <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel-scripts.com https://developers.kakao.com https://*.kakaocdn.net https://pagead2.googlesyndication.com https://adservice.google.com https://*.doubleclick.net https://www.googletagservices.com https://*.googleadservices.com https://tpc.googlesyndication.com https://*.google-analytics.com https://*.analytics.google.com https://*.googleapis.com https://*.doubleclick.net https://*.g.doubleclick.net https://www.google.com https://www.googletagmanager.com https://*.adtrafficquality.google; frame-src 'self' https://*.adtrafficquality.google https://googleads.g.doubleclick.net https://*.googlesyndication.com https://*.doubleclick.net https://www.google.com https://tpc.googlesyndication.com; img-src 'self' data: blob: https://*; connect-src 'self' https://*;" />
+                )}
                 <Script id="structured-data" type="application/ld+json">
                     {`
                     [
@@ -221,8 +240,11 @@ export default function RootLayout({ children }) {
                     ]
                     `}
                 </Script>
+                <link rel="icon" href="/images/logo1.svg" />
+                <link rel="shortcut icon" href="/images/logo1.svg" />
+                <link rel="apple-touch-icon" href="/images/logo1.svg" />
             </head>
-            <body>
+            <body className={isHomePage ? 'home-page' : ''}>
                 <AdSense />
                 <PerformanceOptimizer />
 
@@ -254,7 +276,7 @@ export default function RootLayout({ children }) {
                     <p>COPYRIGHT (C) www.aifree-tarot.com ALL RIGHTS RESERVED. </p>
                 </footer>
                 <KakaoScript />
-                <Analytics />
+                <SafeAnalytics />
             </body>
         </html>
     );

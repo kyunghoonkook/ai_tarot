@@ -6,8 +6,18 @@ import Script from 'next/script';
 export default function AdSense() {
     const advertRef = useRef(null);
     const initialized = useRef(false);
+    const isDevelopment = process.env.NODE_ENV === 'development' || 
+                         (typeof window !== 'undefined' && 
+                         (window.location.hostname === 'localhost' || 
+                          window.location.hostname === '127.0.0.1'));
     
     useEffect(() => {
+        // 개발 환경에서는 광고 비활성화
+        if (isDevelopment) {
+            console.log('개발 환경에서는 AdSense가 비활성화됩니다.');
+            return;
+        }
+        
         // 이미 초기화되었는지 확인하고 중복 초기화 방지
         if (initialized.current) return;
         
@@ -63,15 +73,21 @@ export default function AdSense() {
             window.removeEventListener('mousemove', loadAdsAfterInteraction);
             window.removeEventListener('touchstart', loadAdsAfterInteraction);
         };
-    }, []);
+    }, [isDevelopment]);
+
+    // 개발 환경에서는 스크립트를 로드하지 않음
+    if (isDevelopment) {
+        return null;
+    }
 
     return (
         <>
-            <Script
-                id="adsbygoogle-init"
+            {/* 일반 script 태그 사용 (Next.js Script 컴포넌트 대신) */}
+            <script
+                async
                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6444523705828999"
-                strategy="lazyOnload"
                 crossOrigin="anonymous"
+                strategy="lazyOnload"
                 onLoad={() => {
                     console.log('애드센스 스크립트 로드 완료');
                 }}

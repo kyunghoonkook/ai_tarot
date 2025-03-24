@@ -32,7 +32,7 @@ export const metadata = {
 
 function App() {
     return (
-        <div className={styles['bgWrap']}>
+        <div className={`${styles['bgWrap']} home-page`}>
             <img 
                 src="/images/mainBG.png" 
                 className={styles['main-bg']} 
@@ -107,13 +107,13 @@ function App() {
                 <h3 className={styles['social-share-title']}>Share with Friends</h3>
                 <div className={styles['social-share-buttons']}>
                     <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.aifree-tarot.com" target="_blank" rel="noopener noreferrer" className={styles['social-button']}>
-                        <img src="/images/Icons/facebook.svg" alt="Share on Facebook" width="24" height="24" />
+                        <img src="/images/Icons/facebook-logo-black.png" alt="Share on Facebook" width="24" height="24" />
                     </a>
                     <a href="https://twitter.com/intent/tweet?url=https://www.aifree-tarot.com&text=Get your free AI tarot reading!" target="_blank" rel="noopener noreferrer" className={styles['social-button']}>
-                        <img src="/images/Icons/twitter.svg" alt="Share on Twitter" width="24" height="24" />
+                        <img src="/images/Icons/twitter-x-logo.png" alt="Share on Twitter" width="24" height="24" />
                     </a>
                     <a href="https://www.pinterest.com/pin/create/button/?url=https://www.aifree-tarot.com&media=https://www.aifree-tarot.com/images/main-tarot-reading.jpg&description=Free AI Tarot Readings" target="_blank" rel="noopener noreferrer" className={styles['social-button']}>
-                        <img src="/images/Icons/pinterest.svg" alt="Share on Pinterest" width="24" height="24" />
+                        <img src="/images/Icons/share-btn.png" alt="Share on Pinterest" width="24" height="24" />
                     </a>
                 </div>
             </div>
