@@ -11,7 +11,7 @@ const tarotCards = {
     id: 0,
     name: '바보',
     nameEn: 'The Fool',
-    image: '/images/cards/the-fool.jpg',
+    image: '/images/cardBG.png',
     keywords: '시작, 모험, 순수함, 자유, 무한한 가능성',
     description: `바보 카드는 메이저 아르카나의 첫 번째 카드로, 새로운 시작과 무한한 가능성을 상징합니다. 
     이 카드는 미지의 세계로 뛰어드는 용기와 순수함을 나타내며, 때로는 무모함과 경솔함을 경고하기도 합니다. 
@@ -51,7 +51,7 @@ const tarotCards = {
     id: 1,
     name: '마법사',
     nameEn: 'The Magician',
-    image: '/images/cards/the-magician.jpg',
+    image: '/images/cardBG.png',
     keywords: '창조, 의지력, 기술, 집중, 행동, 자원 활용',
     description: `마법사는 메이저 아르카나의 두 번째 카드로, 창조적 에너지와 의지력을 상징합니다. 
     이 카드는 모든 요소와 도구를 자신의 뜻대로 다룰 수 있는 능력을 나타내며, 
@@ -95,7 +95,7 @@ const tarotCards = {
     id: 2,
     name: '여사제',
     nameEn: 'The High Priestess',
-    image: '/images/cards/the-high-priestess.jpg',
+    image: '/images/cardBG.png',
     keywords: '직관, 무의식, 신비, 내면의 지혜, 비밀, 잠재의식',
     description: `여사제는 메이저 아르카나의 세 번째 카드로, 직관과 무의식의 영역을 상징합니다. 
     이 카드는 표면 아래 감춰진 지식과 내면의 목소리를 대표하며, 명확한 이성보다는 
