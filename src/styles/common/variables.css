@@ -1,0 +1,81 @@
+:root {
+  /* 색상 */
+  --primary-color: #042831;
+  --secondary-color: #253438;
+  --accent-color: #122d34;
+  --gold-color: #ffd700;
+  --white-color: #ffffff;
+  --text-color: #ffffff;
+  --text-secondary-color: #cccccc;
+  --error-color: #ff5555;
+  --success-color: #55dd55;
+  --warning-color: #ffaa55;
+  --card-bg-color: rgba(20, 30, 40, 0.6);
+  
+  /* 그라데이션 */
+  --main-gradient: linear-gradient(to bottom, #042831, #253438, #122d34);
+  --hover-gradient: linear-gradient(to bottom, #042831, #2a3a40, #122d34);
+  
+  /* 그림자 */
+  --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --button-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  
+  /* 간격 */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+  
+  /* 폰트 크기 */
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-md: 1rem;
+  --font-lg: 1.25rem;
+  --font-xl: 1.5rem;
+  --font-xxl: 2rem;
+  
+  /* 테두리 반경 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-round: 50%;
+  
+  /* 애니메이션 */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  
+  /* 레이아웃 */
+  --header-height: 80px;
+  --footer-height: 60px;
+  --max-content-width: 1480px;
+  
+  /* z-index 레이어 */
+  --z-background: -1;
+  --z-normal: 1;
+  --z-header: 10;
+  --z-overlay: 100;
+  --z-modal: 1000;
+  --z-tooltip: 2000;
+}
+
+/* 다크 테마 */
+.dark-theme {
+  --primary-color: #042831;
+  --secondary-color: #253438;
+  --accent-color: #122d34;
+  --text-color: #ffffff;
+  --card-bg-color: rgba(20, 30, 40, 0.8);
+}
+
+/* 라이트 테마 */
+.light-theme {
+  --primary-color: #e6f7ff;
+  --secondary-color: #c5e4f3;
+  --accent-color: #a6cedf;
+  --text-color: #333333;
+  --card-bg-color: rgba(240, 245, 250, 0.8);
+} 

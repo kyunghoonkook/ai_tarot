@@ -16,13 +16,13 @@ const PerformanceOptimizer = () => {
 
     // 1. 주요 리소스 프리로딩
     const preloadResources = () => {
-      // 자주 사용되는 이미지와 폰트 프리로딩
-      const resources = [
+      // 주요 이미지와 폰트 프리로딩
+      const criticalResources = [
         { type: 'image', href: '/images/logo1.svg', as: 'image' },
         { type: 'image', href: '/images/mainBG.png', as: 'image' }
       ];
 
-      resources.forEach(resource => {
+      criticalResources.forEach(resource => {
         try {
           const link = document.createElement('link');
           link.rel = 'preload';
@@ -35,21 +35,23 @@ const PerformanceOptimizer = () => {
           
           document.head.appendChild(link);
         } catch (error) {
-          console.warn(`리소스 프리로딩 실패: ${resource.href}`, error);
+          console.warn(`리소스 프리로딩 실패: ${resource.href}`);
         }
       });
     };
 
-    // 2. 리소스 힌팅
+    // 2. 리소스 힌팅 - 외부 리소스 연결 최적화
     const addResourceHints = () => {
-      if (isDevelopment) return; // 개발 환경에서는 건너뜀
+      if (isDevelopment) return;
       
       // DNS 프리페치 및 연결 프리로드
       const domains = [
         'https://fonts.googleapis.com',
         'https://fonts.gstatic.com',
         'https://www.googletagmanager.com',
-        'https://www.google-analytics.com'
+        'https://www.google-analytics.com',
+        'https://pagead2.googlesyndication.com',
+        'https://adservice.google.com'
       ];
 
       domains.forEach(domain => {
@@ -66,138 +68,94 @@ const PerformanceOptimizer = () => {
           preconnect.href = domain;
           document.head.appendChild(preconnect);
         } catch (error) {
-          console.warn(`리소스 힌팅 실패: ${domain}`, error);
+          console.warn(`리소스 힌팅 실패: ${domain}`);
         }
       });
     };
 
-    // 3. 이미지 지연 로딩
-    const setupLazyLoading = () => {
+    // 3. 네이티브 브라우저 최적화 적용
+    const applyBrowserOptimizations = () => {
       try {
-        if ('loading' in HTMLImageElement.prototype) {
-          // 브라우저 네이티브 lazy 로딩 지원
-          document.querySelectorAll('img').forEach(img => {
-            if (!img.loading && !img.hasAttribute('loading') && !img.hasAttribute('priority')) {
-              img.loading = 'lazy';
-            }
-          });
-        } else {
-          // 대체 IntersectionObserver 기반 lazy 로딩은 유지
-          // 실제 프로덕션에서는 더 정교한 구현 필요
-          const lazyImages = document.querySelectorAll('img[data-src]');
-          
-          if ('IntersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver((entries) => {
-              entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                  const lazyImage = entry.target;
-                  if (lazyImage.dataset.src) {
-                    lazyImage.src = lazyImage.dataset.src;
-                    lazyImage.removeAttribute('data-src');
-                    imageObserver.unobserve(lazyImage);
-                  }
-                }
-              });
-            });
-
-            lazyImages.forEach(image => imageObserver.observe(image));
-          }
+        // Intersection Observer 지원 확인
+        if ('IntersectionObserver' in window) {
+          // 이미지 지연 로딩 관련 코드는 next/image로 대체되었으므로 삭제
+        }
+        
+        // 브라우저 캐시 관리
+        if ('caches' in window) {
+          // 브라우저 캐시 사용 시 코드 추가
         }
       } catch (error) {
-        console.warn('이미지 지연 로딩 설정 실패', error);
+        console.warn('브라우저 최적화 적용 실패');
       }
     };
 
-    // 4. CSS와 JS의 효율적인 로딩
-    const optimizeAssetLoading = () => {
-      if (isDevelopment) return; // 개발 환경에서는 건너뜀
-      
-      // 비필수적인 CSS 파일의 지연 로딩
-      const loadNonCriticalCSS = () => {
-        // 실제로 존재하는 CSS 파일만 로드
-        const staticFileExists = (url) => {
-          // 실제 구현에서는 파일 존재 여부를 확인하는 로직 필요
-          return false; // 안전을 위해 기본값은 false
-        };
-        
-        const links = [];
-        
-        // 존재하는 CSS 파일만 로드
-        links.filter(href => staticFileExists(href)).forEach(href => {
-          try {
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = href;
-            link.media = 'print';
-            link.onload = () => {
-              link.media = 'all';
-            };
-            document.head.appendChild(link);
-          } catch (error) {
-            console.warn(`CSS 로딩 실패: ${href}`, error);
-          }
-        });
-      };
-
-      // 비필수적인 JS 파일의 지연 로딩 - 개발 환경에서는 비활성화
-      const loadNonCriticalJS = () => {
-        // 실제로 존재하는 JS 파일만 로드
-        const staticFileExists = (url) => {
-          // 실제 구현에서는 파일 존재 여부를 확인하는 로직 필요
-          return false; // 안전을 위해 기본값은 false
-        };
-        
-        const scripts = [];
-        
-        // 존재하는 JS 파일만 로드
-        scripts.filter(src => staticFileExists(src)).forEach(src => {
-          try {
-            const script = document.createElement('script');
-            script.src = src;
-            script.async = true;
-            script.defer = true;
-            script.onerror = (error) => {
-              console.warn(`스크립트 로딩 실패: ${src}`, error);
-            };
-            document.body.appendChild(script);
-          } catch (error) {
-            console.warn(`스크립트 로딩 실패: ${src}`, error);
-          }
-        });
-      };
-
-      // 중요하지 않은 리소스 지연 로딩
+    // 4. 외부 스크립트 최적화 로딩
+    const optimizeScriptLoading = () => {
       if (window.requestIdleCallback) {
         window.requestIdleCallback(() => {
-          loadNonCriticalCSS();
-          loadNonCriticalJS();
-        });
+          // 비필수적인 스크립트는 브라우저 유휴 시간에 로드
+        }, { timeout: 2000 });
       } else {
         setTimeout(() => {
-          loadNonCriticalCSS();
-          loadNonCriticalJS();
-        }, 1000);
+          // 폴백으로 타임아웃 사용
+        }, 2000);
       }
+    };
+
+    // 5. 랜더링 최적화
+    const optimizeRendering = () => {
+      // 스크롤 스로틀 적용
+      let scrollTimeout;
+      const onScroll = () => {
+        if (scrollTimeout) return;
+        
+        scrollTimeout = setTimeout(() => {
+          // 스크롤 이벤트 핸들링
+          scrollTimeout = null;
+        }, 100);
+      };
+      
+      window.addEventListener('scroll', onScroll, { passive: true });
+      
+      // 리사이즈 디바운싱
+      let resizeTimeout;
+      const onResize = () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          // 리사이즈 이벤트 핸들링
+        }, 150);
+      };
+      
+      window.addEventListener('resize', onResize, { passive: true });
+      
+      return () => {
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onResize);
+      };
     };
 
     // 페이지 로드 완료 후 최적화 함수 실행
     if (document.readyState === 'complete') {
       preloadResources();
       addResourceHints();
-      setupLazyLoading();
-      optimizeAssetLoading();
+      applyBrowserOptimizations();
+      optimizeScriptLoading();
+      optimizeRendering();
     } else {
       window.addEventListener('load', () => {
         preloadResources();
         addResourceHints();
-        setupLazyLoading();
-        optimizeAssetLoading();
+        applyBrowserOptimizations();
+        optimizeScriptLoading();
+        optimizeRendering();
       });
     }
 
     // 클린업 함수
     return () => {
-      window.removeEventListener('load', optimizeAssetLoading);
+      // 여기서 이벤트 리스너 제거
+      window.removeEventListener('load', () => {});
     };
   }, []);
 

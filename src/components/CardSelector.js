@@ -12,51 +12,51 @@ export default function CardSelector({ theme, design }) {
     const [touchStartPos, setTouchStartPos] = useState(null);
     const [cardThemeText, setCardThemeText] = useState({
         title: '',
-        positions: []
+        positions: [],
     });
 
     useEffect(() => {
         // Set theme-specific card positions text
-        switch(theme) {
+        switch (theme) {
             case 'Love':
                 setCardThemeText({
                     title: 'Explore Your Romantic Journey',
-                    positions: ['Past', 'Present', 'Future']
+                    positions: ['Past', 'Present', 'Future'],
                 });
                 break;
             case 'Money':
                 setCardThemeText({
                     title: 'Discover Your Financial Path',
-                    positions: ['Areas to Improve', 'Your Strengths', 'Next Steps']
+                    positions: ['Areas to Improve', 'Your Strengths', 'Next Steps'],
                 });
                 break;
             case 'Health':
                 setCardThemeText({
                     title: 'Understand Your Wellness Journey',
-                    positions: ['Mind', 'Body', 'Soul']
+                    positions: ['Mind', 'Body', 'Soul'],
                 });
                 break;
             default:
                 setCardThemeText({
                     title: 'Tarot Reading',
-                    positions: ['Card 1', 'Card 2', 'Card 3']
+                    positions: ['Card 1', 'Card 2', 'Card 3'],
                 });
         }
-        
+
         // Show shuffling animation first
         setIsShuffling(true);
-        
+
         const shuffleTimer = setTimeout(() => {
             // 모든 카드의 isReversed를 false로 초기화 - 처음에는 회전 없음
             const cards = Array.from({ length: 22 }, (_, i) => ({
                 number: i < 10 ? `0${i}` : `${i}`,
-                isReversed: false // 처음에는 회전 없이 표시
+                isReversed: false, // 처음에는 회전 없이 표시
             }));
             const shuffledCards = shuffleArray(cards);
             setRemainingCards(shuffledCards);
             setIsShuffling(false);
         }, 2000);
-        
+
         return () => clearTimeout(shuffleTimer);
     }, [theme]);
 
@@ -87,18 +87,18 @@ export default function CardSelector({ theme, design }) {
         if (selectedCards.length < 3 && !selectedCards.includes(card)) {
             // 카드 선택 시 50% 확률로 회전 설정 (테스트를 위해 확률 증가)
             const isCardReversed = Math.random() < 0.5; // 50% 확률로 카드 회전
-            const updatedCard = { 
-                ...card, 
+            const updatedCard = {
+                ...card,
                 isFlipped: true,
-                isReversed: isCardReversed
+                isReversed: isCardReversed,
             };
-            
+
             // console.log("Card selected:", updatedCard.number, "Reversed:", isCardReversed);
-            
+
             const newSelectedCards = [...selectedCards, updatedCard];
             setSelectedCards(newSelectedCards);
             // console.log("Selected cards:", newSelectedCards.map(c => ({number: c.number, reversed: c.isReversed})));
-            
+
             setRemainingCards(remainingCards.filter((c) => c !== card));
 
             // 선택된 카드에 애니메이션 클래스 추가
@@ -107,7 +107,7 @@ export default function CardSelector({ theme, design }) {
                 // 기본 선택 클래스 추가
                 selectedCardElement.classList.add(styles['card-selected']);
                 selectedCardElement.classList.add(styles['flipped']);
-                
+
                 // 위치 기반 애니메이션 클래스 추가 (1,2,3번 위치)
                 const positionClass = `card-position-${selectedCards.length + 1}`;
                 selectedCardElement.classList.add(styles[positionClass]);
@@ -122,18 +122,17 @@ export default function CardSelector({ theme, design }) {
 
     const handleTouchEnd = (e, card) => {
         if (!touchStartPos) return;
-        
+
         const touchEndPos = { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
         const distance = Math.sqrt(
-            Math.pow(touchEndPos.x - touchStartPos.x, 2) + 
-            Math.pow(touchEndPos.y - touchStartPos.y, 2)
+            Math.pow(touchEndPos.x - touchStartPos.x, 2) + Math.pow(touchEndPos.y - touchStartPos.y, 2)
         );
-        
+
         // If it's a tap (not a swipe)
         if (distance < 10) {
             handleCardClick(card);
         }
-        
+
         setTouchStartPos(null);
     };
 
@@ -148,9 +147,9 @@ export default function CardSelector({ theme, design }) {
                     <div className={styles.shuffling}>
                         <div className={styles['shuffling-cards']}>
                             {Array.from({ length: 5 }).map((_, index) => (
-                                <div 
-                                    key={index} 
-                                    className={styles['shuffling-card']} 
+                                <div
+                                    key={index}
+                                    className={styles['shuffling-card']}
                                     style={{ animationDelay: `${index * 0.2}s` }}
                                 ></div>
                             ))}
@@ -197,7 +196,9 @@ export default function CardSelector({ theme, design }) {
                                     <div key={idx} className={styles.selectedCardWrapper}>
                                         <h4>{cardThemeText.positions[idx]}</h4>
                                         <div
-                                            className={`${styles.selectedCard} ${card.isFlipped ? styles.flipped : ''} ${card.isReversed ? styles.reversed : ''}`}
+                                            className={`${styles.selectedCard} ${
+                                                card.isFlipped ? styles.flipped : ''
+                                            } ${card.isReversed ? styles.reversed : ''}`}
                                         >
                                             <div className={styles.selectedCardInner}>
                                                 <div className={styles.selectedCardFront}>

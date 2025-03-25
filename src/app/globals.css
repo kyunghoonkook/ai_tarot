@@ -1,8 +1,15 @@
+/* 공통 CSS 파일 임포트 */
+@import '../styles/common/variables.css';
+@import '../styles/common/reset.css';
+@import '../styles/common/responsive.css';
+
 html, body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
     font-display: swap; /* 텍스트 렌더링 최적화 */
+    width: 100%;
+    max-width: 100%;
 }
 
 html,
@@ -110,9 +117,11 @@ section {
 body {
     position: relative;
     background: linear-gradient(to bottom, #042831, #253438, #122d34);
+    background-attachment: fixed; /* 배경 고정 추가 */
     background-position: center;
     background-size: cover;
     min-height: 100vh;
+    height: 100%;
     font-family: 'SUIT', sans-serif;
     display: flex;
     flex-direction: column;
@@ -120,6 +129,8 @@ body {
     -webkit-font-smoothing: antialiased; /* 폰트 렌더링 개선 */
     -moz-osx-font-smoothing: grayscale; /* 폰트 렌더링 개선 */
     color: #fff; /* 기본 텍스트 색상 설정 */
+    width: 100%;
+    overflow-x: hidden;
 }
 ol,
 ul {
@@ -161,6 +172,8 @@ img {
     padding: 0;
     will-change: transform; /* GPU 가속을 위한 힌트 */
     contain: layout style; /* 렌더링 최적화 */
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .header {
@@ -313,9 +326,15 @@ button {
 }
 
 @media (max-width: 768px) {
-    body {
+    body:before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         background: linear-gradient(to bottom, #042831, #253438, #122d34);
-        background-size: cover;
+        z-index: -1;
     }
     
     body::before {
@@ -328,7 +347,23 @@ button {
         transform: translate(-50%, -50%) scale(1);
         opacity: 0.5;
     }
+    
+    .header {
+        padding: 0 15px;
+        flex-wrap: wrap;
+    }
+    
+    .header ul {
+        margin-right: 0;
+        gap: 10px;
+    }
+    
+    /* 콘텐츠 패딩 조정 */
+    .layout {
+        padding: 0 15px;
+    }
 }
+
 @media (max-width: 1470px) {
     .logo {
         height: 70px;
@@ -349,6 +384,7 @@ button {
         min-height: 100vh;
     }
 }
+
 @media (max-width: 480px) {
     .logo {
         height: 60px;
@@ -390,5 +426,16 @@ button {
         width: 200vw;
         transform: translate(-50%, -50%) scale(1.2);
         opacity: 0.5;
+    }
+}
+
+/* 태블릿 대응 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .layout {
+        padding: 0 20px;
+    }
+    
+    .header {
+        padding: 0 20px;
     }
 }

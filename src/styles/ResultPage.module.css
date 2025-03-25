@@ -1,13 +1,23 @@
 .result_wrap {
-    /* display: flex; */
-    padding-top: 170px;
+    padding-top: 100px;
     position: relative;
     z-index: 1;
+    width: 100%;
+    max-width: 1480px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding-left: 15px;
+    padding-right: 15px;
 }
+
 .card_box {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
 }
+
 .card_wrap {
     display: flex;
     flex-direction: column;
@@ -19,6 +29,7 @@
     font-size: 18px;
     margin-bottom: 16px;
 }
+
 .card_wrap > img {
     width: 190px;
     height: 300px;
@@ -27,6 +38,7 @@
     aspect-ratio: 2/3;
     object-fit: cover;
     object-position: center;
+    max-width: 100%;
 }
 
 .title_ai {
@@ -36,11 +48,14 @@
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
 .result-text-box {
     background-color: #ffffff;
-    width: 1450px; /* 필요에 따라 조정 */
-    height: auto; /* 높이를 자동으로 조정하도록 변경 */
-    max-height: 200px; /* 최대 높이 설정 */
+    width: 100%;
+    max-width: 1450px;
+    height: auto;
+    min-height: 100px;
+    max-height: 200px;
     border-radius: 10px;
     padding: 20px;
     font-size: 16px;
@@ -49,11 +64,16 @@
     transition: all 0.3s ease;
     line-height: 1.5;
     margin: 0 auto;
-    overflow-y: auto; /* 수직 스크롤만 허용 */
+    overflow-y: auto;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
+
 .result-text-box > p > p {
     margin-bottom: 15px;
 }
+
 .result-text-box:hover {
     box-shadow: 0px 6px 12px rgba(0, 128, 128, 0.3);
     transform: translateY(-2px);
@@ -64,6 +84,7 @@
     border-color: #006666;
     box-shadow: 0px 4px 10px rgba(0, 102, 102, 0.3);
 }
+
 .share_wrap {
     width: 100%;
     display: flex;
@@ -192,6 +213,7 @@
         transform: rotate(360deg);
     }
 }
+
 .card-image {
     transform: rotate(0deg);
     transition: transform 0.5s;
@@ -200,18 +222,14 @@
 }
 
 .reversed {
-    transform: rotate(180deg);
+    transform: rotate(180deg) !important;
 }
+
 @media (max-width: 1470px) {
     .title_ai {
         font-size: 18px;
     }
 
-    /* .share_buttons button,
-    .share_button_wrap > button {
-        width: 30px;
-        height: 30px;
-    } */
     .result-text-box {
         width: 80%;
         line-height: 1.8;
@@ -234,15 +252,12 @@
 
 @media (max-width: 768px) {
     .result_wrap {
-        padding-top: 120px;
-        position: relative;
-        z-index: 1;
+        padding-top: 70px;
     }
     
     .card_box {
         flex-direction: column;
         align-items: center;
-        gap: 20px;
     }
     
     .card_wrap {
@@ -250,71 +265,24 @@
     }
     
     .card_wrap > img {
-        width: 130px;
-        height: 195px; /* 2:3 비율 유지 */
-        border: 5px solid #020122;
-        border-radius: 10px;
-        aspect-ratio: 2/3;
-        object-fit: cover;
-        object-position: center;
+        width: 150px;
+        height: 240px;
     }
     
     .title_ai {
         font-size: 20px;
-        margin-top: 10px;
-        margin-bottom: 10px;
     }
     
     .result-text-box {
-        width: 90%;
         padding: 15px;
-        font-size: 15px;
+        font-size: 14px;
         max-height: 250px;
     }
     
-    .share_wrap {
-        flex-direction: column;
-        align-items: center;
-        margin-top: 25px;
-    }
-    
     .share_buttons {
-        position: fixed;
-        bottom: 20px;
-        top: auto;
+        top: -180px;
         left: 50%;
         transform: translateX(-50%);
-        width: 90%;
-        max-width: 320px;
-    }
-    
-    .share_button_wrap > button {
-        width: 36px;
-        height: 36px;
-    }
-    
-    .share_button_wrap > button > img {
-        width: 20px;
-        height: 20px;
-    }
-    
-    .action-buttons {
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-        margin-top: 20px;
-    }
-    
-    .action-button {
-        width: 90%;
-        max-width: 300px;
-        font-size: 13px;
-    }
-    
-    .button-icon {
-        width: 18px;
-        height: 18px;
-        margin-right: 6px;
     }
 }
 
@@ -541,31 +509,30 @@
     display: flex;
     justify-content: center;
     gap: 20px;
-    margin-top: 30px;
+    margin: 30px auto;
+    flex-wrap: wrap;
 }
 
 .action-button {
+    background: linear-gradient(135deg, #0aa2c0, #128ba7);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(10, 162, 192, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 20px;
-    background: linear-gradient(135deg, rgba(183, 171, 132, 0.3), rgba(110, 102, 78, 0.3));
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 30px;
-    color: #fff;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
 }
 
 .action-button:hover {
-    background: linear-gradient(135deg, rgba(183, 171, 132, 0.5), rgba(110, 102, 78, 0.5));
+    background: linear-gradient(135deg, #128ba7, #0a7a8f);
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 15px rgba(10, 162, 192, 0.4);
 }
 
 .button-icon {
@@ -817,6 +784,13 @@
         gap: 15px;
     }
     
+    .action-button {
+        width: 100%;
+        max-width: 220px;
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+    
     .incentive-message, .share-success, .daily-tip, .special-card {
         width: 90%;
         margin-left: auto;
@@ -852,4 +826,70 @@
     .special-card-content {
         padding: 0 20px;
     }
+}
+
+/* 초소형 모바일 대응 */
+@media (max-width: 380px) {
+    .card_wrap > img {
+        width: 120px;
+        height: 190px;
+    }
+    
+    .card_wrap > h3 {
+        font-size: 16px;
+    }
+    
+    .title_ai {
+        font-size: 18px;
+    }
+}
+
+/* 가로 모드 대응 */
+@media (max-height: 500px) and (orientation: landscape) {
+    .result_wrap {
+        padding-top: 50px;
+    }
+    
+    .card_box {
+        flex-direction: row;
+    }
+    
+    .card_wrap > img {
+        width: 120px;
+        height: 190px;
+    }
+}
+
+.error-message {
+    text-align: center;
+    padding: 20px;
+    margin: 30px auto;
+    max-width: 600px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.error-message p {
+    color: #d9534f;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.retry-button {
+    background: linear-gradient(135deg, #0aa2c0, #128ba7);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(10, 162, 192, 0.3);
+}
+
+.retry-button:hover {
+    background: linear-gradient(135deg, #128ba7, #0a7a8f);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(10, 162, 192, 0.4);
 }
