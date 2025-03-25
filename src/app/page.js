@@ -40,7 +40,7 @@ function App() {
                 loading="eager" 
                 priority="true"
             />
-
+            
             <div className={styles['hero-content']}>
                 <h1 className={styles['hero-title']}>Explore Your Future with AI Tarot</h1>
                 <p className={styles['hero-description']}>
