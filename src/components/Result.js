@@ -70,7 +70,7 @@ const Result = () => {
           setLoading(false);
         } catch (err) {
           console.error(err);
-          setError('타로 결과를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.');
+          setError('An error occurred while loading your tarot reading. Please try again.');
           setLoading(false);
         }
       }
@@ -116,7 +116,7 @@ const Result = () => {
               onClick={() => window.location.reload()} 
               className={styles['retry-button']}
             >
-              다시 시도하기
+              Try Again
             </button>
           </div>
         ) : (
