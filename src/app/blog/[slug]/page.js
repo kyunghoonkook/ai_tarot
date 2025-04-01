@@ -265,111 +265,183 @@ const blogPosts = {
   // 다른 게시물들도 위의 형식으로 추가할 수 있습니다
 };
 
-export function generateMetadata({ params }) {
-  const post = blogPosts[params.slug];
-  
-  if (!post) {
-    return {
-      title: 'Post Not Found',
-      description: 'The requested blog post could not be found.'
-    };
-  }
-  
-  return {
-    title: `${post.title} | AI Tarot Blog`,
-    description: post.content.substring(0, 160).replace(/<[^>]*>/g, '') + '...',
-    openGraph: {
-      title: `${post.title} | AI Tarot Blog`,
-      description: post.content.substring(0, 160).replace(/<[^>]*>/g, '') + '...',
-      images: [{
-        url: post.featuredImage,
-        width: 1200,
-        height: 630,
-        alt: post.title
-      }]
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: `${post.title} | AI Tarot Blog`,
-      description: post.content.substring(0, 160).replace(/<[^>]*>/g, '') + '...',
-      images: [post.featuredImage]
+// Helper function to generate a short description from HTML content
+function generateDescription(htmlContent, maxLength = 160) {
+    if (!htmlContent) return '';
+    // Remove HTML tags
+    const textContent = htmlContent.replace(/<[^>]*>/g, ' ');
+    // Remove extra whitespace and trim
+    const cleanedText = textContent.replace(/\s+/g, ' ').trim();
+    // Truncate and add ellipsis
+    if (cleanedText.length <= maxLength) {
+        return cleanedText;
     }
-  };
+    return cleanedText.substring(0, maxLength - 3) + '...';
+}
+
+export function generateMetadata({ params }) {
+    const post = blogPosts[params.slug];
+
+    if (!post) {
+        // 게시물이 없으면 기본 메타데이터 또는 404 처리 로직을 따름
+        // 여기서는 간단히 기본값을 반환하거나 notFound()를 호출할 수 있습니다.
+        // notFound()는 page 컴포넌트에서 호출해야 하므로 여기서는 기본값 반환
+        return {
+            title: 'Blog Post Not Found',
+            description: 'The requested blog post could not be found.',
+        };
+    }
+
+    const postUrl = `https://www.aifree-tarot.com/blog/${params.slug}`;
+    const imageUrl = `https://www.aifree-tarot.com${post.featuredImage}`; // Assuming relative path starts with /
+    const description = generateDescription(post.content); // Generate description from content
+
+    // Article Schema JSON-LD
+    const articleSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': postUrl,
+      },
+      headline: post.title,
+      description: description,
+      image: {
+          '@type': 'ImageObject',
+          url: imageUrl,
+          // Add width and height if known
+      },
+      author: {
+        '@type': 'Person', // Or 'Organization' if appropriate
+        name: post.author || 'AIFreeTarot', // Use post author or default
+        // url: 'URL to author page if available'
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'AI Tarot Reading', // Consistent publisher name
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://www.aifree-tarot.com/images/logo1.svg', // Path to your logo
+        },
+      },
+      datePublished: post.date, // Assuming date is in ISO 8601 format or adaptable
+      // dateModified: post.lastUpdatedDate, // Add if available
+    };
+
+
+    return {
+        title: `${post.title} | AI Tarot Blog`,
+        description: description, // Use generated description
+        keywords: post.tags ? post.tags.join(', ') : 'tarot blog, ai tarot, spiritual guidance', // Use post tags or default keywords
+        alternates: {
+            canonical: postUrl,
+        },
+        openGraph: {
+            title: `${post.title} | AI Tarot Blog`,
+            description: description,
+            url: postUrl,
+            type: 'article', // Set type to 'article' for blog posts
+            publishedTime: post.date, // Add publish time
+            // modifiedTime: post.lastUpdatedDate, // Add modify time if available
+            authors: [post.author || 'AIFreeTarot'], // Add author
+            section: 'Tarot Insights', // Optional: category
+            tags: post.tags, // Optional: tags
+            images: [
+                {
+                    url: imageUrl,
+                    // Add width and height if known
+                    alt: post.title,
+                },
+            ],
+            siteName: 'AI Tarot Reading',
+            locale: 'en_US',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `${post.title} | AI Tarot Blog`,
+            description: description,
+            images: [imageUrl],
+            // site: '@AIFreeTarot', // Assuming same as root layout
+            // creator: '@AuthorTwitterHandle' // If available
+        },
+        // Include the Article schema JSON-LD script
+        // Note: Next.js 13.3+ automatically handles JSON-LD scripts returned this way
+        'script': {
+          'application/ld+json': JSON.stringify(articleSchema),
+        },
+        // You might also want 'application/ld+json' outside the script key for older Next.js versions compatibility if needed
+        // 'application/ld+json': JSON.stringify(articleSchema),
+
+    };
 }
 
 export default function BlogPost({ params }) {
-  const post = blogPosts[params.slug];
-  
-  if (!post) {
-    notFound();
-  }
-  
-  // 관련 게시물 정보 가져오기
-  const relatedPostsData = post.relatedPosts
-    .map(slug => blogPosts[slug])
-    .filter(Boolean)
-    .map(p => ({
-      slug: Object.keys(blogPosts).find(key => blogPosts[key] === p),
-      title: p.title,
-      date: p.date,
-      featuredImage: p.featuredImage
-    }));
-  
-  return (
-    <div className={styles.blogPostContainer}>
-      <div className={styles.postHeader}>
-        <h1 className={styles.postTitle}>{post.title}</h1>
-        <div className={styles.postMeta}>
-          <div className={styles.author}>
-            <img src={post.authorImage} alt={post.author} className={styles.authorImage} />
-            <span className={styles.authorName}>{post.author}</span>
-          </div>
-          <span className={styles.postDate}>{post.date}</span>
-        </div>
-        <div className={styles.tags}>
-          {post.tags.map((tag, index) => (
-            <span key={index} className={styles.tag}>{tag}</span>
-          ))}
-        </div>
-      </div>
-      
-      <div className={styles.featuredImageContainer}>
-        <img 
-          src={post.featuredImage} 
-          alt={post.title} 
-          className={styles.featuredImage} 
-        />
-      </div>
-      
-      <div 
-        className={styles.postContent}
-        dangerouslySetInnerHTML={{ __html: post.content }}
-      />
-      
-      {relatedPostsData.length > 0 && (
-        <div className={styles.relatedPosts}>
-          <h2>Related Articles</h2>
-          <div className={styles.relatedPostsGrid}>
-            {relatedPostsData.map((related, index) => (
-              <div key={index} className={styles.relatedPostCard}>
-                <Link href={`/blog/${related.slug}`}>
-                  <div className={styles.relatedPostImage}>
-                    <img src={related.featuredImage} alt={related.title} />
-                  </div>
-                  <h3>{related.title}</h3>
-                  <span className={styles.relatedPostDate}>{related.date}</span>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      
-      <div className={styles.postNavigation}>
-        <Link href="/blog" className={styles.backLink}>
-          ← Back to All Posts
-        </Link>
-      </div>
-    </div>
-  );
+    const post = blogPosts[params.slug];
+
+    if (!post) {
+        notFound(); // Trigger 404 page if post doesn't exist
+    }
+
+    // Helper to safely render HTML content
+    const renderHTML = (htmlString) => {
+        return { __html: htmlString };
+    };
+
+    return (
+        <article className={styles.blogPost}>
+            {/* Featured Image */}
+            {post.featuredImage && (
+                <img
+                    src={post.featuredImage}
+                    alt={post.title}
+                    className={styles.featuredImage}
+                    width={800} // Provide appropriate dimensions
+                    height={400}
+                    loading="lazy" // Add lazy loading
+                />
+            )}
+
+            {/* Post Header */}
+            <header className={styles.postHeader}>
+                <h1 className={styles.postTitle}>{post.title}</h1>
+                <div className={styles.postMeta}>
+                    <span>By {post.author}</span> | <span>{post.date}</span>
+                    {post.tags && post.tags.length > 0 && (
+                        <span className={styles.tags}>
+                            Tags: {post.tags.join(', ')}
+                        </span>
+                    )}
+                </div>
+            </header>
+
+            {/* Post Content */}
+            <div
+                className={styles.postContent}
+                dangerouslySetInnerHTML={renderHTML(post.content)}
+            />
+
+            {/* Related Posts (Optional) */}
+            {post.relatedPosts && post.relatedPosts.length > 0 && (
+                 <aside className={styles.relatedPosts}>
+                    <h2>Related Posts</h2>
+                    <ul>
+                        {post.relatedPosts.map((slug) => {
+                            const relatedPost = blogPosts[slug];
+                            return relatedPost ? (
+                                <li key={slug}>
+                                    <Link href={`/blog/${slug}`}>{relatedPost.title}</Link>
+                                </li>
+                            ) : null;
+                        })}
+                    </ul>
+                </aside>
+            )}
+
+             {/* Navigation back to blog list */}
+             <div className={styles.backLink}>
+                <Link href="/blog">← Back to Blog</Link>
+            </div>
+
+        </article>
+    );
 } 

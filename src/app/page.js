@@ -32,7 +32,9 @@ export const metadata = {
 
 function App() {
     return (
-        <div className={`${styles['bgWrap']} home-page`}>
+        <div className={styles['bgWrap']}>
+            {/* 메인 배경 이미지 제거 */}
+            {/* 
             <img 
                 src="/images/mainBG.png" 
                 className={styles['main-bg']} 
@@ -40,6 +42,7 @@ function App() {
                 loading="eager" 
                 priority="true"
             />
+            */}
             
             <div className={styles['hero-content']}>
                 <h1 className={styles['hero-title']}>Explore Your Future with AI Tarot</h1>
@@ -136,23 +139,6 @@ function App() {
                     <a href="/blog">View All Articles →</a>
                 </div>
             </div>
-            
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        "@context": "https://schema.org",
-                        "@type": "WebSite",
-                        "name": "AI Tarot Reading",
-                        "url": "https://www.aifree-tarot.com",
-                        "potentialAction": {
-                            "@type": "SearchAction",
-                            "target": "https://www.aifree-tarot.com/search?q={search_term_string}",
-                            "query-input": "required name=search_term_string"
-                        }
-                    })
-                }}
-            />
         </div>
     );
 }

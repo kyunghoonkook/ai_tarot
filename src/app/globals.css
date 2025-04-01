@@ -117,7 +117,6 @@ section {
 body {
     position: relative;
     background: linear-gradient(to bottom, #042831, #253438, #122d34);
-    background-attachment: fixed; /* 배경 고정 추가 */
     background-position: center;
     background-size: cover;
     min-height: 100vh;
@@ -187,7 +186,7 @@ img {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 5; /* 이미지 위에 헤더가 오도록 설정 */
+    z-index: 10; /* z-index 값 증가 */
     background: transparent; /* 배경 투명으로 설정 */
 }
 
@@ -326,20 +325,21 @@ button {
 }
 
 @media (max-width: 768px) {
-    body:before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(to bottom, #042831, #253438, #122d34);
-        z-index: -1;
-    }
-    
-    body::before {
-        width: 150%;
-        transform: translate(-50%, -50%) scale(1);
+    /* body:before { */ /* 이 부분 주석 처리 또는 삭제 */
+    /*    content: ""; */
+    /*    position: fixed; */
+    /*    top: 0; */
+    /*    left: 0; */
+    /*    right: 0; */
+    /*    bottom: 0; */
+    /*    background: linear-gradient(to bottom, #042831, #253438, #122d34); */
+    /*    z-index: -1; */
+    /* } */
+
+    body::before { /* 데스크탑 스타일 유지하며 크기/투명도 조정 */
+        width: 150%; /* 모바일에 맞게 조정 */
+        opacity: 0.3; /* 투명도 약간 조정 (예시) */
+        /* transform 은 기본값 유지하거나 필요시 조정 */
     }
     
     .result-page-container::before {
@@ -417,9 +417,10 @@ button {
         border: none;
     } */
     
-    body::before {
-        width: 200%;
-        transform: translate(-50%, -50%) scale(1.2);
+    body::before { /* 데스크탑 스타일 유지하며 크기/투명도 조정 */
+        width: 200%; /* 모바일에 맞게 조정 */
+        opacity: 0.2; /* 투명도 더 조정 (예시) */
+        /* transform 은 기본값 유지하거나 필요시 조정 */
     }
     
     .result-page-container::before {

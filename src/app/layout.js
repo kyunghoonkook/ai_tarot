@@ -5,6 +5,7 @@ import AdSense from '@/components/AdSense';
 import PerformanceOptimizer from '@/components/PerformanceOptimizer';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
+import { headers } from 'next/headers';
 
 // 개발 환경에서 Analytics 비활성화 처리를 위한 컴포넌트
 function SafeAnalytics() {
@@ -130,8 +131,28 @@ export const viewport = {
 };
 
 export default function RootLayout({ children }) {
-    const isHomePage = true; // 실제로는 현재 경로를 확인하는 로직이 필요
+    // const isHomePage = true; // 기존 코드 주석 처리 또는 삭제
     const isDevelopment = process.env.NODE_ENV === 'development';
+
+    // headers 함수를 사용하여 현재 경로 확인
+    const headersList = headers();
+    // x-pathname 대신 next-url 사용 시도 (더 안정적일 수 있음)
+    const pathnameHeader = headersList.get('next-url');
+    let pathname = '';
+    if (pathnameHeader) {
+      try {
+        const url = new URL(pathnameHeader);
+        pathname = url.pathname;
+      } catch (e) {
+        console.error("Error parsing next-url header:", e);
+        // fallback 또는 다른 헤더 시도 (예: x-invoke-path)
+        pathname = headersList.get('x-invoke-path') || '';
+      }
+    }
+    
+    // 루트 경로('/') 또는 기본 테마 경로('/major')인지 확인하여 isHomePage 설정
+    // 프로젝트 구조에 따라 /major 가 홈 경로일 수 있으므로 추가
+    const isHomePageActual = pathname === '/' || pathname === '/major';
 
     return (
         <html lang="en">
@@ -244,34 +265,41 @@ export default function RootLayout({ children }) {
                 <link rel="shortcut icon" href="/images/logo1.svg" />
                 <link rel="apple-touch-icon" href="/images/logo1.svg" />
             </head>
-            <body className={isHomePage ? 'home-page' : ''}>
+            <body className={isHomePageActual ? 'home-page' : ''}>
                 <AdSense />
                 <PerformanceOptimizer />
-
+                {/* Header 컴포넌트가 아직 없으므로, children 앞에 추가하는 것을 고려해볼 수 있습니다. */}
+                {/* 예: <Header /> */}
+                {/* 복원: Header 마크업 */}
                 <header className="header">
                     <Link href="/">
                         <img src="/images/logo1.svg" className="logo" alt="AI Tarot Logo" />
                     </Link>
                     <ul>
                         <li>
-                            <Link href="major">Major Arcana</Link>
+                            <Link href="/major">Major Arcana</Link> {/* 경로 수정: /major */}
                         </li>
                         <li>
-                            <Link href="guide">Guide</Link>
+                            <Link href="/guide">Guide</Link>
                         </li>
                         <li>
-                            <Link href="blog">Blog</Link>
+                            <Link href="/blog">Blog</Link>
                         </li>
                         <li>
-                            <Link href="faq">FAQ</Link>
+                            <Link href="/faq">FAQ</Link>
                         </li>
                         <li>
-                            <Link href="history">History</Link>
+                            <Link href="/history">History</Link>
                         </li>
                     </ul>
                 </header>
 
+                {/* children을 감싸는 layout div 추가 */}
                 <div className="layout">{children}</div>
+
+                {/* Footer 컴포넌트가 있다면 여기에 추가 */}
+                {/* 예: <Footer /> */}
+                {/* 복원: Footer 마크업 */}
                 <footer className="footer">
                     <p>COPYRIGHT (C) www.aifree-tarot.com ALL RIGHTS RESERVED. </p>
                 </footer>
