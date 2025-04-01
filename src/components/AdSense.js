@@ -76,7 +76,7 @@ export default function AdSense() {
             />
             {/* 광고 슬롯 컨테이너 (클라이언트에서만 렌더링) */}
             {/* 광고 컨테이너 스타일링은 필요에 따라 조정 */}
-            <div className="ad-container" style={{ minHeight: '280px', width: '100%', margin: '20px auto', overflow: 'hidden', textAlign: 'center' }}>
+            {/* <div className="ad-container" style={{ minHeight: '280px', width: '100%', margin: '20px auto', overflow: 'hidden', textAlign: 'center' }}>
                 <ins
                     className="adsbygoogle"
                     style={{ display: 'inline-block', width: '100%', maxWidth:'728px', height: '90px' }} // 예시 크기, 실제 광고 단위에 맞게 조정
@@ -85,8 +85,9 @@ export default function AdSense() {
                     data-ad-format="auto"
                     data-full-width-responsive="true"
                     ref={advertRef}
-                ></ins> {/* ins 태그를 닫아줍니다. */}
-            </div>
+                ></ins>
+            
+            </div> */}
         </>
     );
 } 
