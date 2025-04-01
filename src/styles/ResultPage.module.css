@@ -900,7 +900,7 @@
 }
 
 /* 결과 페이지 배경 이미지 수정 */
-.result_wrap:before {
+/* .result_wrap:before {
     content: '';
     position: fixed;
     top: 0;
@@ -913,4 +913,4 @@
     opacity: 0.08;
     z-index: -1;
     pointer-events: none;
-}
+} */

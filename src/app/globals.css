@@ -244,7 +244,7 @@ img {
 }
 
 /* 전체 페이지에 배경 심볼 표시 */
-body::before {
+body::before { /* 주석 해제 */
     content: '';
     position: fixed;
     top: 50%;
@@ -259,7 +259,7 @@ body::before {
     pointer-events: none;
 }
 
-/* 메인 페이지에서는 배경 심볼 숨기기 - 필요 없음, 위에서 처리 */
+/* 메인 페이지에서는 배경 심볼 숨기기 */
 .home-page body::before {
     display: none !important;
 }
@@ -267,6 +267,11 @@ body::before {
 /* 메인 페이지에서 body 스타일 */
 .home-page {
     background: linear-gradient(to bottom, #042831, #253438, #122d34) !important;
+}
+
+/* 결과 페이지 활성 시 전역 body::before 숨기기 */
+.result-page-active body::before {
+    display: none !important;
 }
 
 /* 페이지 컨테이너 스타일 */
@@ -283,7 +288,8 @@ body::before {
 }
 
 /* 결과 페이지에서만 배경 이미지를 보이도록 설정 */
-.result-page-container::before {
+
+/* .result-page-container::before {
     content: '';
     position: fixed;
     top: 50%;
@@ -292,11 +298,11 @@ body::before {
     height: 100vh;
     background: url('/images/symbolBG.png') no-repeat center;
     background-size: contain;
-    opacity: 0.5; /* 결과 페이지에서는 보이게 함 */
+    opacity: 0.5; 
     z-index: -1;
     transform: translate(-50%, -50%) scale(0.8);
     pointer-events: none;
-}
+} */
 
 /* layout과 result-page-container의 z-index 유지 */
 .layout, .result-page-container {
@@ -341,12 +347,12 @@ button {
         opacity: 0.3; /* 투명도 약간 조정 (예시) */
         /* transform 은 기본값 유지하거나 필요시 조정 */
     }
-    
+/*     
     .result-page-container::before {
         width: 150vw;
         transform: translate(-50%, -50%) scale(1);
         opacity: 0.5;
-    }
+    } */
     
     .header {
         padding: 0 15px;
@@ -408,8 +414,8 @@ button {
     }
     .layout {
         min-height: 100vh;
-        max-height: 100%;
-        height: 100%;
+        /* max-height: 100%; */ /* 제거 */
+        /* height: 100%; */ /* 제거 */
     }
     /* .footer {
         position: fixed;
@@ -423,11 +429,11 @@ button {
         /* transform 은 기본값 유지하거나 필요시 조정 */
     }
     
-    .result-page-container::before {
+    /* .result-page-container::before {
         width: 200vw;
         transform: translate(-50%, -50%) scale(1.2);
         opacity: 0.5;
-    }
+    } */
 }
 
 /* 태블릿 대응 */
