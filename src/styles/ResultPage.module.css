@@ -599,52 +599,29 @@
 
 /* Special card styles */
 .special-card {
-    background: linear-gradient(135deg, rgba(70, 130, 180, 0.2), rgba(123, 104, 238, 0.2));
+    margin: 30px 0;
+    padding: 20px;
+    background-color: rgba(13, 13, 43, 0.7);
     border-radius: 15px;
-    padding: 25px;
-    max-width: 800px;
-    margin: 30px auto;
-    color: #fff;
-    text-align: center;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    animation: glowEffect 2s infinite alternate;
-}
-
-@keyframes glowEffect {
-    from {
-        box-shadow: 0 0 10px rgba(123, 104, 238, 0.4);
-    }
-    to {
-        box-shadow: 0 0 25px rgba(123, 104, 238, 0.7);
-    }
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .special-card h3 {
-    font-size: 22px;
-    margin-bottom: 15px;
-    color: #f0f0f0;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffd700;
+    font-size: 24px;
 }
 
 .special-card-content {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 30px;
 }
 
-.special-card-image {
-    width: 120px;
-    height: 180px;
-    border-radius: 10px;
-    border: 5px solid rgba(255, 255, 255, 0.2);
-}
-
 .special-card-content p {
-    text-align: left;
-    font-size: 16px;
+    flex: 1;
     line-height: 1.6;
-    max-width: 400px;
 }
 
 /* Next action button styles */
@@ -804,7 +781,7 @@
     
     .special-card-content {
         flex-direction: column;
-        gap: 15px;
+        gap: 20px;
     }
     
     .special-card-image {

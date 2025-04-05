@@ -1,6 +1,7 @@
 'use client';
 import { memo } from 'react';
 import styles from '../../styles/ResultPage.module.css';
+import SpecialCard from '../SpecialCard';
 
 const ResultContent = ({ 
   response, 
@@ -31,7 +32,7 @@ const ResultContent = ({
         <div className={styles['special-card']}>
           <h3>🎴 Your Special Card: The Star ✨</h3>
           <div className={styles['special-card-content']}>
-            <img src="/images/special-card.png" alt="Special Card" className={styles['special-card-image']} />
+            <SpecialCard />
             <p>This special card represents hope, inspiration, and spiritual guidance. Its appearance suggests that you should maintain faith in yourself during challenging times.</p>
           </div>
         </div>
