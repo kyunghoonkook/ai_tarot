@@ -3,96 +3,64 @@
 @import '../styles/common/reset.css';
 @import '../styles/common/responsive.css';
 
-html, body {
+/* 기본 배경 설정 */
+html {
+    background-color: #042831; /* 초기 로딩 시 하얀 화면 방지를 위한 폴백 */
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    position: relative;
+    background: linear-gradient(to bottom, #042831, #253438, #122d34);
+    min-height: 100vh;
+    font-family: 'SUIT', sans-serif;
+    display: flex;
+    flex-direction: column;
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #fff;
+    width: 100%;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    font-display: swap; /* 텍스트 렌더링 최적화 */
-    width: 100%;
-    max-width: 100%;
 }
 
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
+/* 배경 심볼 이미지 스타일 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/images/symbolBG.png') no-repeat center center;
+    background-size: contain;
+    opacity: 0.5;
+    pointer-events: none;
+    display: block !important;
+}
+
+/* HTML5 요소 리셋 */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+/* 기타 요소 리셋 */
+div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
     margin: 0;
     padding: 0;
     border: 0;
@@ -100,52 +68,21 @@ video {
     font: inherit;
     vertical-align: baseline;
 }
-/* HTML5 display-role reset for older browsers */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-    display: block;
-}
-body {
-    position: relative;
-    background: linear-gradient(to bottom, #042831, #253438, #122d34);
-    background-position: center;
-    background-size: cover;
-    min-height: 100vh;
-    height: 100%;
-    font-family: 'SUIT', sans-serif;
-    display: flex;
-    flex-direction: column;
-    text-rendering: optimizeSpeed; /* 텍스트 렌더링 최적화 */
-    -webkit-font-smoothing: antialiased; /* 폰트 렌더링 개선 */
-    -moz-osx-font-smoothing: grayscale; /* 폰트 렌더링 개선 */
-    color: #fff; /* 기본 텍스트 색상 설정 */
-    width: 100%;
-    overflow-x: hidden;
-}
-ol,
-ul {
+
+ol, ul {
     list-style: none;
 }
-blockquote,
-q {
+
+blockquote, q {
     quotes: none;
 }
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
+
+blockquote:before, blockquote:after,
+q:before, q:after {
     content: '';
     content: none;
 }
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -154,31 +91,35 @@ table {
 a {
     text-decoration: none;
     color: #fff;
-    transition: color 0.2s ease; /* 부드러운 색상 전환 */
+    transition: color 0.2s ease;
 }
 
 img {
-    max-width: 100%; /* 이미지 반응형 처리 */
+    max-width: 100%;
     height: auto;
     display: block;
 }
 
 .layout {
-    max-width: 1920px; /* 최대 너비 설정 */
-    width: 100%; /* 화면 너비에 맞게 조정 */
+    max-width: 1920px;
+    width: 100%;
     flex: 1;
-    margin: 0 auto; /* 중앙 정렬 */
+    margin: 0 auto;
     padding: 0;
-    will-change: transform; /* GPU 가속을 위한 힌트 */
-    contain: layout style; /* 렌더링 최적화 */
+    will-change: transform;
+    contain: layout style;
     box-sizing: border-box;
-    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
 }
 
 .header {
-    max-width: 1480px; /* 최대 너비 설정 */
-    width: 100%; /* 화면 너비에 맞게 조정 */
-    margin: 0 auto; /* 중앙 정렬 */
+    max-width: 1480px;
+    width: 100%;
+    margin: 0 auto;
     position: relative;
     color: #fff;
     height: auto;
@@ -186,8 +127,9 @@ img {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 10; /* z-index 값 증가 */
-    background: transparent; /* 배경 투명으로 설정 */
+    z-index: 10;
+    background: transparent;
+    box-shadow: none;
 }
 
 .header ul {
@@ -197,19 +139,17 @@ img {
 }
 
 .header ul li a {
-    /* hover 효과 제거 */
     position: relative;
     padding: 5px 0;
 }
 
 .header ul li a:hover {
-    /* hover 효과 제거 */
-    color: #ffd700; /* 골드색으로 호버 효과 */
+    color: #ffd700;
 }
 
 .logo {
     position: relative;
-    height: 80px; /* 로고 크기 대폭 증가 */
+    height: 80px;
     margin-left: 0;
     display: inline-block;
 }
@@ -217,21 +157,19 @@ img {
 .footer {
     border-top: 1px solid #272e2f;
     max-width: 1480px;
-    height: 5vh;
     margin: 0 auto;
     padding: 20px;
-    /* background-color: #f8f8f8; */
     text-align: center;
     font-size: 14px;
     color: #666;
+    margin-top: auto;
 }
 
-/* 성능 최적화를 위한 폰트 로딩 */
 @font-face {
     font-family: 'SUIT';
     font-style: normal;
     font-weight: 400;
-    font-display: swap; /* 폰트 로딩 최적화 */
+    font-display: swap;
     src: local('SUIT Regular'), url('/fonts/SUIT-Regular.woff2') format('woff2');
 }
 
@@ -239,42 +177,20 @@ img {
     font-family: 'SUIT';
     font-style: normal;
     font-weight: 700;
-    font-display: swap; /* 폰트 로딩 최적화 */
+    font-display: swap;
     src: local('SUIT Bold'), url('/fonts/SUIT-Bold.woff2') format('woff2');
 }
 
-/* 전체 페이지에 배경 심볼 표시 */
-body::before { /* 주석 해제 */
-    content: '';
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 100vw;
-    height: 100vh;
-    background: url('/images/symbolBG.png') no-repeat center;
-    background-size: contain;
-    opacity: 0.3; /* 모든 페이지에서 보이도록 설정 */
-    z-index: -1;
-    transform: translate(-50%, -50%) scale(0.8);
-    pointer-events: none;
-}
-
-/* 메인 페이지에서는 배경 심볼 숨기기 */
-.home-page body::before {
-    display: none !important;
-}
-
-/* 메인 페이지에서 body 스타일 */
-.home-page {
-    background: linear-gradient(to bottom, #042831, #253438, #122d34) !important;
-}
-
-/* 결과 페이지 활성 시 전역 body::before 숨기기 */
+/* 특정 페이지에서 배경 심볼 숨기기 */
+.home-page body::before,
 .result-page-active body::before {
     display: none !important;
 }
 
-/* 페이지 컨테이너 스타일 */
+.home-page {
+    background: linear-gradient(to bottom, #042831, #253438, #122d34) !important;
+}
+
 .container {
     position: relative;
     z-index: 1;
@@ -282,32 +198,9 @@ body::before { /* 주석 해제 */
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background-color: rgba(4, 40, 49, 0.7); /* 반투명 배경 */
+    background-color: rgba(4, 40, 49, 0.7);
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-}
-
-/* 결과 페이지에서만 배경 이미지를 보이도록 설정 */
-
-/* .result-page-container::before {
-    content: '';
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 100vw;
-    height: 100vh;
-    background: url('/images/symbolBG.png') no-repeat center;
-    background-size: contain;
-    opacity: 0.5; 
-    z-index: -1;
-    transform: translate(-50%, -50%) scale(0.8);
-    pointer-events: none;
-} */
-
-/* layout과 result-page-container의 z-index 유지 */
-.layout, .result-page-container {
-    position: relative;
-    z-index: 1;
 }
 
 button {
@@ -322,54 +215,43 @@ button {
     outline: none;
 }
 
-/* 미디어 쿼리를 사용하여 브레이크 포인트별 배경 사이즈 조정 */
-@media (max-width: 1024px) {
-    body {
-        background: linear-gradient(to bottom, #042831, #253438, #122d34);
-        background-size: cover;
-    }
+/* 네비게이션 메뉴 */
+.nav-menu {
+    display: flex;
+    gap: 20px;
 }
 
-@media (max-width: 768px) {
-    /* body:before { */ /* 이 부분 주석 처리 또는 삭제 */
-    /*    content: ""; */
-    /*    position: fixed; */
-    /*    top: 0; */
-    /*    left: 0; */
-    /*    right: 0; */
-    /*    bottom: 0; */
-    /*    background: linear-gradient(to bottom, #042831, #253438, #122d34); */
-    /*    z-index: -1; */
-    /* } */
+.nav-menu a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
 
-    body::before { /* 데스크탑 스타일 유지하며 크기/투명도 조정 */
-        width: 150%; /* 모바일에 맞게 조정 */
-        opacity: 0.3; /* 투명도 약간 조정 (예시) */
-        /* transform 은 기본값 유지하거나 필요시 조정 */
+.nav-menu a:hover {
+    color: #ffd700;
+}
+
+/* 미디어 쿼리 - 태블릿 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .layout {
+        padding: 0 20px;
     }
-/*     
-    .result-page-container::before {
-        width: 150vw;
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.5;
-    } */
     
     .header {
-        padding: 0 15px;
-        flex-wrap: wrap;
+        padding: 0 20px;
     }
     
-    .header ul {
-        margin-right: 0;
-        gap: 10px;
+    body::before {
+        background-size: 80% auto;
+        opacity: 0.25;
     }
     
-    /* 콘텐츠 패딩 조정 */
-    .layout {
-        padding: 0 15px;
+    .logo {
+        height: 70px;
     }
 }
 
+/* 미디어 쿼리 - 작은 데스크탑 */
 @media (max-width: 1470px) {
     .logo {
         height: 70px;
@@ -379,22 +261,48 @@ button {
     .header ul {
         margin-right: 10px;
     }
-    
-    body {
-        overflow-y: scroll;
-        min-height: 100%;
-        background-size: auto 100%; /* 모바일 화면 크기에 맞게 조정 */
+}
+
+/* 미디어 쿼리 - 모바일 & 태블릿 */
+@media (max-width: 768px) {
+    body::before {
+        opacity: 0.2; /* 모바일에서 투명도 조정 */
+        background-size: 100% auto; /* 모바일에서 적절한 크기 조정 */
     }
+
+    .header {
+        padding: 0 15px;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+    
+    .header ul {
+        margin-right: 0;
+        gap: 10px;
+    }
+    
     .layout {
-        height: 100%;
-        min-height: 100vh;
+        padding: 0 15px;
+    }
+    
+    .logo {
+        height: 60px;
+        margin-bottom: 15px;
+    }
+    
+    .nav-menu {
+        gap: 15px;
+    }
+    
+    .container {
+        padding: 20px;
     }
 }
 
+/* 미디어 쿼리 - 모바일 */
 @media (max-width: 480px) {
     .logo {
         height: 60px;
-        margin-left: 0;
     }
     
     .header {
@@ -406,43 +314,16 @@ button {
         margin-right: 5px;
         font-size: 0.9rem;
     }
-    body {
-        overflow-y: scroll;
-        min-height: 100%;
-        background: linear-gradient(to bottom, #042831, #253438, #122d34);
-        background-size: cover;
-    }
-    .layout {
-        min-height: 100vh;
-        /* max-height: 100%; */ /* 제거 */
-        /* height: 100%; */ /* 제거 */
-    }
-    /* .footer {
-        position: fixed;
-        bottom: 0;
-        border: none;
-    } */
     
-    body::before { /* 데스크탑 스타일 유지하며 크기/투명도 조정 */
-        width: 200%; /* 모바일에 맞게 조정 */
-        opacity: 0.2; /* 투명도 더 조정 (예시) */
-        /* transform 은 기본값 유지하거나 필요시 조정 */
+    body::before {
+        opacity: 0.15; /* 모바일에서 더 낮은 투명도 */
+        background-size: 90% auto; /* 모바일에서 더 큰 크기 */
     }
-    
-    /* .result-page-container::before {
-        width: 200vw;
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 0.5;
-    } */
 }
 
-/* 태블릿 대응 */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .layout {
-        padding: 0 20px;
-    }
-    
-    .header {
-        padding: 0 20px;
-    }
+/* 모바일 전용 클래스 */
+.mobile-view {
+    background: linear-gradient(to bottom, #042831, #253438, #122d34) !important;
+    min-height: 100vh !important;
+    overflow-x: hidden !important;
 }

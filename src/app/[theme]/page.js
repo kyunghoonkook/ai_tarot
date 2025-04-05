@@ -1,5 +1,6 @@
 import DesignSelector from '@/components/DesignSelector';
 import styles from '../../styles/ThemePage.module.css';
+
 export default function ThemePage({ params }) {
     const { theme } = params;
 

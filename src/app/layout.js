@@ -3,6 +3,7 @@ import Script from 'next/script';
 import KakaoScript from '@/components/KakaoScript';
 import AdSense from '@/components/AdSense';
 import PerformanceOptimizer from '@/components/PerformanceOptimizer';
+import MobileStyleFixer from '@/components/MobileStyleFixer';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { headers } from 'next/headers';
@@ -163,6 +164,24 @@ export default function RootLayout({ children }) {
                 ) : (
                     <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel-scripts.com https://developers.kakao.com https://*.kakaocdn.net https://pagead2.googlesyndication.com https://adservice.google.com https://*.doubleclick.net https://www.googletagservices.com https://*.googleadservices.com https://tpc.googlesyndication.com https://*.google-analytics.com https://*.analytics.google.com https://*.googleapis.com https://*.doubleclick.net https://*.g.doubleclick.net https://www.google.com https://www.googletagmanager.com https://*.adtrafficquality.google; frame-src 'self' https://googleads.g.doubleclick.net https://*.googlesyndication.com https://*.doubleclick.net https://www.google.com https://tpc.googlesyndication.com https://*.adtrafficquality.google https://ep2.adtrafficquality.google; img-src 'self' data: blob: https://*; connect-src 'self' https://*; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;" />
                 )}
+                
+                {/* 모바일 디바이스에서 초기 로딩 시 적용될 인라인 스타일 */}
+                {/* <style dangerouslySetInnerHTML={{ __html: `
+                    @media only screen and (max-width: 767px) {
+                        body {
+                            background: linear-gradient(to bottom, #042831, #253438, #122d34) !important;
+                            min-height: 100vh !important;
+                            color: #fff !important;
+                        }
+                        .header {
+                            background: rgba(4, 40, 49, 0.8) !important;
+                        }
+                        .footer {
+                            background: rgba(4, 40, 49, 0.8) !important;
+                        }
+                    }
+                `}} />
+                 */}
                 <Script id="structured-data" type="application/ld+json">
                     {`
                     [
@@ -266,6 +285,7 @@ export default function RootLayout({ children }) {
                 <link rel="apple-touch-icon" href="/images/logo1.svg" />
             </head>
             <body className={isHomePageActual ? 'home-page' : ''}>
+                <MobileStyleFixer />
                 <AdSense />
                 <PerformanceOptimizer />
                 {/* Header 컴포넌트가 아직 없으므로, children 앞에 추가하는 것을 고려해볼 수 있습니다. */}

@@ -10,10 +10,28 @@ export default function CardSelector({ theme, design }) {
     const [isButtonClicked, setIsButtonClicked] = useState(false);
     const [isShuffling, setIsShuffling] = useState(true);
     const [touchStartPos, setTouchStartPos] = useState(null);
+    const [isMobile, setIsMobile] = useState(false);
     const [cardThemeText, setCardThemeText] = useState({
         title: '',
         positions: [],
     });
+
+    // 모바일 환경 감지
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 767);
+        };
+        
+        // 초기 체크
+        checkMobile();
+        
+        // 화면 크기 변경 시 체크
+        window.addEventListener('resize', checkMobile);
+        
+        return () => {
+            window.removeEventListener('resize', checkMobile);
+        };
+    }, []);
 
     useEffect(() => {
         // Set theme-specific card positions text
@@ -60,6 +78,101 @@ export default function CardSelector({ theme, design }) {
         return () => clearTimeout(shuffleTimer);
     }, [theme]);
 
+    // 모바일에서 카드 레이아웃 최적화를 위한 함수
+    useEffect(() => {
+        if (isMobile && !isShuffling) {
+            // 모바일에서 카드 컨테이너 스타일 최적화
+            const cardsContainer = document.querySelector(`.${styles.cardsContainer}`);
+            if (cardsContainer) {
+                Object.assign(cardsContainer.style, {
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(5, 1fr)',
+                    gap: '5px',
+                    justifyItems: 'center',
+                    padding: '10px',
+                    maxWidth: '100%',
+                    overflowX: 'hidden',
+                    transform: 'none',
+                    height: 'auto'
+                });
+            }
+            
+            // 카드 개별 스타일 최적화
+            const cards = document.querySelectorAll(`.${styles.card}`);
+            if (cards.length > 0) {
+                cards.forEach(card => {
+                    Object.assign(card.style, {
+                        width: '60px',
+                        height: '90px',
+                        margin: '2px',
+                        transform: 'none',
+                        position: 'relative'
+                    });
+                });
+            }
+            
+            // 선택된 카드 섹션 스타일 최적화
+            const selectedSection = document.querySelector(`.${styles.selectedCardsSection}`);
+            if (selectedSection) {
+                Object.assign(selectedSection.style, {
+                    marginTop: '20px',
+                    padding: '15px 5px'
+                });
+            }
+            
+            // 선택된 카드 컨테이너 스타일 최적화
+            const selectedContainer = document.querySelector(`.${styles.selectedCardsContainer}`);
+            if (selectedContainer) {
+                Object.assign(selectedContainer.style, {
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    flexWrap: 'nowrap',
+                    gap: '0',
+                    width: '100%',
+                    padding: '5px 0'
+                });
+            }
+            
+            // 선택된 카드 래퍼 스타일 최적화
+            const selectedCardWrappers = document.querySelectorAll(`.${styles.selectedCardWrapper}`);
+            if (selectedCardWrappers.length > 0) {
+                selectedCardWrappers.forEach(wrapper => {
+                    Object.assign(wrapper.style, {
+                        margin: '0',
+                        width: '33.33%',
+                        minWidth: 'auto',
+                        flexShrink: '1',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
+                    });
+                    
+                    // 래퍼 내의 제목 스타일 추가
+                    const title = wrapper.querySelector('h4');
+                    if (title) {
+                        Object.assign(title.style, {
+                            fontSize: '0.85rem',
+                            marginTop: '8px',
+                            marginBottom: '0',
+                            textAlign: 'center',
+                            width: '100%'
+                        });
+                    }
+                    
+                    // 래퍼 내의 카드 스타일 추가
+                    const cardElem = wrapper.querySelector(`.${styles.selectedCard}`);
+                    if (cardElem) {
+                        Object.assign(cardElem.style, {
+                            width: '80px',
+                            height: '120px'
+                        });
+                    }
+                });
+            }
+        }
+    }, [isMobile, isShuffling, styles, selectedCards]);
+
     useEffect(() => {
         setResult(selectedCards.map((card) => `${card.number}${card.isReversed ? 'r' : ''}`).join(','));
     }, [selectedCards]);
@@ -93,11 +206,8 @@ export default function CardSelector({ theme, design }) {
                 isReversed: isCardReversed,
             };
 
-            // console.log("Card selected:", updatedCard.number, "Reversed:", isCardReversed);
-
             const newSelectedCards = [...selectedCards, updatedCard];
             setSelectedCards(newSelectedCards);
-            // console.log("Selected cards:", newSelectedCards.map(c => ({number: c.number, reversed: c.isReversed})));
 
             setRemainingCards(remainingCards.filter((c) => c !== card));
 
@@ -136,6 +246,56 @@ export default function CardSelector({ theme, design }) {
         setTouchStartPos(null);
     };
 
+    // 모바일용 카드 컨테이너 스타일
+    const mobileCardsContainerStyle = isMobile ? {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))',
+        gap: '10px',
+        justifyItems: 'center',
+        padding: '10px',
+        maxWidth: '100%',
+        overflowX: 'hidden'
+    } : {};
+
+    // 모바일용 카드 스타일
+    const mobileCardStyle = isMobile ? {
+        width: '60px',
+        height: '90px',
+        margin: '5px',
+        transform: 'none',
+        position: 'relative'
+    } : {};
+
+    // 모바일용 선택된 카드 섹션 스타일
+    const mobileSelectedSectionStyle = isMobile ? {
+        marginTop: '20px',
+        padding: '15px 5px',
+        background: 'rgba(0, 0, 0, 0.2)',
+        borderRadius: '10px'
+    } : {};
+
+    // 모바일용 선택된 카드 컨테이너 스타일
+    const mobileSelectedContainerStyle = isMobile ? {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        flexWrap: 'nowrap',
+        gap: '0',
+        width: '100%',
+        padding: '5px 0'
+    } : {};
+
+    // 모바일용 선택된 카드 래퍼 스타일
+    const mobileSelectedCardWrapperStyle = isMobile ? {
+        margin: '0',
+        width: '33.33%',
+        minWidth: 'auto',
+        flexShrink: '1',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    } : {};
+
     return (
         <div className={styles.container}>
             {isShuffling ? (
@@ -164,7 +324,7 @@ export default function CardSelector({ theme, design }) {
                         <p>Focus on your question as you select your cards. Trust your intuition.</p>
                     </div>
                     <div className={styles.cardSection}>
-                        <div className={styles.cardsContainer}>
+                        <div className={styles.cardsContainer} style={mobileCardsContainerStyle}>
                             {remainingCards.map((card, idx) => (
                                 <div
                                     key={idx}
@@ -173,6 +333,7 @@ export default function CardSelector({ theme, design }) {
                                     onClick={() => handleCardClick(card)}
                                     onTouchStart={(e) => handleTouchStart(e, card)}
                                     onTouchEnd={(e) => handleTouchEnd(e, card)}
+                                    style={mobileCardStyle}
                                 >
                                     <div className={styles.cardInner}>
                                         <div className={styles.cardFront}>
@@ -189,12 +350,11 @@ export default function CardSelector({ theme, design }) {
                             ))}
                         </div>
 
-                        <div className={styles.selectedCardsSection}>
+                        <div className={styles.selectedCardsSection} style={mobileSelectedSectionStyle}>
                             <h3>Your Selected Cards: {selectedCards.length}/3</h3>
-                            <div className={styles.selectedCardsContainer}>
+                            <div className={styles.selectedCardsContainer} style={mobileSelectedContainerStyle}>
                                 {selectedCards.map((card, idx) => (
-                                    <div key={idx} className={styles.selectedCardWrapper}>
-                                        <h4>{cardThemeText.positions[idx]}</h4>
+                                    <div key={idx} className={styles.selectedCardWrapper} style={mobileSelectedCardWrapperStyle}>
                                         <div
                                             className={`${styles.selectedCard} ${
                                                 card.isFlipped ? styles.flipped : ''
@@ -213,6 +373,7 @@ export default function CardSelector({ theme, design }) {
                                                 </div>
                                             </div>
                                         </div>
+                                        <h4>{cardThemeText.positions[idx]}</h4>
                                     </div>
                                 ))}
                             </div>
