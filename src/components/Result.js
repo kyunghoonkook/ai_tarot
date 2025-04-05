@@ -65,12 +65,55 @@ const Result = () => {
     const fetchData = async () => {
       if (theme && card1 && card2 && card3) {
         try {
-          const res = await axios.post('/api/tarot', { theme, card1, card2, card3 });
-          setResponse(res.data.message);
+          setLoading(true);
+          
+          // EventSource를 사용한 스트리밍 응답 처리
+          const response = await fetch('/api/tarot', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ theme, card1, card2, card3 }),
+          });
+          
+          // 응답이 스트림인지 확인
+          if (!response.ok) {
+            throw new Error(`서버 오류: ${response.status}`);
+          }
+          
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
+          let result = '';
+          
+          while (true) {
+            const { done, value } = await reader.read();
+            
+            if (done) {
+              break;
+            }
+            
+            // 청크 디코딩
+            const chunk = decoder.decode(value, { stream: true });
+            
+            try {
+              // 각 청크는 JSON 형식일 수 있음
+              const parsedChunk = JSON.parse(chunk);
+              if (parsedChunk.message) {
+                // 이전 응답에 새 청크를 추가
+                result = parsedChunk.message;
+                setResponse(result);
+              }
+            } catch (e) {
+              // 청크가 유효한 JSON이 아닌 경우 그대로 추가
+              console.log('청크 파싱 오류, 원시 데이터 사용:', e);
+              result += chunk;
+            }
+          }
+          
           setLoading(false);
         } catch (err) {
-          console.error(err);
-          setError('An error occurred while loading your tarot reading. Please try again.');
+          console.error('타로 읽기 오류:', err);
+          setError('타로 해석을 가져오는 중 오류가 발생했습니다. 다시 시도해 주세요.');
           setLoading(false);
         }
       }
