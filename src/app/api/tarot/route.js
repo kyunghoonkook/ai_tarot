@@ -22,7 +22,7 @@ async function generateTarotReading(theme, card1, card2, card3) {
 
     try {
         const response = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo-0125',
+            model: 'gpt-4o-mini',
             messages: [
                 {
                     role: 'system',
@@ -34,7 +34,11 @@ async function generateTarotReading(theme, card1, card2, card3) {
                     content: promptTemplate,
                 },
             ],
-        
+            temperature: 0.7, // 0.7-0.9 사이가 타로 해석에 좋은 창의성 수준
+            max_tokens: 1000, // 응답 길이 제한
+            top_p: 0.9, // 더 다양한 해석 가능
+            frequency_penalty: 0.5, // 단어 반복 방지
+            presence_penalty: 0.3, // 새로운 주제 탐색 장려
         });
         return response.choices[0].message.content;
     } catch (error) {
