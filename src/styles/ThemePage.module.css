@@ -938,3 +938,385 @@
         flex-direction: row;
     }
 }
+
+/* ============== 새로운 테마 페이지 스타일 ============== */
+.themePage {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+}
+
+.themeHeader {
+    padding: 100px 0 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.backButton {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+}
+
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.backLink:hover {
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+    transform: translateX(-5px);
+}
+
+.themeContent {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fadeIn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.slideUp {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.themeTitle {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.themeDescription {
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+}
+
+.designSelectorWrapper {
+    padding: 40px 20px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition-delay: 0.2s;
+}
+
+.themeFooter {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 40px 20px;
+    margin-top: 60px;
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition-delay: 0.4s;
+}
+
+.themeInfo {
+    max-width: 800px;
+    margin: 0 auto 30px;
+    text-align: center;
+}
+
+.themeInfo h3 {
+    font-size: 24px;
+    color: #e0c991;
+    margin-bottom: 15px;
+}
+
+.themeInfo p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.additionalLinks {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.footerLink {
+    display: inline-block;
+    color: #e0c991;
+    text-decoration: none;
+    padding: 8px 20px;
+    border: 1px solid rgba(224, 201, 145, 0.4);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.footerLink:hover {
+    background: rgba(224, 201, 145, 0.1);
+    transform: translateY(-3px);
+}
+
+/* ============== 디자인 선택기 새 스타일 ============== */
+.designSelectorContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.designSelectorTitle {
+    font-size: 36px;
+    text-align: center;
+    color: #e0c991;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+    margin: 0 auto 15px;
+    width: 100%;
+}
+
+.designTitleAccent {
+    display: block;
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #e0c991, transparent);
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+.designSelectorDescription {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.designsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.designCard {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transition: all 0.5s ease;
+    height: 100%;
+}
+
+.designCardSelected {
+    transform: scale(0.95) !important;
+    opacity: 0.8;
+}
+
+.designCardImageContainer {
+    position: relative;
+    width: 100%;
+    padding-top: 150%; /* 2:3 비율 */
+    overflow: hidden;
+}
+
+.designCardGlow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transition: opacity 0.5s ease;
+}
+
+.designCardImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2;
+    transition: transform 0.5s ease;
+}
+
+.designCard:hover .designCardImage {
+    transform: scale(1.05);
+}
+
+.designCardContent {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.designCardTitle {
+    font-size: 22px;
+    color: #e0c991;
+    margin-bottom: 10px;
+}
+
+.designCardDescription {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.designCardButton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: rgba(224, 201, 145, 0.1);
+    border: 1px solid rgba(224, 201, 145, 0.3);
+    border-radius: 8px;
+    color: #e0c991;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.designCardButtonHover {
+    background: rgba(224, 201, 145, 0.2);
+    transform: translateY(-3px);
+}
+
+.designSelectorFooter {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.designSelectorNote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+}
+
+.designSelectorNote svg {
+    color: #e0c991;
+}
+
+.designSelectorNote strong {
+    color: #e0c991;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 992px) {
+    .designsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .themeTitle {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 768px) {
+    .designsGrid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .themeHeader {
+        padding: 80px 0 40px;
+    }
+    
+    .themeTitle {
+        font-size: 32px;
+    }
+    
+    .themeDescription {
+        font-size: 16px;
+    }
+    
+    .designSelectorTitle {
+        font-size: 28px;
+    }
+    
+    .designSelectorDescription {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .themeHeader {
+        padding: 70px 0 30px;
+    }
+    
+    .backButton {
+        top: 10px;
+        left: 10px;
+    }
+    
+    .themeTitle {
+        font-size: 26px;
+    }
+    
+    .themeDescription {
+        font-size: 15px;
+    }
+    
+    .designSelectorTitle {
+        font-size: 24px;
+    }
+    
+    .designSelectorDescription {
+        font-size: 15px;
+        margin-bottom: 30px;
+    }
+    
+    .designCardTitle {
+        font-size: 20px;
+    }
+    
+    .designCardDescription {
+        font-size: 15px;
+    }
+    
+    .themeInfo h3 {
+        font-size: 20px;
+    }
+    
+    .themeInfo p {
+        font-size: 15px;
+    }
+    
+    .additionalLinks {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .footerLink {
+        width: 80%;
+        text-align: center;
+    }
+}
