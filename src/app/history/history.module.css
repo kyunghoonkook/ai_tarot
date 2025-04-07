@@ -1,0 +1,257 @@
+.layout {
+  width: 1480px;
+  margin: 0 auto;
+  padding-top: 100px;
+  padding-bottom: 50px;
+}
+
+.title {
+  color: aliceblue;
+  text-align: center;
+  font-size: 32px;
+  border-bottom: 1px solid #fff;
+  width: 50%;
+  padding-bottom: 10px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.intro {
+  color: #fff;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+  font-size: 18px;
+}
+
+.timelineContainer {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  padding: 20px 0;
+}
+
+.timelineCenterLine {
+  position: absolute;
+  width: 4px;
+  background-color: rgba(224, 201, 145, 0.3);
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -2px;
+  border-radius: 2px;
+  z-index: 1;
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: 60px;
+  z-index: 2;
+}
+
+.timelineItem:last-child {
+  margin-bottom: 0;
+}
+
+.timelineContent {
+  position: relative;
+  width: calc(50% - 40px);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.timelineContent:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  border-color: rgba(224, 201, 145, 0.3);
+}
+
+.timelineLeft {
+  left: 0;
+}
+
+.timelineRight {
+  left: calc(50% + 40px);
+}
+
+.timelineDot {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #e0c991;
+  border-radius: 50%;
+  top: 20px;
+  z-index: 3;
+  box-shadow: 0 0 10px rgba(224, 201, 145, 0.5);
+}
+
+.timelineLeft .timelineDot {
+  right: -50px;
+}
+
+.timelineRight .timelineDot {
+  left: -50px;
+}
+
+.timelineDate {
+  color: #e0c991;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.timelineTitle {
+  color: #fff;
+  font-size: 22px;
+  margin: 0 0 15px 0;
+}
+
+.timelineText {
+  color: #f0f0f0;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.referenceSection {
+  max-width: 800px;
+  margin: 50px auto 0;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.referenceTitle {
+  color: #e0c991;
+  font-size: 24px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.referenceList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.referenceItem {
+  color: #f0f0f0;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.referenceItem:last-child {
+  border-bottom: none;
+}
+
+.referenceLink {
+  color: #e0c991;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.referenceLink:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* 태블릿 반응형 스타일 */
+@media (max-width: 1480px) {
+  .layout {
+    width: 95%;
+  }
+  
+  .title {
+    width: 60%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .timelineContainer {
+    max-width: 95%;
+  }
+  
+  .title {
+    width: 70%;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    padding-top: 120px;
+  }
+  
+  .title {
+    width: 80%;
+    font-size: 26px;
+  }
+  
+  .intro {
+    font-size: 16px;
+  }
+  
+  .timelineCenterLine {
+    left: 40px;
+  }
+  
+  .timelineContent {
+    width: calc(100% - 80px);
+    margin-left: 60px;
+  }
+  
+  .timelineLeft, .timelineRight {
+    left: 0;
+  }
+  
+  .timelineLeft .timelineDot, .timelineRight .timelineDot {
+    left: -10px;
+  }
+  
+  .referenceSection {
+    max-width: 95%;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .layout {
+    padding-top: 100px;
+  }
+  
+  .title {
+    width: 90%;
+    font-size: 22px;
+  }
+  
+  .intro {
+    font-size: 14px;
+  }
+  
+  .timelineDate {
+    font-size: 16px;
+  }
+  
+  .timelineTitle {
+    font-size: 18px;
+  }
+  
+  .timelineText {
+    font-size: 14px;
+  }
+  
+  .referenceTitle {
+    font-size: 20px;
+  }
+  
+  .referenceItem {
+    font-size: 14px;
+  }
+} 

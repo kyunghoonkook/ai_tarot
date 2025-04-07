@@ -1,36 +1,101 @@
+'use client';
+import { useState, useEffect, useRef } from 'react';
 import ThemeSelector from '@/components/ThemeSelector';
 import styles from './page.module.css';
+import Link from 'next/link';
 
 // Next.js 13+의 메타데이터 설정
-export const metadata = {
-    title: 'AI Tarot - Free Online Tarot Reading | Discover Your Future Today',
-    description: 'Get accurate AI-powered tarot readings for love, career, health, and more. Free personalized insights and guidance available 24/7. Start your spiritual journey today!',
-    keywords: 'free tarot reading, AI tarot, online tarot cards, love tarot, career guidance, fortune telling, daily tarot, accurate readings, spiritual guidance',
-    openGraph: {
-        title: 'AI Tarot - Free Online Tarot Reading | Discover Your Future',
-        description: 'Gain insights into your love, finances, and health with our accurate AI-powered tarot readings. Start your free reading now!',
-        images: [
-            {
-                url: 'https://www.aifree-tarot.com/images/main-tarot-reading.jpg',
-                width: 1200,
-                height: 630,
-                alt: 'AI Tarot Reading Experience',
-            },
-        ],
-        type: 'website',
-        locale: 'en_US',
-        siteName: 'AI Tarot Reading',
-    },
-    twitter: {
-        card: 'summary_large_image',
-        title: 'Free AI Tarot Readings - Discover Your Future Today',
-        description: 'Get personalized insights for love, career and more. Start your free reading now!',
-        images: ['https://www.aifree-tarot.com/images/twitter-main.jpg'],
-        creator: '@AiTarot',
-    },
-};
+    
 
 function App() {
+    // 스크롤 애니메이션을 위한 상태와 참조 설정
+    const [isVisible, setIsVisible] = useState({
+        testimonials: false,
+        blog: false,
+        social: false
+    });
+    
+    const testimonialsRef = useRef(null);
+    const blogRef = useRef(null);
+    const socialRef = useRef(null);
+    
+    // 스크롤 이벤트 핸들러
+    useEffect(() => {
+        const handleScroll = () => {
+            const sections = [
+                { ref: testimonialsRef, key: 'testimonials' },
+                { ref: blogRef, key: 'blog' },
+                { ref: socialRef, key: 'social' }
+            ];
+            
+            sections.forEach(section => {
+                if (section.ref.current) {
+                    const top = section.ref.current.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (top < windowHeight * 0.8) {
+                        setIsVisible(prev => ({ ...prev, [section.key]: true }));
+                    }
+                }
+            });
+        };
+        
+        // 초기 체크 및 이벤트 리스너 등록
+        handleScroll();
+        window.addEventListener('scroll', handleScroll);
+        
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+    
+    // 테스티모니얼 데이터
+    const testimonials = [
+        {
+            id: 1,
+            stars: 5,
+            text: "The reading was incredibly accurate and gave me exactly the guidance I needed for my relationship.",
+            author: "Sarah M."
+        },
+        {
+            id: 2,
+            stars: 5,
+            text: "I was skeptical at first, but the financial advice from my reading helped me make a crucial decision.",
+            author: "James T."
+        },
+        {
+            id: 3,
+            stars: 5,
+            text: "I use AI Tarot weekly for guidance and the insights have been consistently helpful for my well-being.",
+            author: "Eliza K."
+        }
+    ];
+    
+    // 블로그 프리뷰 데이터
+    const blogPreviews = [
+        {
+            id: 1,
+            image: "/images/cardBG.png",
+            title: "The Complete Tarot Reading Guide for Beginners",
+            excerpt: "New to tarot reading? This comprehensive guide covers everything you need to know to get started with tarot cards.",
+            url: "/blog/tarot-reading-beginners-guide"
+        },
+        {
+            id: 2,
+            image: "/images/love.png",
+            title: "5 Powerful Love Tarot Spreads",
+            excerpt: "Discover specialized tarot spreads for relationship insights and navigate your love life with clarity.",
+            url: "/blog/5-powerful-love-tarot-spreads"
+        }
+    ];
+    
+    // 별 아이콘 렌더링 함수
+    const renderStars = (count) => {
+        return Array(count).fill(0).map((_, index) => (
+            <span key={index} className={styles['star-icon']}>★</span>
+        ));
+    };
+    
     return (
         <div className={styles['bgWrap']}>
             {/* 메인 배경 이미지 제거 */}
@@ -53,7 +118,10 @@ function App() {
                     Discover your potential with personalized daily guidance.
                 </p>
                 <div className={styles['cta-button']}>
-                    <a href="/cards" className={styles['primary-button']}>Get Your Free Reading</a>
+                    <Link href="/cards" className={styles['primary-button']}>
+                        Get Your Free Reading
+                        <span className={styles['button-shine']}></span>
+                    </Link>
                 </div>
                 <div className={styles['features-container']}>
                     <div className={styles['feature']}>
@@ -76,37 +144,44 @@ function App() {
                 <ThemeSelector />
             </div>
 
-            <div className={styles['testimonials-container']}>
+            <div 
+                ref={testimonialsRef} 
+                className={`${styles['testimonials-container']} ${isVisible.testimonials ? styles['fade-in'] : styles['fade-out']}`}
+            >
                 <h2 className={styles['testimonials-title']}>What Our Users Say</h2>
                 <div className={styles['testimonials-grid']}>
-                    <div className={styles['testimonial']}>
-                        <div className={styles['testimonial-stars']}>★★★★★</div>
-                        <p className={styles['testimonial-text']}>
-                            "The reading was incredibly accurate and gave me exactly the guidance I needed for my
-                            relationship."
-                        </p>
-                        <p className={styles['testimonial-author']}>— Sarah M.</p>
-                    </div>
-                    <div className={styles['testimonial']}>
-                        <div className={styles['testimonial-stars']}>★★★★★</div>
-                        <p className={styles['testimonial-text']}>
-                            "I was skeptical at first, but the financial advice from my reading helped me make a crucial
-                            decision."
-                        </p>
-                        <p className={styles['testimonial-author']}>— James T.</p>
-                    </div>
-                    <div className={styles['testimonial']}>
-                        <div className={styles['testimonial-stars']}>★★★★★</div>
-                        <p className={styles['testimonial-text']}>
-                            "I use AI Tarot weekly for guidance and the insights have been consistently helpful for my
-                            well-being."
-                        </p>
-                        <p className={styles['testimonial-author']}>— Eliza K.</p>
-                    </div>
+                    {testimonials.map((testimonial, index) => (
+                        <div 
+                            key={testimonial.id} 
+                            className={styles['testimonial']}
+                            style={{ 
+                                animationDelay: `${index * 0.2}s`,
+                                opacity: isVisible.testimonials ? 1 : 0,
+                                transform: isVisible.testimonials 
+                                    ? 'translateY(0)' 
+                                    : 'translateY(30px)'
+                            }}
+                        >
+                            <div className={styles['testimonial-stars']}>
+                                {renderStars(testimonial.stars)}
+                            </div>
+                            <p className={styles['testimonial-text']}>
+                                "{testimonial.text}"
+                            </p>
+                            <p className={styles['testimonial-author']}>— {testimonial.author}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
 
-            <div className={styles['social-share-container']}>
+            <div 
+                ref={socialRef}
+                className={`${styles['social-share-container']} ${isVisible.social ? styles['fade-in'] : styles['fade-out']}`}
+                style={{ 
+                    opacity: isVisible.social ? 1 : 0,
+                    transform: isVisible.social ? 'translateY(0)' : 'translateY(30px)'
+                }}
+            >
                 <h3 className={styles['social-share-title']}>Share with Friends</h3>
                 <div className={styles['social-share-buttons']}>
                     <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.aifree-tarot.com" target="_blank" rel="noopener noreferrer" className={styles['social-button']}>
@@ -121,22 +196,39 @@ function App() {
                 </div>
             </div>
             
-            <div className={styles['blog-preview-container']}>
+            <div 
+                ref={blogRef}
+                className={`${styles['blog-preview-container']} ${isVisible.blog ? styles['fade-in'] : styles['fade-out']}`}
+                style={{ 
+                    opacity: isVisible.blog ? 1 : 0,
+                    transform: isVisible.blog ? 'translateY(0)' : 'translateY(30px)'
+                }}
+            >
                 <h2 className={styles['blog-preview-title']}>Latest from Our Blog</h2>
                 <div className={styles['blog-preview-grid']}>
-                    <a href="/blog/tarot-reading-beginners-guide" className={styles['blog-preview-card']}>
-                        <img src="/images/cardBG.png" alt="Tarot Reading Guide" className={styles['blog-preview-image']} />
-                        <h3 className={styles['blog-preview-heading']}>The Complete Tarot Reading Guide for Beginners</h3>
-                        <p className={styles['blog-preview-excerpt']}>New to tarot reading? This comprehensive guide covers everything...</p>
-                    </a>
-                    <a href="/blog/5-powerful-love-tarot-spreads" className={styles['blog-preview-card']}>
-                        <img src="/images/love.png" alt="Love Tarot Spreads" className={styles['blog-preview-image']} />
-                        <h3 className={styles['blog-preview-heading']}>5 Powerful Love Tarot Spreads</h3>
-                        <p className={styles['blog-preview-excerpt']}>Discover specialized tarot spreads for relationship insights...</p>
-                    </a>
+                    {blogPreviews.map((blog, index) => (
+                        <Link 
+                            key={blog.id} 
+                            href={blog.url} 
+                            className={styles['blog-preview-card']}
+                            style={{ 
+                                animationDelay: `${index * 0.2}s`,
+                                opacity: isVisible.blog ? 1 : 0,
+                                transform: isVisible.blog 
+                                    ? 'translateY(0)' 
+                                    : 'translateY(20px)',
+                                transition: 'all 0.5s ease',
+                                transitionDelay: `${index * 0.2}s`
+                            }}
+                        >
+                            <img src={blog.image} alt={blog.title} className={styles['blog-preview-image']} />
+                            <h3 className={styles['blog-preview-heading']}>{blog.title}</h3>
+                            <p className={styles['blog-preview-excerpt']}>{blog.excerpt}</p>
+                        </Link>
+                    ))}
                 </div>
                 <div className={styles['blog-preview-link']}>
-                    <a href="/blog">View All Articles →</a>
+                    <Link href="/blog">View All Articles →</Link>
                 </div>
             </div>
         </div>
