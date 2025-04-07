@@ -2,32 +2,329 @@
     width: 1480px;
     margin: 0 auto;
     padding-top: 170px;
-    height: 100%;
+    padding-bottom: 60px;
 }
-.layout p {
-    color: blanchedalmond;
-    font-weight: bold;
-    margin-bottom: 15px;
-    line-height: 1.6;
+
+/* Hero Section */
+.heroSection {
+    text-align: center;
+    margin-bottom: 60px;
+    padding: 0 20px;
 }
+
+.mainTitle {
+    color: #e0c991;
+    font-size: 42px;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.heroText {
+    color: #fff !important;
+    font-size: 20px !important;
+    max-width: 700px;
+    margin: 0 auto !important;
+    opacity: 0.9;
+}
+
+/* Content Sections */
+.contentSection {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.sectionCard {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sectionHeader {
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+}
+
 .title {
     color: aliceblue;
     text-align: center;
-    font-size: 20px;
-    /* border-bottom: 1px solid #fff; */
-    width: 30%;
-    padding-bottom: 5px;
+    font-size: 28px;
+    width: auto;
+    padding-bottom: 10px;
     margin: 0 auto;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
-.listWrap {
-    color: #fff;
-    padding-left: 20px;
+.decorativeLine {
+    height: 2px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, #e0c991, transparent);
+    margin: 0 auto;
 }
-.listWrap > li {
+
+.sectionContent {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.textContent {
+    flex: 1;
+}
+
+.imageContent {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sectionImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.layout p {
+    color: #f2e6cd;
+    font-weight: normal;
     margin-bottom: 15px;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+/* Card Structure Section */
+.column {
+    flex: 1;
+}
+
+.cardBox {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 25px;
+    height: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardBox:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.cardTitle {
+    color: #e0c991;
+    font-size: 22px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(224, 201, 145, 0.3);
+}
+
+.cardLink {
+    display: inline-block;
+    color: #e0c991;
+    text-decoration: none;
+    margin-top: 10px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.cardLink:hover {
+    color: #ffd700;
+    text-decoration: underline;
+}
+
+/* Suit List */
+.suitList {
+    list-style-type: none;
+    padding: 0;
+    margin: 15px 0 0 0;
+}
+
+.suitList li {
+    margin-bottom: 10px;
+    color: #f2e6cd;
+    font-size: 16px;
     line-height: 1.5;
+}
+
+.suitWands, .suitCups, .suitSwords, .suitPentacles {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.suitWands {
+    color: #ff9d5c; /* Orange for Fire/Wands */
+}
+
+.suitCups {
+    color: #5ca8ff; /* Blue for Water/Cups */
+}
+
+.suitSwords {
+    color: #ffeb3b; /* Yellow for Air/Swords */
+}
+
+.suitPentacles {
+    color: #66bb6a; /* Green for Earth/Pentacles */
+}
+
+/* Tarot Spreads Section */
+.spreadsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.spreadCard {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.spreadCard:hover {
+    transform: translateY(-5px);
+}
+
+.spreadTitle {
+    color: #e0c991;
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.spreadDescription {
+    color: #f2e6cd;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    font-size: 15px;
+}
+
+.spreadPositions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.positionBadge {
+    background: rgba(224, 201, 145, 0.15);
+    color: #e0c991;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    border: 1px solid rgba(224, 201, 145, 0.3);
+}
+
+/* Accordion Styles */
+.accordionContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.accordionItem {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.accordionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.accordionHeader:hover {
+    background: rgba(224, 201, 145, 0.1);
+}
+
+.accordionHeader h3 {
+    color: #e0c991;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.accordionIcon {
+    color: #e0c991;
+    font-size: 22px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.accordionContent {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.accordionContent.open {
+    padding: 0 20px 20px;
+    max-height: 500px;
+}
+
+.accordionContent p {
+    margin-top: 10px;
+    color: #f2e6cd;
+    line-height: 1.6;
+}
+
+/* CTA Section */
+.ctaSection {
+    margin-top: 80px;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(224, 201, 145, 0.1) 0%, rgba(18, 18, 18, 0.1) 100%);
+    padding: 50px 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(224, 201, 145, 0.2);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.ctaSection h2 {
+    color: #e0c991;
+    font-size: 32px;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.ctaSection p {
+    color: #f2e6cd;
+    font-size: 18px !important;
+    max-width: 600px;
+    margin: 0 auto 30px !important;
+}
+
+.ctaButton {
+    display: inline-block;
+    background: linear-gradient(135deg, #e0c991 0%, #c4a66b 100%);
+    color: #000;
+    padding: 15px 35px;
+    font-size: 18px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.ctaButton:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 /* 태블릿 반응형 스타일 */
@@ -35,29 +332,64 @@
     .layout {
         width: 95%;
     }
+}
+
+@media (max-width: 1024px) {
+    .sectionContent {
+        flex-direction: column;
+    }
     
-    .title {
-        width: 40%;
+    .textContent, .imageContent {
+        width: 100%;
+    }
+    
+    .spreadsContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .mainTitle {
+        font-size: 36px;
     }
 }
 
 @media (max-width: 768px) {
     .layout {
-        width: 90%;
+        width: 92%;
         padding-top: 120px;
     }
     
+    .mainTitle {
+        font-size: 32px;
+    }
+    
+    .heroText {
+        font-size: 18px !important;
+    }
+    
     .title {
-        width: 60%;
-        font-size: 18px;
+        font-size: 24px;
     }
     
-    .layout p {
-        font-size: 15px;
+    .sectionCard {
+        padding: 30px;
     }
     
-    .listWrap > li {
-        margin-bottom: 12px;
+    .spreadsContainer {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .ctaSection h2 {
+        font-size: 28px;
+    }
+    
+    .ctaSection p {
+        font-size: 16px !important;
+    }
+    
+    .ctaButton {
+        padding: 12px 25px;
+        font-size: 16px;
     }
 }
 
@@ -67,30 +399,44 @@
         max-height: 100%;
         height: 100%;
         width: 95%;
-        padding: 80px 15px 50px;
+        padding: 80px 10px 50px;
         overflow-x: hidden;
     }
     
+    .mainTitle {
+        font-size: 28px;
+    }
+    
+    .heroText {
+        font-size: 16px !important;
+    }
+    
+    .sectionCard {
+        padding: 20px;
+    }
+    
     .title {
-        width: 85%;
-        font-size: 17px;
-        margin-bottom: 20px;
+        font-size: 22px;
     }
     
-    .layout p {
-        font-size: 14px;
-        margin-bottom: 15px;
-        line-height: 1.6;
+    .cardTitle, .spreadTitle {
+        font-size: 18px;
     }
     
-    .listWrap {
-        padding-left: 15px;
-        padding-right: 10px;
+    .ctaSection {
+        padding: 30px 20px;
     }
     
-    .listWrap > li {
-        margin-bottom: 15px;
-        font-size: 14px;
-        line-height: 1.6;
+    .ctaSection h2 {
+        font-size: 24px;
+    }
+    
+    .ctaSection p {
+        font-size: 15px !important;
+    }
+    
+    .ctaButton {
+        padding: 10px 20px;
+        font-size: 15px;
     }
 }

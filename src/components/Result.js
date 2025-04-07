@@ -113,7 +113,7 @@ const Result = () => {
           setLoading(false);
         } catch (err) {
           console.error('타로 읽기 오류:', err);
-          setError('타로 해석을 가져오는 중 오류가 발생했습니다. 다시 시도해 주세요.');
+          setError('An error occurred while retrieving your tarot reading. Please try again.');
           setLoading(false);
         }
       }

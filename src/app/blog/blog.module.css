@@ -1,162 +1,352 @@
 .blogContainer {
-  max-width: 1200px;
+  width: 1480px;
   margin: 0 auto;
-  padding: 2rem 1rem;
-  color: #e0c068; /* Gold text color */
+  padding-top: 170px;
+  padding-bottom: 60px;
 }
 
-.blogTitle {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+/* Hero Section */
+.heroSection {
   text-align: center;
-  color: #ffd700; /* Gold color for title */
+  margin-bottom: 60px;
+  padding: 0 20px;
 }
 
-.blogDescription {
-  font-size: 1.1rem;
-  color: #ffffff; /* White color for description */
+.mainTitle {
+  color: #e0c991;
+  font-size: 42px;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.heroText {
+  color: #fff;
+  font-size: 20px;
+  max-width: 700px;
+  margin: 0 auto;
+  opacity: 0.9;
+}
+
+/* Content Sections */
+.contentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.sectionCard {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sectionHeader {
+  margin-bottom: 30px;
   text-align: center;
-  max-width: 800px;
-  margin: 0 auto 3rem;
+  position: relative;
+}
+
+.title {
+  color: aliceblue;
+  text-align: center;
+  font-size: 28px;
+  width: auto;
+  padding-bottom: 10px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+.decorativeLine {
+  height: 2px;
+  width: 80px;
+  background: linear-gradient(90deg, transparent, #e0c991, transparent);
+  margin: 0 auto;
+}
+
+/* Category Filter */
+.categoryFilter {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.filterHeader {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.filterHeader h2 {
+  color: #e0c991;
+  font-size: 24px;
+  margin: 0 0 10px 0;
+}
+
+.categoryButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.categoryButton {
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.categoryButton:hover {
+  background: rgba(224, 201, 145, 0.2);
+  transform: translateY(-3px);
+}
+
+.activeCategory {
+  background: linear-gradient(135deg, rgba(224, 201, 145, 0.3) 0%, rgba(196, 166, 107, 0.3) 100%);
+  border: 1px solid #e0c991;
+  box-shadow: 0 5px 15px rgba(224, 201, 145, 0.2);
 }
 
 /* Featured Post Styles */
 .featuredPost {
   display: flex;
-  flex-direction: column;
-  margin-bottom: 3rem;
-  background: var(--card-background);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.3s ease;
+  margin-top: 20px;
+}
+
+.featuredPost:hover {
+  transform: translateY(-5px);
 }
 
 .featuredImage {
-  position: relative;
-  height: 300px;
+  width: 40%;
+  max-height: 350px;
   overflow: hidden;
 }
 
-.featuredImage img {
+.featuredImg {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s ease;
 }
 
-.featuredPost:hover .featuredImage img {
+.featuredPost:hover .featuredImg {
   transform: scale(1.05);
 }
 
 .featuredContent {
-  padding: 1.5rem;
+  width: 60%;
+  padding: 30px;
 }
 
-.featuredContent h2 {
-  font-size: 1.8rem;
-  margin: 0.5rem 0;
+.featuredMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
-.featuredContent h2 a {
-  color: #ffd700; /* Gold color for featured post titles */
+.metaDetails {
+  display: flex;
+  gap: 15px;
+  font-size: 14px;
+  color: #e0c991;
+  opacity: 0.8;
+}
+
+.featuredTitle {
+  font-size: 28px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.featuredTitle a {
+  color: #e0c991;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
-.featuredContent h2 a:hover {
-  color: #ffe866; /* Lighter gold on hover */
+.featuredTitle a:hover {
+  color: #ffd700;
 }
 
-.tag {
+.readMoreLink {
   display: inline-block;
-  background-color: rgba(255, 215, 0, 0.2); /* Semi-transparent gold */
-  color: #ffd700; /* Gold color for tag text */
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  color: #e0c991;
+  text-decoration: none;
+  margin-top: 15px;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
-.excerpt {
-  color: #ffffff; /* White color for excerpts */
-  margin-bottom: 1rem;
-  line-height: 1.6;
-}
-
-.meta {
-  display: flex;
-  gap: 1rem;
-  font-size: 0.85rem;
-  color: #e0c068; /* Gold color for meta text */
+.readMoreLink:hover {
+  color: #ffd700;
+  text-decoration: underline;
 }
 
 /* Blog Grid Styles */
 .blogGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 20px;
+  margin-bottom: 40px;
 }
 
 .blogCard {
-  background: var(--card-background);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   transition: transform 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .blogCard:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
 .cardImage {
-  height: 180px;
+  height: 200px;
   overflow: hidden;
 }
 
-.cardImage img {
+.postImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s ease;
 }
 
-.blogCard:hover .cardImage img {
+.blogCard:hover .postImage {
   transform: scale(1.05);
 }
 
 .cardContent {
-  padding: 1.2rem;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
-.cardContent h3 {
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
+.postMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
-.cardContent h3 a {
-  color: #ffd700; /* Gold color for card titles */
+.metaInfo {
+  display: flex;
+  gap: 15px;
+  font-size: 13px;
+  color: #e0c991;
+  opacity: 0.8;
+}
+
+.postTitle {
+  font-size: 20px;
+  margin: 0 0 15px 0;
+  line-height: 1.4;
+}
+
+.postTitle a {
+  color: #e0c991;
   text-decoration: none;
   transition: color 0.2s ease;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
-.cardContent h3 a:hover {
-  color: #ffe866; /* Lighter gold on hover */
+.postTitle a:hover {
+  color: #ffd700;
 }
 
-.cardContent .excerpt {
-  font-size: 0.9rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.excerpt {
+  color: #f2e6cd;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  flex-grow: 1;
+  font-size: 15px;
+}
+
+.cardLink {
+  display: inline-block;
+  color: #e0c991;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: auto;
+  transition: color 0.2s ease;
+}
+
+.cardLink:hover {
+  color: #ffd700;
+  text-decoration: underline;
+}
+
+/* Tag Styles */
+.tag {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.all {
+  background-color: rgba(224, 201, 145, 0.2);
+  color: #e0c991;
+}
+
+.love {
+  background-color: rgba(255, 99, 132, 0.2);
+  color: #ff6384;
+}
+
+.career {
+  background-color: rgba(54, 162, 235, 0.2);
+  color: #36a2eb;
+}
+
+.practice {
+  background-color: rgba(255, 206, 86, 0.2);
+  color: #ffce56;
+}
+
+.health {
+  background-color: rgba(75, 192, 192, 0.2);
+  color: #4bc0c0;
+}
+
+/* No Results */
+.noResults {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  margin: 30px 0;
+}
+
+.noResults p {
+  color: #f2e6cd;
+  font-size: 16px;
+  margin: 0;
 }
 
 /* Pagination Styles */
@@ -164,45 +354,56 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 3rem;
+  gap: 20px;
+  margin-top: 40px;
 }
 
 .currentPage {
-  font-weight: 600;
+  color: #fff;
+  font-weight: 500;
 }
 
 .pageLink {
-  color: #ffd700; /* Gold color for page links */
+  color: #e0c991;
   text-decoration: none;
   transition: color 0.2s ease;
+  font-weight: 500;
 }
 
 .pageLink:hover {
+  color: #ffd700;
   text-decoration: underline;
 }
 
-/* Subscribe Section Styles */
-.subscribeSection {
-  background: var(--card-background);
-  padding: 2rem;
-  border-radius: 12px;
+.comingSoon {
+  color: #e0c991;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* CTA Section */
+.ctaSection {
+  margin-top: 80px;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, rgba(224, 201, 145, 0.1) 0%, rgba(18, 18, 18, 0.1) 100%);
+  padding: 50px 30px;
+  border-radius: 15px;
+  border: 1px solid rgba(224, 201, 145, 0.2);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
-.subscribeSection h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: #ffd700; /* Gold color for subscribe heading */
+.ctaSection h2 {
+  color: #e0c991;
+  font-size: 32px;
+  margin-top: 0;
+  margin-bottom: 15px;
 }
 
-.subscribeSection p {
-  color: #ffffff; /* White color for subscribe text */
-  margin-bottom: 1.5rem;
+.ctaSection p {
+  color: #f2e6cd;
+  font-size: 18px;
   max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto 30px;
 }
 
 .subscribeForm {
@@ -213,63 +414,169 @@
 
 .subscribeForm input {
   flex: 1;
-  padding: 0.8rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 8px 0 0 8px;
-  background: var(--input-background);
-  color: var(--foreground);
+  padding: 15px;
+  border: 1px solid rgba(224, 201, 145, 0.3);
+  border-radius: 30px 0 0 30px;
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font-size: 16px;
+}
+
+.subscribeForm input:focus {
+  outline: none;
+  border-color: #e0c991;
 }
 
 .subscribeForm button {
-  padding: 0.8rem 1.5rem;
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: 0 8px 8px 0;
+  background: linear-gradient(135deg, #e0c991 0%, #c4a66b 100%);
+  color: #000;
+  padding: 15px 25px;
+  font-size: 16px;
   font-weight: 600;
+  border: none;
+  border-radius: 0 30px 30px 0;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .subscribeForm button:hover {
-  background-color: var(--accent-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive Styles */
-@media (min-width: 768px) {
+/* Media Queries */
+@media (max-width: 1480px) {
+  .blogContainer {
+    width: 95%;
+  }
+  
+  .blogGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
   .featuredPost {
-    flex-direction: row;
+    flex-direction: column;
+  }
+  
+  .featuredImage, 
+  .featuredContent {
+    width: 100%;
   }
   
   .featuredImage {
-    width: 50%;
-    height: auto;
+    height: 300px;
   }
   
-  .featuredContent {
-    width: 50%;
+  .blogGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .mainTitle {
+    font-size: 36px;
   }
 }
 
 @media (max-width: 768px) {
-  .subscribeForm {
-    flex-direction: column;
-    gap: 0.5rem;
+  .blogContainer {
+    width: 92%;
+    padding-top: 120px;
   }
   
-  .subscribeForm input,
+  .mainTitle {
+    font-size: 32px;
+  }
+  
+  .heroText {
+    font-size: 18px;
+  }
+  
+  .title {
+    font-size: 24px;
+  }
+  
+  .sectionCard {
+    padding: 30px;
+  }
+  
+  .categoryButton {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  
+  .blogGrid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .featuredTitle {
+    font-size: 24px;
+  }
+  
+  .ctaSection h2 {
+    font-size: 28px;
+  }
+  
+  .ctaSection p {
+    font-size: 16px;
+  }
+  
+  .subscribeForm {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .subscribeForm input, 
   .subscribeForm button {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 30px;
   }
 }
 
 @media (max-width: 480px) {
-  .blogTitle {
-    font-size: 2rem;
+  .blogContainer {
+    padding: 100px 10px 50px;
   }
   
-  .featuredContent h2 {
-    font-size: 1.5rem;
+  .mainTitle {
+    font-size: 28px;
+  }
+  
+  .heroText {
+    font-size: 16px;
+  }
+  
+  .sectionCard {
+    padding: 20px;
+  }
+  
+  .categoryButtons {
+    gap: 10px;
+  }
+  
+  .categoryButton {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .postTitle {
+    font-size: 18px;
+  }
+  
+  .excerpt {
+    font-size: 14px;
+  }
+  
+  .ctaSection {
+    padding: 30px 20px;
+  }
+  
+  .ctaSection h2 {
+    font-size: 24px;
+  }
+  
+  .ctaSection p {
+    font-size: 15px;
   }
 } 
