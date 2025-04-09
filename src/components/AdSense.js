@@ -54,14 +54,14 @@ export default function AdSense() {
                 crossOrigin="anonymous"
                 strategy="afterInteractive" // 페이지 로드 후 상호작용 가능할 때 로드
                 onLoad={() => {
-                    console.log('애드센스 스크립트 로드 완료');
+                    // console.log('애드센스 스크립트 로드 완료');
                     // 스크립트 로드 후 초기화 시도 (useEffect에서도 처리하지만, 이중 확인)
                     if (!initialized.current && typeof window !== 'undefined' && window.adsbygoogle && !isDevelopment) {
-                         console.log('스크립트 onLoad에서 애드센스 초기화 시도');
+                        //  console.log('스크립트 onLoad에서 애드센스 초기화 시도');
                          try {
                              window.adsbygoogle.push({});
                              initialized.current = true;
-                             console.log('스크립트 onLoad에서 애드센스 초기화 완료');
+                            //  console.log('스크립트 onLoad에서 애드센스 초기화 완료');
                          } catch (error) {
                              // 이미 초기화된 경우 오류 발생 가능 (무시 가능)
                              if (!error.message.includes("already have ads")) {

@@ -191,7 +191,7 @@ export default function RegisterPage() {
           </button>
         </form>
         
-        <div className={styles.socialLogin}>
+        {/* <div className={styles.socialLogin}>
           <p className={styles.socialText}>Register with social account</p>
           <div className={styles.socialButtons}>
             <button className={`${styles.socialButton} ${styles.kakao}`}>
@@ -201,7 +201,7 @@ export default function RegisterPage() {
               Register with Google
             </button>
           </div>
-        </div>
+        </div> */}
         
         <div className={styles.login}>
           <p>

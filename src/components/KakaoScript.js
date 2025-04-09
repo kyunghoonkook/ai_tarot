@@ -21,7 +21,7 @@ function KakaoScript() {
                     // 이미 초기화되었는지 확인
                     if (!window.Kakao.isInitialized()) {
                         window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
-                        console.log('Kakao API 초기화 성공');
+                        // console.log('Kakao API 초기화 성공');
                     }
                 } catch (error) {
                     console.error('Kakao API 초기화 실패:', error);
