@@ -155,14 +155,22 @@ img {
 }
 
 .footer {
-    border-top: 1px solid #272e2f;
-    max-width: 1480px;
-    margin: 0 auto;
-    padding: 20px;
+    background: rgba(4, 40, 49, 0.95);
+    padding: 1.5rem 1rem;
+    color: #fff;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.copyright {
     text-align: center;
-    font-size: 14px;
-    color: #666;
-    margin-top: auto;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+    width: 100%;
 }
 
 @font-face {
@@ -339,12 +347,8 @@ button {
   flex: 1;
 }
 
-.footer {
-  background: rgba(4, 40, 49, 0.95);
-  padding: 3rem 1rem 1.5rem;
-  color: #fff;
-}
-
+/* 푸터 섹션 관련 코드 주석 처리 또는 삭제 */
+/* 
 .footer-content {
   display: flex;
   flex-wrap: wrap;
@@ -405,15 +409,6 @@ button {
   color: #ffcc57;
 }
 
-.copyright {
-  text-align: center;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.9rem;
-}
-
 @media (max-width: 768px) {
   .footer-content {
     flex-direction: column;
@@ -424,3 +419,4 @@ button {
     min-width: 100%;
   }
 }
+*/

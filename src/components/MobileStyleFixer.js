@@ -67,8 +67,9 @@ export default function MobileStyleFixer() {
         
         applyStyleToElements('.footer', {
           background: 'rgba(4, 40, 49, 0.8)',
-          padding: '15px',
-          borderTop: '1px solid rgba(255, 215, 0, 0.2)'
+          padding: '1rem',
+          borderTop: '1px solid rgba(255, 215, 0, 0.1)',
+          width: '100%'
         });
         
         applyStyleToElements('.title', {
