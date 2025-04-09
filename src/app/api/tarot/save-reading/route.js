@@ -61,20 +61,46 @@ export async function POST(request) {
       design: design || 'Beauty',
     });
     
-    await newReading.save();
+    console.log('저장할 타로 리딩:', {
+      userId: decoded.userId,
+      type: `${type} Tarot`,
+      cards: cards,
+      design: design || 'Beauty'
+    });
+    
+    try {
+      await newReading.save();
+      console.log('타로 리딩 저장 성공, ID:', newReading._id);
+    } catch (saveError) {
+      console.error('타로 리딩 저장 실패:', saveError);
+      return NextResponse.json(
+        { success: false, message: 'Failed to save reading: ' + saveError.message },
+        { status: 500 }
+      );
+    }
     
     // 사용자의 readingsCount 증가
     user.readingsCount = (user.readingsCount || 0) + 1;
     await user.save();
     
     // 사용자의 타로 리딩 수 제한 (최대 10개까지 유지)
-    const userReadings = await TarotReading.findByUserId(decoded.userId);
-    if (userReadings.length > 10) {
-      // 가장 오래된 리딩 삭제 (정렬은 이미 최신순으로 되어 있으므로 마지막 항목부터 삭제)
-      const readingsToDelete = userReadings.slice(10);
-      for (const reading of readingsToDelete) {
-        await TarotReading.findByIdAndDelete(reading._id);
+    try {
+      const userReadings = await TarotReading.find({ userId: decoded.userId }).sort({ createdAt: -1 });
+      console.log('사용자 리딩 조회 성공, 개수:', userReadings.length);
+      
+      if (userReadings.length > 10) {
+        // 가장 오래된 리딩 삭제 (정렬은 이미 최신순으로 되어 있으므로 마지막 항목부터 삭제)
+        const readingsToDelete = userReadings.slice(10);
+        console.log('삭제할 리딩 수:', readingsToDelete.length);
+        
+        for (const reading of readingsToDelete) {
+          await TarotReading.findByIdAndDelete(reading._id);
+          console.log('오래된 리딩 삭제:', reading._id);
+        }
       }
+    } catch (cleanupError) {
+      console.error('오래된 리딩 정리 중 오류 (무시됨):', cleanupError);
+      // 리딩 정리 오류는 무시하고 계속 진행 (새 리딩은 저장되었으므로)
     }
     
     return NextResponse.json(

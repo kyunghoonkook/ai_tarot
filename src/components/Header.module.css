@@ -290,6 +290,25 @@
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+.loginButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
+  font-size: 0.9rem;
+  background-color: #ffcc57;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.loginButton:hover {
+  background-color: #ffd77a;
+  transform: translateY(-2px);
+}
+
 @media (max-width: 900px) {
   .mainNav {
     display: none;

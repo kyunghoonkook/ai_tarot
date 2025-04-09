@@ -4,6 +4,7 @@ import connectToDatabase from '@/lib/mongodb';
 import User from '@/models/User';
 import TarotReading from '@/models/TarotReading';
 import { verifyToken } from '@/lib/auth';
+import mongoose from 'mongoose';
 
 export async function GET(request) {
   try {
@@ -52,8 +53,14 @@ export async function GET(request) {
     try {
       console.log('타로 리딩 조회 시도');
       console.log('TarotReading 모델 함수 확인:', typeof TarotReading.findByUserId);
-      const readings = await TarotReading.findByUserId(decoded.userId);
-      console.log('타로 리딩 조회 성공, 개수:', readings.length);
+      
+      // 직접 조회 시도
+      await connectToDatabase();
+      const readings = await mongoose.model('TarotReading').find({ 
+        userId: user._id 
+      }).sort({ createdAt: -1 });
+      
+      console.log('타로 리딩 직접 조회 성공, 개수:', readings.length);
       
       // Format user data for response
       const userData = {

@@ -50,6 +50,7 @@ export default function MyPage() {
     const fetchUserData = async () => {
       setIsLoading(true);
       try {
+        console.log('사용자 데이터 가져오기 시도');
         const response = await fetch('/api/auth/user', {
           credentials: 'include'
         });
@@ -59,9 +60,11 @@ export default function MyPage() {
         }
         
         const data = await response.json();
+        console.log('사용자 API 응답:', data.success ? 'Success' : 'Failed');
         
         if (data.success) {
           setUser(data.user);
+          console.log('받은 타로 리딩 개수:', data.readings ? data.readings.length : 0);
           setTarotReadings(data.readings || []);
           setProfileData({
             name: data.user.name || '',
@@ -282,11 +285,13 @@ export default function MyPage() {
 
   // Render tarot readings section
   const renderTarotReadings = () => {
-    if (tarotReadings.length === 0) {
+    console.log('타로 리딩 렌더링 시도:', tarotReadings);
+    
+    if (!tarotReadings || tarotReadings.length === 0) {
       return (
         <div className={styles.emptyReadings}>
           <p>You haven't saved any readings yet.</p>
-          <Link href="/Love" className={styles.button}>
+          <Link href="/cards/love" className={styles.button}>
             Get Your First Reading
           </Link>
         </div>
@@ -309,12 +314,18 @@ export default function MyPage() {
             <div className={styles.cardsList}>
               <strong>Cards:</strong>
               <div className={styles.cardsDisplay}>
-                {reading.cards.map((card, idx) => (
-                  <div key={idx} className={styles.cardItem}>
-                    <div className={styles.cardNumber}>{card}</div>
-                    <div className={styles.cardName}>{getCardName(card)}</div>
+                {reading.cards && reading.cards.length > 0 ? (
+                  reading.cards.map((card, idx) => (
+                    <div key={idx} className={styles.cardItem}>
+                      <div className={styles.cardNumber}>{card}</div>
+                      <div className={styles.cardName}>{getCardName(card)}</div>
+                    </div>
+                  ))
+                ) : (
+                  <div className={styles.cardItem}>
+                    <div className={styles.cardName}>No cards available</div>
                   </div>
-                ))}
+                )}
               </div>
             </div>
             
@@ -324,8 +335,15 @@ export default function MyPage() {
             </div>
             
             <Link 
-              href={`/cards/${reading.type.split(' ')[0].toLowerCase()}/${reading.design || 'Beauty'}/result/${reading.cards.join(',')}`}
+              href={`/cards/${reading.type.split(' ')[0].toLowerCase()}/${reading.design || 'Beauty'}/result/${Array.isArray(reading.cards) ? reading.cards.join(',') : '00,01,02'}`}
               className={styles.viewReadingButton}
+              onClick={(e) => {
+                // 카드 데이터가 없으면 이벤트 중지하고 에러 메시지 표시
+                if (!Array.isArray(reading.cards) || reading.cards.length === 0) {
+                  e.preventDefault();
+                  setError('This reading does not have card data. Try getting a new reading.');
+                }
+              }}
             >
               View Full Reading
             </Link>

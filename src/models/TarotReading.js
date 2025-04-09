@@ -42,10 +42,27 @@ const TarotReadingSchema = new mongoose.Schema(
 // Find readings by user ID
 TarotReadingSchema.statics.findByUserId = function(userId) {
   console.log('findByUserId 메서드 호출됨:', userId);
-  return this.find({ userId: userId }).sort({ createdAt: -1 });
+  console.log('userId 타입:', typeof userId, userId instanceof mongoose.Types.ObjectId ? 'ObjectId' : 'not ObjectId');
+  
+  // userId가 문자열인 경우 ObjectId로 변환
+  let userIdObj;
+  try {
+    userIdObj = typeof userId === 'string' ? new mongoose.Types.ObjectId(userId) : userId;
+    console.log('변환된 userId:', userIdObj);
+  } catch (error) {
+    console.error('userId ObjectId 변환 오류:', error);
+    userIdObj = userId;
+  }
+  
+  return this.find({ userId: userIdObj }).sort({ createdAt: -1 });
 };
 
-// Prevent mongoose from creating a duplicate model
+// 추가: ID로 단일 타로 리딩 찾기
+TarotReadingSchema.statics.findReadingById = function(readingId) {
+  return this.findById(readingId);
+};
+
+// 방어적 코딩: 모델 중복 생성 방지
 const TarotReading = mongoose.models.TarotReading || mongoose.model('TarotReading', TarotReadingSchema);
 
 export default TarotReading; 

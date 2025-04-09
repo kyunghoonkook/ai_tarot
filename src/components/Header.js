@@ -93,7 +93,9 @@ const Header = () => {
                                       <div className={styles.userInitial}>{user.name.charAt(0).toUpperCase()}</div>
                                   )
                               ) : (
-                                  <img src="/images/user-icon.svg" alt="User" />
+                                  <Link href="/auth/login" className={styles.loginButton}>
+                                      Login
+                                  </Link>
                               )}
                           </span>
                       </button>
