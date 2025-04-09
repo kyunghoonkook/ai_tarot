@@ -39,25 +39,37 @@ export default function CardSelector({ theme, design }) {
             case 'Love':
                 setCardThemeText({
                     title: 'Explore Your Romantic Journey',
-                    positions: ['Past', 'Present', 'Future'],
+                    positions: ['Past Relationship', 'Current Situation', 'Future Possibilities'],
                 });
                 break;
             case 'Money':
                 setCardThemeText({
                     title: 'Discover Your Financial Path',
-                    positions: ['Areas to Improve', 'Your Strengths', 'Next Steps'],
+                    positions: ['Current Financial State', 'Challenges & Opportunities', 'Guidance for Growth'],
+                });
+                break;
+            case 'Career':
+                setCardThemeText({
+                    title: 'Illuminate Your Professional Path',
+                    positions: ['Current Position', 'Hidden Factors', 'Best Path Forward'],
                 });
                 break;
             case 'Health':
                 setCardThemeText({
                     title: 'Understand Your Wellness Journey',
-                    positions: ['Mind', 'Body', 'Soul'],
+                    positions: ['Mental Wellbeing', 'Physical Health', 'Spiritual Balance'],
+                });
+                break;
+            case 'Major':
+                setCardThemeText({
+                    title: 'Gain Deeper Insights',
+                    positions: ['Past Influences', 'Present Situation', 'Future Direction'],
                 });
                 break;
             default:
                 setCardThemeText({
-                    title: 'Tarot Reading',
-                    positions: ['Card 1', 'Card 2', 'Card 3'],
+                    title: 'Your Personalized Tarot Reading',
+                    positions: ['Past', 'Present', 'Future'],
                 });
         }
 
@@ -353,29 +365,45 @@ export default function CardSelector({ theme, design }) {
                         <div className={styles.selectedCardsSection} style={mobileSelectedSectionStyle}>
                             <h3>Your Selected Cards: {selectedCards.length}/3</h3>
                             <div className={styles.selectedCardsContainer} style={mobileSelectedContainerStyle}>
-                                {selectedCards.map((card, idx) => (
-                                    <div key={idx} className={styles.selectedCardWrapper} style={mobileSelectedCardWrapperStyle}>
-                                        <div
-                                            className={`${styles.selectedCard} ${
-                                                card.isFlipped ? styles.flipped : ''
-                                            } ${card.isReversed ? styles.reversed : ''}`}
-                                        >
-                                            <div className={styles.selectedCardInner}>
-                                                <div className={styles.selectedCardFront}>
-                                                    <img src={`/images/${design}/뒷면 1.png`} alt="Card Back" />
-                                                </div>
-                                                <div className={styles.selectedCardBack}>
-                                                    <img
-                                                        src={`/images/${design}/${card.number}.png`}
-                                                        alt={`Card ${card.number}`}
-                                                        style={card.isReversed ? { transform: 'rotate(180deg)' } : {}}
-                                                    />
-                                                </div>
-                                            </div>
+                                {Array.from({ length: 3 }).map((_, idx) => {
+                                    const card = selectedCards[idx];
+                                    return (
+                                        <div key={idx} className={styles.selectedCardWrapper} style={mobileSelectedCardWrapperStyle}>
+                                            {card ? (
+                                                <>
+                                                    <div
+                                                        className={`${styles.selectedCard} ${
+                                                            card.isFlipped ? styles.flipped : ''
+                                                        } ${card.isReversed ? styles.reversed : ''}`}
+                                                    >
+                                                        <div className={styles.selectedCardInner}>
+                                                            <div className={styles.selectedCardFront}>
+                                                                <img src={`/images/${design}/뒷면 1.png`} alt="Card Back" />
+                                                            </div>
+                                                            <div className={styles.selectedCardBack}>
+                                                                <img
+                                                                    src={`/images/${design}/${card.number}.png`}
+                                                                    alt={`Card ${card.number}`}
+                                                                    style={card.isReversed ? { transform: 'rotate(180deg)' } : {}}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <h4>{cardThemeText.positions[idx]}</h4>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <div className={`${styles.selectedCard} ${styles.emptyCard}`}>
+                                                        <div className={styles.selectedCardInner}>
+                                                            <div className={styles.emptyCardFront}></div>
+                                                        </div>
+                                                    </div>
+                                                    <h4>{cardThemeText.positions[idx]}</h4>
+                                                </>
+                                            )}
                                         </div>
-                                        <h4>{cardThemeText.positions[idx]}</h4>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         </div>
 

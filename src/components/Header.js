@@ -70,25 +70,30 @@ const Header = () => {
                       <button
                           className={styles.notificationButton}
                           aria-label="Notifications"
+                          title="Notifications (Coming Soon)"
                           onClick={() => {
-                              /* Notification feature implementation */
+                              /* Notification feature - to be implemented in future update */
+                              alert("Notifications feature coming soon!");
                           }}
                       >
-                          <span className={styles.notificationIcon}>🔔</span>
+                          <span className={styles.notificationIcon}>
+                              <img src="/images/notification-icon.svg" alt="Notifications" />
+                              <span className={styles.notificationTooltip}>Coming Soon</span>
+                          </span>
                       </button>
                   )}
 
                   <div className={styles.userMenuContainer}>
-                      <button className={styles.userButton} onClick={toggleUserMenu} aria-expanded={isUserMenuOpen}>
+                      <button className={styles.userButton} onClick={toggleUserMenu} aria-expanded={isUserMenuOpen} title="User Menu">
                           <span className={styles.userIcon}>
                               {isAuthenticated ? (
                                   user.profileImage ? (
                                       <img src={user.profileImage} alt={user.name} className={styles.userAvatar} />
                                   ) : (
-                                      user.name.charAt(0).toUpperCase()
+                                      <div className={styles.userInitial}>{user.name.charAt(0).toUpperCase()}</div>
                                   )
                               ) : (
-                                  '👤'
+                                  <img src="/images/user-icon.svg" alt="User" />
                               )}
                           </span>
                       </button>

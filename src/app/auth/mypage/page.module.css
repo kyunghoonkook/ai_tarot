@@ -217,170 +217,203 @@
 }
 
 .readingCard {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
+  background: rgba(10, 30, 40, 0.7);
+  border-radius: 10px;
   padding: 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .readingCard:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 204, 87, 0.3);
 }
 
 .readingHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
-  font-size: 0.85rem;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.readingType {
+.readingHeader h3 {
+  font-size: 1.2rem;
   color: #ffcc57;
-  font-weight: 600;
+  margin: 0;
 }
 
 .readingDate {
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  color: #aaa;
 }
 
 .readingQuestion {
-  font-size: 1.1rem;
   margin-bottom: 15px;
-  font-weight: 600;
-  color: #fff;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
-.readingCards {
+.readingQuestion strong {
+  color: #ffcc57;
+}
+
+.cardsList {
+  margin-bottom: 20px;
+}
+
+.cardsList strong {
+  color: #ffcc57;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.cardsDisplay {
   display: flex;
+  gap: 15px;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+.cardItem {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 120px;
+  text-align: center;
+}
+
+.cardNumber {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #ffcc57;
+  margin-bottom: 5px;
 }
 
 .cardName {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  padding: 4px 8px;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.cardName small {
-  font-size: 0.7rem;
-  opacity: 0.7;
-  margin-left: 2px;
+  font-size: 0.9rem;
+  color: #fff;
 }
 
 .readingInterpretation {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.5;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  line-height: 1.6;
 }
 
-.readingActions {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.viewButton {
-  background: transparent;
+.readingInterpretation strong {
   color: #ffcc57;
-  font-size: 0.9rem;
-  padding: 5px 10px;
-  border: 1px solid #ffcc57;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: inline-block;
+  display: block;
+  margin-bottom: 10px;
 }
 
-.viewButton:hover {
-  background: rgba(255, 204, 87, 0.1);
+.readingInterpretation p {
+  color: #eee;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 10px;
+  text-align: justify;
+}
+
+.viewReadingButton {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #ffcc57;
+  color: #042831;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.viewReadingButton:hover {
+  background: #ffd77a;
   transform: translateY(-2px);
 }
 
-.emptyState {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
+.emptyReadings {
+  background: rgba(10, 30, 40, 0.7);
+  padding: 30px;
+  border-radius: 10px;
   text-align: center;
-}
-
-.emptyState p {
-  margin-bottom: 20px;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.readingInfo {
   margin-top: 20px;
-  text-align: center;
 }
 
-.readingInfoText {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-/* 설정 섹션 스타일 */
-.settingsList {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.settingItem {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.settingTitle {
+.emptyReadings p {
   font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 20px;
+  color: #aaa;
 }
 
-.settingDescription {
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 1rem;
-  font-size: 0.95rem;
+.emptyReadings .button {
+  padding: 12px 24px;
+  background: #ffcc57;
+  color: #042831;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 5px;
+  display: inline-block;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
-/* 로딩 및 에러 상태 스타일 */
-.loadingContainer,
-.errorContainer {
+.emptyReadings .button:hover {
+  background: #ffd77a;
+  transform: translateY(-2px);
+}
+
+.error {
+  background: rgba(255, 87, 87, 0.2);
+  color: #ff5757;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border-left: 3px solid #ff5757;
+}
+
+.myPageContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
-  text-align: center;
-  padding: 2rem;
 }
 
-.spinner {
-  border: 4px solid rgba(255, 255, 255, 0.2);
-  border-top: 4px solid #ffcc57;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin-bottom: 1rem;
+@media (min-width: 768px) {
+  .myPageContainer {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 30px;
+  }
+  
+  .sidebar {
+    width: 250px;
+    position: sticky;
+    top: 20px;
+  }
+  
+  .mainContent {
+    flex: 1;
+  }
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+@media (max-width: 768px) {
+  .readingCard {
+    padding: 15px;
+  }
+  
+  .cardsDisplay {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .cardItem {
+    width: 100%;
+  }
 }
 
 @media (max-width: 900px) {

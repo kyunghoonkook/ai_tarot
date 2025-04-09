@@ -75,88 +75,155 @@
 .userActions {
   display: flex;
   align-items: center;
+  gap: 15px;
 }
 
-.notificationButton,
-.userButton {
-  background: none;
+.notificationButton {
+  background: transparent;
   border: none;
-  color: #fff;
-  font-size: 1.2rem;
   cursor: pointer;
-  padding: 0.5rem;
-  margin-left: 0.5rem;
   position: relative;
-  transition: color 0.3s;
+  padding: 5px;
+  transition: transform 0.2s;
 }
 
-.notificationButton:hover,
+.notificationButton:hover {
+  transform: translateY(-2px);
+}
+
+.notificationIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notificationIcon img {
+  width: 24px;
+  height: 24px;
+  filter: invert(80%);
+}
+
+.notificationTooltip {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+.notificationIcon:hover .notificationTooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.userButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.2s;
+}
+
 .userButton:hover {
-  color: #ffcc57;
+  transform: translateY(-2px);
 }
 
-.notificationIcon,
 .userIcon {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
 }
 
-.userMenuContainer {
-  position: relative;
+.userIcon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.userInitial {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffcc57;
+  color: #042831;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .userDropdown {
   position: absolute;
   top: 100%;
   right: 0;
-  background: #042831;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  min-width: 240px;
-  padding: 1rem;
-  z-index: 10;
-  margin-top: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+  min-width: 280px;
+  background: rgba(10, 30, 40, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .userInfo {
-  padding-bottom: 1rem;
+  padding: 1rem 0.5rem;
   margin-bottom: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .userName {
-  color: #fff;
-  font-weight: 600;
+  font-weight: bold;
+  margin: 0 0 8px 0;
   font-size: 1.1rem;
-  margin: 0 0 0.5rem 0;
+  color: #ffffff;
 }
 
 .userEmail {
-  color: rgba(255, 255, 255, 0.7);
   font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
   margin: 0;
   word-break: break-all;
 }
 
 .userMenuItem {
   display: block;
-  padding: 0.8rem 1rem;
-  color: #fff;
-  text-decoration: none;
-  font-size: 1rem;
-  text-align: left;
   width: 100%;
-  background: none;
+  text-align: left;
+  padding: 1rem 1.25rem;
+  margin: 0.75rem 0;
+  background: transparent;
   border: none;
+  border-radius: 8px;
+  color: #fff;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border-radius: 6px;
-  margin: 0.4rem 0;
+  font-size: 1.05rem;
+  transition: all 0.25s;
+  text-decoration: none;
 }
 
 .userMenuItem:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  transform: translateX(5px);
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(8px);
 }
 
 .userAvatar {
@@ -265,14 +332,12 @@
     padding: 0.5rem 1rem;
   }
   
-
-  
   .userActions {
     margin-right: 0.5rem;
   }
   
   .userDropdown {
-    right: -10px;
-    width: 260px;
+    right: -15px;
+    width: 300px;
   }
 } 
