@@ -178,26 +178,42 @@ export async function DELETE(request, { params }) {
 export async function GET(request, { params }) {
   try {
     const { slug } = params;
+    console.log('블로그 포스트 조회 요청:', slug);
+    
     await connectToDatabase();
     
-    const post = await BlogPost.findOne({ slug, status: 'published' }).populate('author', 'name email profileImage');
+    // slug로 게시물 검색 (status: published인 게시물만)
+    const post = await BlogPost.findOne({ slug });
     
     if (!post) {
+      console.log('게시물을 찾을 수 없음:', slug);
       return NextResponse.json(
         { success: false, message: 'Post not found' },
         { status: 404 }
       );
     }
     
-    // 조회수 증가
-    await post.incrementViews();
+    console.log('게시물 찾음:', post.title);
     
-    return NextResponse.json({ success: true, post });
+    // 조회수 증가 (에러가 발생해도 응답에 영향 없도록 try-catch로 감싸기)
+    try {
+      await post.incrementViews();
+    } catch (viewError) {
+      console.error('조회수 증가 중 오류:', viewError);
+    }
+    
+    return NextResponse.json({ 
+      success: true, 
+      post: {
+        ...post.toObject(),
+        formattedCreatedAt: new Date(post.createdAt).toLocaleString()
+      }
+    });
     
   } catch (error) {
-    console.error('Error fetching blog post:', error);
+    console.error('블로그 포스트 조회 중 오류:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to fetch blog post' },
+      { success: false, message: 'Failed to fetch blog post: ' + error.message },
       { status: 500 }
     );
   }
