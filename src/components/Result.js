@@ -68,6 +68,7 @@ const Result = () => {
       if (theme && card1 && card2 && card3) {
         try {
           setLoading(true);
+          setResponse(''); // 응답 초기화
           
           // EventSource를 사용한 스트리밍 응답 처리
           const response = await fetch('/api/tarot', {
@@ -104,6 +105,12 @@ const Result = () => {
                 // 이전 응답에 새 청크를 추가
                 result = parsedChunk.message;
                 setResponse(result);
+                
+                // 완료 신호가 있으면 저장 준비 플래그 설정
+                if (parsedChunk.status === 'complete') {
+                  console.log('Received completion signal from API');
+                  // 여기서는 상태만 표시합니다. 실제 저장은 useEffect에서 처리
+                }
               }
             } catch (e) {
               // 청크가 유효한 JSON이 아닌 경우 그대로 추가
@@ -111,16 +118,18 @@ const Result = () => {
             }
           }
           
-          setLoading(false);
-          
-          // 타로 리딩 결과가 준비되면 저장 시도
+          // 최종 결과를 상태에 저장
           if (result && result.trim() !== '') {
-            setResponse(result); // 최종 결과 설정
-            setTimeout(() => saveReadingResult(), 2000); // 상태 업데이트 후 저장 시도
+            setResponse(result);
+            console.log('Tarot reading complete, content length:', result.length);
           } else {
             console.error('No valid response received from the server');
             setError('Failed to retrieve tarot reading. Please try again.');
           }
+          
+          // 로딩 상태 해제
+          setLoading(false);
+          
         } catch (err) {
           console.error('Tarot reading error:', err);
           setError('An error occurred while retrieving your tarot reading. Please try again.');
@@ -131,6 +140,19 @@ const Result = () => {
 
     fetchData();
   }, [pathname, theme, card1, card2, card3]);
+
+  // 응답이 로드된 후에 자동 저장 시도
+  useEffect(() => {
+    // 로딩이 완료되고 응답이 있는 경우에만 저장 시도
+    if (!loading && response && response.trim() !== '' && response.length > 50) {
+      console.log('Response loaded with sufficient content, attempting to save in 2 seconds...');
+      const timer = setTimeout(() => {
+        saveReadingResult();
+      }, 2000); // 2초 후 저장 시도 (상태 업데이트 시간 확보)
+      
+      return () => clearTimeout(timer);
+    }
+  }, [loading, response]);
 
   // 타로 리딩 결과 저장 함수
   const saveReadingResult = async () => {
@@ -147,7 +169,8 @@ const Result = () => {
         attempt: saveAttempts + 1
       });
       
-      if (!response || response.trim() === '') {
+      // 로딩 중이거나 응답이 없으면 재시도
+      if (loading || !response || response.trim() === '') {
         console.log(`Reading content not ready yet. Retrying in 5 seconds. (Attempt ${saveAttempts + 1}/5)`);
         setTimeout(() => {
           setSaveAttempts(prev => prev + 1);
@@ -171,12 +194,20 @@ const Result = () => {
       
       console.log('Saving tarot reading:', {
         responseLength: response.length,
-        plainTextLength: plainTextInterpretation.length
+        plainTextLength: plainTextInterpretation.length,
+        cards: selectedCards
       });
       
       // 내용이 너무 짧으면 저장하지 않음 (10자 이상)
       if (plainTextInterpretation.length < 10) {
         console.log('Interpretation content too short:', plainTextInterpretation);
+        setSaveStatus('error');
+        return;
+      }
+
+      // 카드 번호가 없거나 잘못된 경우 체크
+      if (!selectedCards || !Array.isArray(selectedCards) || selectedCards.length < 3) {
+        console.log('Invalid card selection:', selectedCards);
         setSaveStatus('error');
         return;
       }
@@ -196,28 +227,35 @@ const Result = () => {
         }),
       });
       
-      const saveData = await saveResponse.json();
+      let saveData;
+      try {
+        saveData = await saveResponse.json();
+      } catch (parseError) {
+        console.error('Error parsing save response:', parseError);
+        setSaveStatus('error');
+        return;
+      }
       
       if (!saveResponse.ok) {
-        console.error('타로 리딩 저장 실패:', {
+        console.error('Failed to save tarot reading:', {
           status: saveResponse.status,
           data: saveData
         });
         
         if (saveResponse.status === 401) {
-          console.log('로그인이 필요합니다. 로그인 후 마이페이지에서 저장된 리딩을 볼 수 있습니다.');
+          console.log('Login required. You can view saved readings in your profile after logging in.');
           setSaveStatus('login_required');
           // 로그인 필요 메시지는 UI에 표시
         } else {
           setSaveStatus('error');
-          setError('타로 리딩 저장 중 오류가 발생했습니다.');
+          setError('An error occurred while saving your tarot reading.');
         }
       } else {
-        console.log('타로 리딩이 성공적으로 저장되었습니다:', saveData);
+        console.log('Tarot reading successfully saved:', saveData);
         setSaveStatus('success');
       }
     } catch (error) {
-      console.error('타로 리딩 저장 실패 (클라이언트 오류):', error);
+      console.error('Failed to save tarot reading (client-side error):', error);
       setSaveStatus('error');
     }
   };
