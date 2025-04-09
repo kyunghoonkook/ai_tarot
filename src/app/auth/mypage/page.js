@@ -334,24 +334,28 @@ export default function MyPage() {
   
   if (isLoading && !user) {
     return (
-      <div className={styles.loadingContainer}>
-        <div className={styles.spinner}></div>
-        <p>Loading...</p>
+      <div className={styles.myPageContainer}>
+        <div className={styles.loadingContainer}>
+          <div className={styles.spinner}></div>
+          <p>Loading...</p>
+        </div>
       </div>
     );
   }
   
   if (error && !user) {
     return (
-      <div className={styles.errorContainer}>
-        <h2>Error</h2>
-        <p>{error}</p>
-        <button 
-          className={styles.button} 
-          onClick={() => router.push('/')}
-        >
-          Return to Home
-        </button>
+      <div className={styles.myPageContainer}>
+        <div className={styles.errorContainer}>
+          <h2>Error</h2>
+          <p>{error}</p>
+          <button 
+            className={styles.button} 
+            onClick={() => router.push('/')}
+          >
+            Return to Home
+          </button>
+        </div>
       </div>
     );
   }

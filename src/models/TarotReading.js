@@ -41,7 +41,8 @@ const TarotReadingSchema = new mongoose.Schema(
 
 // Find readings by user ID
 TarotReadingSchema.statics.findByUserId = function(userId) {
-  return this.find({ userId }).sort({ createdAt: -1 });
+  console.log('findByUserId 메서드 호출됨:', userId);
+  return this.find({ userId: userId }).sort({ createdAt: -1 });
 };
 
 // Prevent mongoose from creating a duplicate model

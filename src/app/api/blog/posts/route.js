@@ -68,11 +68,13 @@ export async function GET(request) {
 // Create new post (authentication required)
 export async function POST(request) {
   try {
+    console.log('블로그 포스트 생성 API 시작');
     // Check authentication token
     const cookieStore = cookies();
     const token = cookieStore.get('auth-token');
     
     if (!token) {
+      console.log('인증 토큰 없음');
       return NextResponse.json(
         { success: false, message: 'Authentication required' },
         { status: 401 }
@@ -82,26 +84,31 @@ export async function POST(request) {
     // Verify token
     const decoded = verifyToken(token.value);
     if (!decoded || !decoded.userId) {
+      console.log('토큰 검증 실패');
       return NextResponse.json(
         { success: false, message: 'Invalid authentication token' },
         { status: 401 }
       );
     }
     
+    console.log('토큰 검증 성공, 사용자 ID:', decoded.userId);
     await connectToDatabase();
     
     // Find user
     const user = await User.findById(decoded.userId);
     if (!user) {
+      console.log('사용자를 찾을 수 없음');
       return NextResponse.json(
         { success: false, message: 'User not found' },
         { status: 404 }
       );
     }
+    console.log('사용자 찾음:', user.email);
     
     // Parse request body
     const body = await request.json();
     const { title, content, excerpt, category, tags, image, featured, status } = body;
+    console.log('요청 데이터:', { title, category, status });
     
     // Validate required fields
     if (!title || !content) {
@@ -139,7 +146,17 @@ export async function POST(request) {
       readTime: Math.ceil(content.split(' ').length / 200) || 5 // Approximate reading time (200 words per minute)
     });
     
-    await newPost.save();
+    try {
+      console.log('블로그 포스트 저장 시도');
+      await newPost.save();
+      console.log('블로그 포스트 저장 성공:', newPost._id);
+    } catch (saveError) {
+      console.error('블로그 포스트 저장 실패:', saveError);
+      return NextResponse.json(
+        { success: false, message: '블로그 포스트 저장 중 오류: ' + saveError.message },
+        { status: 500 }
+      );
+    }
     
     return NextResponse.json(
       { success: true, message: 'Post created successfully', post: newPost },
@@ -149,7 +166,7 @@ export async function POST(request) {
   } catch (error) {
     console.error('Error creating blog post:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to create blog post' },
+      { success: false, message: 'Failed to create blog post: ' + error.message },
       { status: 500 }
     );
   }

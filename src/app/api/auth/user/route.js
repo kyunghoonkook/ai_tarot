@@ -51,6 +51,7 @@ export async function GET(request) {
     // Find user's tarot readings
     try {
       console.log('타로 리딩 조회 시도');
+      console.log('TarotReading 모델 함수 확인:', typeof TarotReading.findByUserId);
       const readings = await TarotReading.findByUserId(decoded.userId);
       console.log('타로 리딩 조회 성공, 개수:', readings.length);
       

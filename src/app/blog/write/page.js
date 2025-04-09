@@ -84,7 +84,7 @@ export default function WriteBlogPost() {
     
     try {
       // 로그인 상태 재확인
-      if (!user || !user._id) {
+      if (!user) {
         throw new Error('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
         // 3초 후 로그인 페이지로 리다이렉트
         setTimeout(() => {
@@ -122,8 +122,9 @@ export default function WriteBlogPost() {
         }),
       });
       
+      console.log('API 응답 상태 코드:', response.status);
       const data = await response.json();
-      console.log('API 응답:', data);
+      console.log('API 응답 데이터:', data);
       
       if (!response.ok) {
         if (response.status === 401) {

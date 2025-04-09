@@ -173,9 +173,8 @@
 .userDropdown {
   position: absolute;
   top: 100%;
-  right: 0;
   z-index: 1000;
-  min-width: 180px;
+  min-width: 250px;
   background: rgba(10, 30, 40, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 4px;
