@@ -52,13 +52,26 @@ export default function MyPage() {
         setIsLoading(true);
         setError(null);
         
-        const response = await fetch('/api/auth/me', {
+        // 먼저 새 API 엔드포인트 시도
+        let response = await fetch('/api/auth/me', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
           credentials: 'include',
         });
+        
+        // 실패하면 이전 API 엔드포인트로 시도
+        if (!response.ok && response.status === 404) {
+          console.log('Falling back to legacy API endpoint');
+          response = await fetch('/api/auth/user', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+          });
+        }
         
         if (!response.ok) {
           if (response.status === 401) {
@@ -74,20 +87,29 @@ export default function MyPage() {
         
         // 유저의 tarotReadings 배열이 있는 경우 해당 ID로 타로 리딩 가져오기
         if (data.user && data.user.tarotReadings && data.user.tarotReadings.length > 0) {
-          const readingsResponse = await fetch('/api/tarot/get-readings', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-          });
-          
-          if (readingsResponse.ok) {
-            const readingsData = await readingsResponse.json();
-            setTarotReadings(readingsData.readings);
+          // 새 API에서는 이미 타로 리딩이 포함되어 있음
+          if (Array.isArray(data.user.tarotReadings)) {
+            setTarotReadings(data.user.tarotReadings);
           } else {
-            console.error('Failed to fetch tarot readings:', await readingsResponse.text());
+            // 이전 API에서는 별도 호출 필요
+            const readingsResponse = await fetch('/api/tarot/get-readings', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials: 'include',
+            });
+            
+            if (readingsResponse.ok) {
+              const readingsData = await readingsResponse.json();
+              setTarotReadings(readingsData.readings);
+            } else {
+              console.error('Failed to fetch tarot readings:', await readingsResponse.text());
+            }
           }
+        } else if (data.readings) {
+          // 이전 API에서는 readings가 응답에 포함됨
+          setTarotReadings(data.readings);
         } else {
           setTarotReadings([]);
         }
