@@ -20,7 +20,8 @@ export default function MyPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
     name: '',
-    location: ''
+    location: '',
+    profileImage: ''
   });
   
   // 비밀번호 변경 상태
@@ -64,7 +65,8 @@ export default function MyPage() {
           setTarotReadings(data.readings || []);
           setProfileData({
             name: data.user.name || '',
-            location: data.user.location || ''
+            location: data.user.location || '',
+            profileImage: data.user.profileImage || ''
           });
         } else {
           throw new Error(data.message || 'Failed to load user information');
@@ -135,7 +137,8 @@ export default function MyPage() {
         setUser(prev => ({
           ...prev,
           name: profileData.name,
-          location: profileData.location
+          location: profileData.location,
+          profileImage: profileData.profileImage
         }));
         setIsEditing(false);
       } else {
@@ -377,7 +380,11 @@ export default function MyPage() {
               {user.profileImage ? (
                 <img src={user.profileImage} alt={user.name} />
               ) : (
-                <div className={styles.avatarPlaceholder}>{user.name.charAt(0).toUpperCase()}</div>
+                <div className={styles.avatarPlaceholder}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                  </svg>
+                </div>
               )}
             </div>
             <h2 className={styles.userName}>{user.name}</h2>
@@ -440,6 +447,18 @@ export default function MyPage() {
                 </div>
               ) : (
                 <form onSubmit={handleSaveProfile} className={styles.profileForm}>
+                  <div className={styles.formGroup}>
+                    <label className={styles.label}>Profile Image URL</label>
+                    <input
+                      type="text"
+                      name="profileImage"
+                      className={styles.input}
+                      value={profileData.profileImage}
+                      onChange={handleProfileChange}
+                      placeholder="https://example.com/your-profile-image.jpg"
+                    />
+                    <small className={styles.helpText}>Enter a URL to an image (leave empty for default icon)</small>
+                  </div>
                   <div className={styles.formGroup}>
                     <label className={styles.label}>Name</label>
                     <input

@@ -48,6 +48,10 @@
   border-radius: 50%;
   margin: 0 auto 1rem;
   overflow: hidden;
+  background-color: #0a323c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .avatar img {
@@ -62,10 +66,14 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  background: #ffcc57;
-  color: #042831;
-  font-size: 2.5rem;
-  font-weight: 700;
+  color: #ffcc57;
+  background-color: #042831;
+}
+
+.helpText {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 0.25rem;
 }
 
 .userName {

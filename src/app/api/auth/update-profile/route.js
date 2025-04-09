@@ -28,12 +28,20 @@ export async function PUT(request) {
     
     // Parse request body
     const body = await request.json();
-    const { name, location } = body;
+    const { name, location, profileImage } = body;
     
     // Validate required fields
     if (!name) {
       return NextResponse.json(
         { success: false, message: 'Name is required.' },
+        { status: 400 }
+      );
+    }
+    
+    // Validate profile image URL if provided
+    if (profileImage && !isValidUrl(profileImage)) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid profile image URL.' },
         { status: 400 }
       );
     }
@@ -45,7 +53,8 @@ export async function PUT(request) {
       decoded.userId,
       { 
         name,
-        location: location || '' 
+        location: location || '',
+        profileImage: profileImage || null
       },
       { new: true } // Return the updated document
     );
@@ -66,7 +75,7 @@ export async function PUT(request) {
           id: updatedUser._id,
           name: updatedUser.name,
           email: updatedUser.email,
-          profileImage: updatedUser.image || updatedUser.profileImage,
+          profileImage: updatedUser.profileImage || null,
           location: updatedUser.location,
           readingsCount: updatedUser.readingsCount || 0,
           createdAt: updatedUser.createdAt
@@ -85,5 +94,15 @@ export async function PUT(request) {
       },
       { status: 500 }
     );
+  }
+}
+
+// Helper function to validate URL
+function isValidUrl(string) {
+  try {
+    new URL(string);
+    return true;
+  } catch (_) {
+    return false;
   }
 } 
