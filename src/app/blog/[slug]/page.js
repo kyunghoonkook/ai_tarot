@@ -116,6 +116,22 @@ export default function BlogPost({ params }) {
                             alt={post.title}
                             className={styles.featuredImage}
                             loading="lazy"
+                            onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = '/images/symbolBG.png';
+                            }}
+                        />
+                    </div>
+                )}
+                
+                {/* 이미지가 없는 경우에도 기본 이미지 표시 */}
+                {!post.image && (
+                    <div className={styles.featuredImageContainer}>
+                        <img
+                            src="/images/symbolBG.png"
+                            alt={post.title}
+                            className={styles.featuredImage}
+                            loading="lazy"
                         />
                     </div>
                 )}

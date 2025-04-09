@@ -141,6 +141,14 @@ export async function POST(request) {
     
     await newComment.save();
     
+    // Add comment ID to user's comments array
+    if (!user.comments) {
+      user.comments = [];
+    }
+    user.comments.push(newComment._id);
+    await user.save();
+    console.log('Updated user model with new comment reference');
+    
     // Fetch comment with details
     const populatedComment = await Comment.findById(newComment._id)
       .populate('author', 'name email profileImage')

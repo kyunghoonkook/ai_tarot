@@ -193,6 +193,13 @@ export async function DELETE(request, { params }) {
       await Comment.deleteOne({ _id: id });
     }
     
+    // Remove comment ID from user's comments array
+    if (user && user.comments && user.comments.length > 0) {
+      user.comments = user.comments.filter(commentId => !commentId.equals(comment._id));
+      await user.save();
+      console.log('Removed comment reference from user model');
+    }
+    
     return NextResponse.json({
       success: true,
       message: 'Comment deleted successfully'

@@ -160,6 +160,14 @@ export async function DELETE(request, { params }) {
     // 관련 댓글 삭제
     await Comment.deleteMany({ post: post._id });
     
+    // 사용자의 blogPosts 배열에서 게시물 ID 제거
+    const author = await User.findById(post.author);
+    if (author && author.blogPosts && author.blogPosts.length > 0) {
+      author.blogPosts = author.blogPosts.filter(id => !id.equals(post._id));
+      await author.save();
+      console.log('Removed post reference from user model');
+    }
+    
     return NextResponse.json(
       { success: true, message: 'Post and comments deleted successfully' },
       { status: 200 }
@@ -178,7 +186,7 @@ export async function DELETE(request, { params }) {
 export async function GET(request, { params }) {
   try {
     const { slug } = params;
-    console.log('블로그 포스트 조회 요청:', slug);
+    console.log('Blog post lookup request:', slug);
     
     await connectToDatabase();
     
@@ -186,20 +194,20 @@ export async function GET(request, { params }) {
     const post = await BlogPost.findOne({ slug });
     
     if (!post) {
-      console.log('게시물을 찾을 수 없음:', slug);
+      console.log('Post not found:', slug);
       return NextResponse.json(
         { success: false, message: 'Post not found' },
         { status: 404 }
       );
     }
     
-    console.log('게시물 찾음:', post.title);
+    console.log('Post found:', post.title);
     
     // 조회수 증가 (에러가 발생해도 응답에 영향 없도록 try-catch로 감싸기)
     try {
       await post.incrementViews();
     } catch (viewError) {
-      console.error('조회수 증가 중 오류:', viewError);
+      console.error('Error while incrementing view count:', viewError);
     }
     
     return NextResponse.json({ 

@@ -68,13 +68,13 @@ export async function GET(request) {
 // Create new post (authentication required)
 export async function POST(request) {
   try {
-    console.log('블로그 포스트 생성 API 시작');
+    console.log('Starting blog post creation API');
     // Check authentication token
     const cookieStore = cookies();
     const token = cookieStore.get('auth-token');
     
     if (!token) {
-      console.log('인증 토큰 없음');
+      console.log('No authentication token found');
       return NextResponse.json(
         { success: false, message: 'Authentication required' },
         { status: 401 }
@@ -84,26 +84,26 @@ export async function POST(request) {
     // Verify token
     const decoded = verifyToken(token.value);
     if (!decoded || !decoded.userId) {
-      console.log('토큰 검증 실패');
+      console.log('Token verification failed');
       return NextResponse.json(
         { success: false, message: 'Invalid authentication token' },
         { status: 401 }
       );
     }
     
-    console.log('토큰 검증 성공, 사용자 ID:', decoded.userId);
+    console.log('Token verified successfully, user ID:', decoded.userId);
     await connectToDatabase();
     
     // Find user
     const user = await User.findById(decoded.userId);
     if (!user) {
-      console.log('사용자를 찾을 수 없음');
+      console.log('User not found');
       return NextResponse.json(
         { success: false, message: 'User not found' },
         { status: 404 }
       );
     }
-    console.log('사용자 찾음:', user.email);
+    console.log('User found:', user.email);
     
     // Parse request body
     let body;
@@ -119,7 +119,7 @@ export async function POST(request) {
     }
     
     const { title, content, excerpt, category, tags, image, featured, status } = body;
-    console.log('요청 데이터:', { title, category, status });
+    console.log('Request data:', { title, category, status });
     
     // Validate required fields
     if (!title || !content) {
@@ -168,13 +168,21 @@ export async function POST(request) {
     });
     
     try {
-      console.log('블로그 포스트 저장 시도');
+      console.log('Attempting to save blog post');
       await newPost.save();
-      console.log('블로그 포스트 저장 성공:', newPost._id);
+      console.log('Blog post saved successfully:', newPost._id);
+      
+      // Add blog post ID to user's blogPosts array
+      if (!user.blogPosts) {
+        user.blogPosts = [];
+      }
+      user.blogPosts.push(newPost._id);
+      await user.save();
+      console.log('Updated user model with new blog post reference');
     } catch (saveError) {
-      console.error('블로그 포스트 저장 실패:', saveError);
+      console.error('Failed to save blog post:', saveError);
       return NextResponse.json(
-        { success: false, message: '블로그 포스트 저장 중 오류: ' + saveError.message },
+        { success: false, message: 'Error saving blog post: ' + saveError.message },
         { status: 500 }
       );
     }

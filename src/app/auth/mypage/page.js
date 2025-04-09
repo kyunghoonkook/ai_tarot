@@ -48,36 +48,54 @@ export default function MyPage() {
   useEffect(() => {
     // 실제 사용자 데이터와 타로 리딩 정보 가져오기
     const fetchUserData = async () => {
-      setIsLoading(true);
       try {
-        console.log('사용자 데이터 가져오기 시도');
-        const response = await fetch('/api/auth/user', {
-          credentials: 'include'
+        setIsLoading(true);
+        setError(null);
+        
+        const response = await fetch('/api/auth/me', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
         });
         
         if (!response.ok) {
+          if (response.status === 401) {
+            // 로그인 필요시 리다이렉트
+            router.push('/auth/login?redirect=/auth/mypage');
+            return;
+          }
           throw new Error('Failed to fetch user data');
         }
         
         const data = await response.json();
-        console.log('사용자 API 응답:', data.success ? 'Success' : 'Failed');
+        setUser(data.user);
         
-        if (data.success) {
-          setUser(data.user);
-          console.log('받은 타로 리딩 개수:', data.readings ? data.readings.length : 0);
-          setTarotReadings(data.readings || []);
-          setProfileData({
-            name: data.user.name || '',
-            location: data.user.location || '',
-            profileImage: data.user.profileImage || ''
+        // 유저의 tarotReadings 배열이 있는 경우 해당 ID로 타로 리딩 가져오기
+        if (data.user && data.user.tarotReadings && data.user.tarotReadings.length > 0) {
+          const readingsResponse = await fetch('/api/tarot/get-readings', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include',
           });
+          
+          if (readingsResponse.ok) {
+            const readingsData = await readingsResponse.json();
+            setTarotReadings(readingsData.readings);
+          } else {
+            console.error('Failed to fetch tarot readings:', await readingsResponse.text());
+          }
         } else {
-          throw new Error(data.message || 'Failed to load user information');
+          setTarotReadings([]);
         }
+        
+        setIsLoading(false);
       } catch (err) {
-        console.error('Error fetching user data:', err);
-        setError(err.message || 'Failed to load user information');
-      } finally {
+        console.error('Error loading user data:', err);
+        setError('Failed to load user data. Please try again.');
         setIsLoading(false);
       }
     };
@@ -85,7 +103,7 @@ export default function MyPage() {
     if (authUser) {
       fetchUserData();
     }
-  }, [authUser]);
+  }, [authUser, router]);
   
   const handleTabChange = (tab) => {
     setActiveTab(tab);

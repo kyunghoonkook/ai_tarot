@@ -45,7 +45,19 @@ const userSchema = new Schema({
   },
   location: { 
     type: String 
-  }
+  },
+  tarotReadings: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'TarotReading'
+  }],
+  blogPosts: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'BlogPost'
+  }],
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comment'
+  }]
 }, {
   timestamps: true,
 });

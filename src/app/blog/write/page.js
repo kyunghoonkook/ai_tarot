@@ -249,9 +249,12 @@ export default function WriteBlogPost() {
               name="image"
               value={formData.image}
               onChange={handleChange}
-              placeholder="https://example.com/image.jpg (leave empty for default image)"
               className={styles.input}
+              placeholder="https://example.com/your-image.jpg"
             />
+            <small className={styles.helpText}>
+              Enter a URL to an image for your blog post. If left empty, a default symbol image will be used.
+            </small>
           </div>
           
           <div className={styles.formGroup}>

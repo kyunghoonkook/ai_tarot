@@ -165,6 +165,10 @@ export default function BlogPage() {
                                             src={featuredPost.image} 
                                             alt={featuredPost.title} 
                                             className={styles.featuredImg}
+                                            onError={(e) => {
+                                                e.target.onerror = null;
+                                                e.target.src = '/images/symbolBG.png';
+                                            }}
                                         />
                                     </div>
                                     <div className={styles.featuredContent}>
@@ -211,9 +215,13 @@ export default function BlogPage() {
                                         <div key={post._id} className={styles.blogCard}>
                                             <div className={styles.cardImage}>
                                                 <img 
-                                                    src={post.image} 
+                                                    src={post.image || '/images/symbolBG.png'} 
                                                     alt={post.title} 
                                                     className={styles.postImage}
+                                                    onError={(e) => {
+                                                        e.target.onerror = null;
+                                                        e.target.src = '/images/symbolBG.png';
+                                                    }}
                                                 />
                                             </div>
                                             <div className={styles.cardContent}>
