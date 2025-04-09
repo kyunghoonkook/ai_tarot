@@ -80,7 +80,7 @@ const Result = () => {
           
           // 응답이 스트림인지 확인
           if (!response.ok) {
-            throw new Error(`서버 오류: ${response.status}`);
+            throw new Error(`Server error: ${response.status}`);
           }
           
           const reader = response.body.getReader();
@@ -107,17 +107,22 @@ const Result = () => {
               }
             } catch (e) {
               // 청크가 유효한 JSON이 아닌 경우 그대로 추가
-              // console.log('청크 파싱 오류, 원시 데이터 사용:', e);
               result += chunk;
             }
           }
           
           setLoading(false);
           
-          // 타로 리딩 결과 저장 시도 (로그인한 경우에만)
-          saveReadingResult();
+          // 타로 리딩 결과가 준비되면 저장 시도
+          if (result && result.trim() !== '') {
+            setResponse(result); // 최종 결과 설정
+            setTimeout(() => saveReadingResult(), 2000); // 상태 업데이트 후 저장 시도
+          } else {
+            console.error('No valid response received from the server');
+            setError('Failed to retrieve tarot reading. Please try again.');
+          }
         } catch (err) {
-          console.error('타로 읽기 오류:', err);
+          console.error('Tarot reading error:', err);
           setError('An error occurred while retrieving your tarot reading. Please try again.');
           setLoading(false);
         }
@@ -134,8 +139,16 @@ const Result = () => {
     }
     
     try {
-      if (!response || response.trim() === '' || loading) {
-        console.log(`타로 리딩 결과가 아직 준비되지 않았습니다. 5초 후 다시 시도합니다. (시도 ${saveAttempts + 1}/5)`);
+      // 디버깅을 위한 로그 추가
+      console.log('Attempting to save reading:', {
+        hasResponse: !!response,
+        responseLength: response ? response.length : 0,
+        isLoading: loading,
+        attempt: saveAttempts + 1
+      });
+      
+      if (!response || response.trim() === '') {
+        console.log(`Reading content not ready yet. Retrying in 5 seconds. (Attempt ${saveAttempts + 1}/5)`);
         setTimeout(() => {
           setSaveAttempts(prev => prev + 1);
           saveReadingResult();
@@ -144,9 +157,9 @@ const Result = () => {
         await performSave();
       }
     } catch (err) {
-      console.error('타로 리딩 저장 오류:', err);
+      console.error('Error saving tarot reading:', err);
       setSaveStatus('error');
-      setError('타로 리딩 결과 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
+      setError('An error occurred while saving your reading. Please try again.');
     }
   };
 
@@ -156,14 +169,14 @@ const Result = () => {
       // HTML 태그 제거 (순수 텍스트만 저장)
       const plainTextInterpretation = response.replace(/<\/?[^>]+(>|$)/g, "");
       
-      console.log('타로 리딩 저장 시도:', {
+      console.log('Saving tarot reading:', {
         responseLength: response.length,
         plainTextLength: plainTextInterpretation.length
       });
       
-      // 내용이 너무 짧으면 저장하지 않음 (10자 이상으로 수정 - 더 완화)
+      // 내용이 너무 짧으면 저장하지 않음 (10자 이상)
       if (plainTextInterpretation.length < 10) {
-        console.log('해석 내용이 너무 짧아 저장하지 않습니다:', plainTextInterpretation);
+        console.log('Interpretation content too short:', plainTextInterpretation);
         setSaveStatus('error');
         return;
       }

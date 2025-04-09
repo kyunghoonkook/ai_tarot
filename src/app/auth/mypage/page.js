@@ -291,7 +291,7 @@ export default function MyPage() {
       return (
         <div className={styles.emptyReadings}>
           <p>You haven't saved any readings yet.</p>
-          <Link href="/cards/love" className={styles.button}>
+          <Link href="/Love" className={styles.button}>
             Get Your First Reading
           </Link>
         </div>
