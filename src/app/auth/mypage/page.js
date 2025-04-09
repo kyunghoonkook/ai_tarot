@@ -402,7 +402,11 @@ export default function MyPage() {
                                       <div key={reading._id} className={styles.readingCard}>
                                           <div className={styles.readingHeader}>
                                               <span className={styles.readingType}>{reading.type}</span>
-                                              <span className={styles.readingDate}>{new Date(reading.savedDate || reading.createdAt).toLocaleDateString()}</span>
+                                              <span className={styles.readingDate}>
+                                                  {new Date(
+                                                      reading.savedDate || reading.createdAt
+                                                  ).toLocaleDateString()}
+                                              </span>
                                           </div>
                                           <h3 className={styles.readingQuestion}>{reading.question}</h3>
                                           <div className={styles.readingCards}>
@@ -419,10 +423,7 @@ export default function MyPage() {
                                                   : reading.interpretation}
                                           </p>
                                           <div className={styles.readingActions}>
-                                              <Link 
-                                                  href={`/history/${reading._id}`} 
-                                                  className={styles.viewButton}
-                                              >
+                                              <Link href={`/history/${reading._id}`} className={styles.viewButton}>
                                                   View Details
                                               </Link>
                                           </div>
@@ -432,14 +433,16 @@ export default function MyPage() {
                           ) : (
                               <div className={styles.emptyState}>
                                   <p>You don't have any tarot reading history yet.</p>
-                                  <Link href="/major" className={styles.button}>
+                                  <Link href="/cards" className={styles.button}>
                                       Start Your First Reading
                                   </Link>
                               </div>
                           )}
                           <div className={styles.readingInfo}>
                               <p className={styles.readingInfoText}>
-                                  <i>Your most recent 10 readings are shown. New readings will replace the oldest ones.</i>
+                                  <i>
+                                      Your most recent 10 readings are shown. New readings will replace the oldest ones.
+                                  </i>
                               </p>
                           </div>
                       </div>
