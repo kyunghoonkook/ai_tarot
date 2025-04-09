@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import styles from './page.module.css';
+import { generatePDF } from '@/utils/pdfGenerator';
 
 export default function MyPage() {
   const router = useRouter();
@@ -322,6 +323,23 @@ export default function MyPage() {
     
     return majorArcanaNames[cardNumber] || `Card ${cardNumber}`;
   };
+  
+  // Function to format interpretation text
+  const formatInterpretation = (text) => {
+    if (!text) return '';
+    
+    // 마크다운 헤딩 형식(###)을 HTML로 변환
+    let formatted = text.replace(/###\s+(.*?)(?=\n|$)/g, '<h3>$1</h3>');
+    formatted = formatted.replace(/####\s+(.*?)(?=\n|$)/g, '<h4>$1</h4>');
+    
+    // 단락 구분
+    formatted = formatted.split('\n\n').map(para => `<p>${para}</p>`).join('');
+    
+    // 줄바꿈
+    formatted = formatted.replace(/\n/g, '<br>');
+    
+    return formatted;
+  };
 
   // Render tarot readings section
   const renderTarotReadings = () => {
@@ -357,6 +375,16 @@ export default function MyPage() {
                 {reading.cards && reading.cards.length > 0 ? (
                   reading.cards.map((card, idx) => (
                     <div key={idx} className={styles.cardItem}>
+                      <div className={styles.cardImage}>
+                        <img 
+                          src={`/images/${reading.design || 'Beauty'}/${card.endsWith('r') ? 'reversed/' : ''}${card.replace('r', '')}.jpg`} 
+                          alt={getCardName(card)}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = '/images/symbolBG.png';
+                          }}
+                        />
+                      </div>
                       <div className={styles.cardNumber}>{card}</div>
                       <div className={styles.cardName}>{getCardName(card)}</div>
                     </div>
@@ -371,22 +399,18 @@ export default function MyPage() {
             
             <div className={styles.readingInterpretation}>
               <strong>Interpretation:</strong>
-              <p>{reading.interpretation}</p>
+              <div 
+                className={styles.interpretationText}
+                dangerouslySetInnerHTML={{ __html: formatInterpretation(reading.interpretation) }}
+              />
             </div>
             
-            <Link 
-              href={`/cards/${reading.type.split(' ')[0].toLowerCase()}/${reading.design || 'Beauty'}/result/${Array.isArray(reading.cards) ? reading.cards.join(',') : '00,01,02'}`}
-              className={styles.viewReadingButton}
-              onClick={(e) => {
-                // 카드 데이터가 없으면 이벤트 중지하고 에러 메시지 표시
-                if (!Array.isArray(reading.cards) || reading.cards.length === 0) {
-                  e.preventDefault();
-                  setError('This reading does not have card data. Try getting a new reading.');
-                }
-              }}
+            <button 
+              className={styles.saveAsPdfButton}
+              onClick={() => generatePDF(reading.cards, reading.interpretation, reading.type.split(' ')[0], reading.design || 'Beauty')}
             >
-              View Full Reading
-            </Link>
+              Save as PDF
+            </button>
           </div>
         ))}
       </div>
