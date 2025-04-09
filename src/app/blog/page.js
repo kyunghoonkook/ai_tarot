@@ -1,12 +1,18 @@
 "use client"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './blog.module.css';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function BlogPage() {
-    // 카테고리 필터 상태 관리
+    const router = useRouter();
     const [activeCategory, setActiveCategory] = useState('all');
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [blogPosts, setBlogPosts] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     
     // 카테고리 목록
     const categories = [
@@ -17,86 +23,77 @@ export default function BlogPage() {
         { id: 'health', name: 'Health & Wellness' }
     ];
     
-    // 블로그 게시물 데이터
-    const blogPosts = [
-        {
-            id: 'tarot-reading-beginners-guide',
-            title: 'The Complete Tarot Reading Guide for Beginners',
-            excerpt: 'New to tarot reading? This comprehensive guide covers everything you need to know to start your journey with tarot cards, from understanding basic symbolism to conducting your first reading.',
-            image: '/images/symbolBG.png',
-            category: 'practice',
-            featured: true,
-            date: 'June 15, 2023',
-            readTime: '12 min read'
-        },
-        {
-            id: '5-powerful-love-tarot-spreads',
-            title: '5 Powerful Love Tarot Spreads for Relationship Insights',
-            excerpt: 'Discover specialized tarot spreads that can help you navigate your love life, relationship challenges, and romantic future.',
-            image: '/images/love.png',
-            category: 'love',
-            featured: false,
-            date: 'June 10, 2023',
-            readTime: '8 min read'
-        },
-        {
-            id: 'daily-tarot-practice-tips',
-            title: 'How to Incorporate Tarot into Your Daily Practice',
-            excerpt: 'Learn how to use tarot cards for daily guidance, reflection, and spiritual growth with these practical tips and routines.',
-            image: '/images/symbolBG.png',
-            category: 'practice',
-            featured: false,
-            date: 'June 5, 2023',
-            readTime: '6 min read'
-        },
-        {
-            id: 'tarot-career-guidance',
-            title: 'Using Tarot for Career Guidance and Professional Decisions',
-            excerpt: 'Explore how tarot readings can provide insights into your career path, job changes, and professional development.',
-            image: '/images/money.png',
-            category: 'career',
-            featured: false,
-            date: 'May 28, 2023',
-            readTime: '9 min read'
-        },
-        {
-            id: 'health-wellness-tarot',
-            title: 'Tarot for Health and Wellness Insights',
-            excerpt: 'Discover how tarot cards can provide guidance for your physical and mental wellbeing through targeted readings.',
-            image: '/images/health.png',
-            category: 'health',
-            featured: false,
-            date: 'May 20, 2023',
-            readTime: '7 min read'
-        }
-    ];
+    // 게시물 데이터 가져오기
+    useEffect(() => {
+        const fetchPosts = async () => {
+            setIsLoading(true);
+            try {
+                let url = `/api/blog/posts?page=${page}&limit=10`;
+                
+                if (activeCategory !== 'all') {
+                    url += `&category=${activeCategory}`;
+                }
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch posts');
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    setBlogPosts(data.posts);
+                    setTotalPages(data.pagination.pages);
+                } else {
+                    throw new Error(data.message || 'Failed to load posts');
+                }
+            } catch (err) {
+                console.error('Error fetching blog posts:', err);
+                setError(err.message || 'Error loading blog posts');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        
+        fetchPosts();
+    }, [activeCategory, page]);
     
     // 필터링된 게시물
-    const filteredPosts = activeCategory === 'all' 
-        ? blogPosts 
-        : blogPosts.filter(post => post.category === activeCategory);
+    const filteredPosts = blogPosts;
     
     // 배너 게시물 (featured)
     const featuredPost = blogPosts.find(post => post.featured);
     
     // 일반 게시물 (non-featured)
-    const regularPosts = filteredPosts.filter(post => !post.featured || activeCategory !== 'all');
+    const regularPosts = activeCategory === 'all' 
+        ? blogPosts.filter(post => !post.featured) 
+        : blogPosts;
 
     // 카테고리 변경 핸들러
     const handleCategoryChange = (category) => {
         setActiveCategory(category);
+        setPage(1); // 카테고리가 바뀌면 페이지를 1로 리셋
     };
     
-    // 현재는 블로그 상세 페이지가 없으므로 클릭 이벤트 처리
-    const handleArticleClick = (e, postId) => {
+    // 게시물 클릭 핸들러
+    const handleArticleClick = (e, slug) => {
         e.preventDefault();
-        alert('The blog detail page is under development. It will be available soon.');
+        router.push(`/blog/${slug}`);
     };
 
     // 구독 폼 제출 처리
     const handleSubscribe = (e) => {
         e.preventDefault();
         alert('The subscription feature is under development. It will be available soon.');
+    };
+
+    // 페이지 변경 핸들러
+    const handlePageChange = (newPage) => {
+        if (newPage > 0 && newPage <= totalPages) {
+            setPage(newPage);
+            window.scrollTo(0, 0);
+        }
     };
 
     return (
@@ -129,111 +126,148 @@ export default function BlogPage() {
                     </div>
                 </div>
                 
-                {/* 특집 게시물 (all 카테고리일 때만 표시) */}
-                {activeCategory === 'all' && featuredPost && (
-                    <div className={styles.sectionCard}>
-                        <div className={styles.sectionHeader}>
-                            <h2 className={styles.title}>Featured Article</h2>
-                            <div className={styles.decorativeLine}></div>
-                        </div>
-                        <div className={styles.featuredPost}>
-                            <div className={styles.featuredImage}>
-                                <img 
-                                    src={featuredPost.image} 
-                                    alt={featuredPost.title} 
-                                    className={styles.featuredImg}
-                                />
-                            </div>
-                            <div className={styles.featuredContent}>
-                                <div className={styles.featuredMeta}>
-                                    <span className={`${styles.tag} ${styles[featuredPost.category]}`}>{featuredPost.category}</span>
-                                    <div className={styles.metaDetails}>
-                                        <span className={styles.date}>{featuredPost.date}</span>
-                                        <span className={styles.readTime}>{featuredPost.readTime}</span>
-                                    </div>
+                {/* 로딩 및 에러 상태 처리 */}
+                {isLoading ? (
+                    <div className={styles.loadingContainer}>
+                        <div className={styles.spinner}></div>
+                        <p>Loading posts...</p>
+                    </div>
+                ) : error ? (
+                    <div className={styles.errorContainer}>
+                        <p>Error: {error}</p>
+                        <button onClick={() => window.location.reload()} className={styles.retryButton}>
+                            Try Again
+                        </button>
+                    </div>
+                ) : (
+                    <>
+                        {/* 특집 게시물 (all 카테고리이고 featured 게시물이 있을 때) */}
+                        {activeCategory === 'all' && featuredPost && (
+                            <div className={styles.sectionCard}>
+                                <div className={styles.sectionHeader}>
+                                    <h2 className={styles.title}>Featured Article</h2>
+                                    <div className={styles.decorativeLine}></div>
                                 </div>
-                                <h2 className={styles.featuredTitle}>
-                                    <a 
-                                        href="#" 
-                                        onClick={(e) => handleArticleClick(e, featuredPost.id)}
-                                    >
-                                        {featuredPost.title}
-                                    </a>
-                                </h2>
-                                <p className={styles.excerpt}>
-                                    {featuredPost.excerpt}
-                                </p>
-                                <a 
-                                    href="#" 
-                                    className={styles.readMoreLink}
-                                    onClick={(e) => handleArticleClick(e, featuredPost.id)}
-                                >
-                                    Read Full Article →
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                )}
-                
-                {/* 게시물 그리드 */}
-                <div className={styles.sectionCard}>
-                    <div className={styles.sectionHeader}>
-                        <h2 className={styles.title}>{activeCategory === 'all' ? 'Latest Articles' : categories.find(c => c.id === activeCategory).name}</h2>
-                        <div className={styles.decorativeLine}></div>
-                    </div>
-                    
-                    {regularPosts.length > 0 ? (
-                        <div className={styles.blogGrid}>
-                            {regularPosts.map(post => (
-                                <div key={post.id} className={styles.blogCard}>
-                                    <div className={styles.cardImage}>
+                                <div className={styles.featuredPost}>
+                                    <div className={styles.featuredImage}>
                                         <img 
-                                            src={post.image} 
-                                            alt={post.title} 
-                                            className={styles.postImage}
+                                            src={featuredPost.image} 
+                                            alt={featuredPost.title} 
+                                            className={styles.featuredImg}
                                         />
                                     </div>
-                                    <div className={styles.cardContent}>
-                                        <div className={styles.postMeta}>
-                                            <span className={`${styles.tag} ${styles[post.category]}`}>{post.category}</span>
-                                            <div className={styles.metaInfo}>
-                                                <span className={styles.date}>{post.date}</span>
-                                                <span className={styles.readTime}>{post.readTime}</span>
+                                    <div className={styles.featuredContent}>
+                                        <div className={styles.featuredMeta}>
+                                            <span className={`${styles.tag} ${styles[featuredPost.category]}`}>{featuredPost.category}</span>
+                                            <div className={styles.metaDetails}>
+                                                <span className={styles.date}>{new Date(featuredPost.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                                                <span className={styles.readTime}>{featuredPost.readTime || 5} min read</span>
                                             </div>
                                         </div>
-                                        <h3 className={styles.postTitle}>
+                                        <h2 className={styles.featuredTitle}>
                                             <a 
-                                                href="#" 
-                                                onClick={(e) => handleArticleClick(e, post.id)}
+                                                href={`/blog/${featuredPost.slug}`} 
+                                                onClick={(e) => handleArticleClick(e, featuredPost.slug)}
                                             >
-                                                {post.title}
+                                                {featuredPost.title}
                                             </a>
-                                        </h3>
+                                        </h2>
                                         <p className={styles.excerpt}>
-                                            {post.excerpt}
+                                            {featuredPost.excerpt}
                                         </p>
                                         <a 
-                                            href="#" 
-                                            className={styles.cardLink}
-                                            onClick={(e) => handleArticleClick(e, post.id)}
+                                            href={`/blog/${featuredPost.slug}`} 
+                                            className={styles.readMoreLink}
+                                            onClick={(e) => handleArticleClick(e, featuredPost.slug)}
                                         >
-                                            Read Article →
+                                            Read Full Article →
                                         </a>
                                     </div>
                                 </div>
-                            ))}
+                            </div>
+                        )}
+                        
+                        {/* 게시물 그리드 */}
+                        <div className={styles.sectionCard}>
+                            <div className={styles.sectionHeader}>
+                                <h2 className={styles.title}>{activeCategory === 'all' ? 'Latest Articles' : categories.find(c => c.id === activeCategory).name}</h2>
+                                <div className={styles.decorativeLine}></div>
+                            </div>
+                            
+                            {regularPosts.length > 0 ? (
+                                <div className={styles.blogGrid}>
+                                    {regularPosts.map(post => (
+                                        <div key={post._id} className={styles.blogCard}>
+                                            <div className={styles.cardImage}>
+                                                <img 
+                                                    src={post.image} 
+                                                    alt={post.title} 
+                                                    className={styles.postImage}
+                                                />
+                                            </div>
+                                            <div className={styles.cardContent}>
+                                                <div className={styles.postMeta}>
+                                                    <span className={`${styles.tag} ${styles[post.category]}`}>{post.category}</span>
+                                                    <div className={styles.metaInfo}>
+                                                        <span className={styles.date}>{new Date(post.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                                                        <span className={styles.readTime}>{post.readTime || 5} min read</span>
+                                                    </div>
+                                                </div>
+                                                <h3 className={styles.postTitle}>
+                                                    <a 
+                                                        href={`/blog/${post.slug}`} 
+                                                        onClick={(e) => handleArticleClick(e, post.slug)}
+                                                    >
+                                                        {post.title}
+                                                    </a>
+                                                </h3>
+                                                <p className={styles.excerpt}>
+                                                    {post.excerpt}
+                                                </p>
+                                                <a 
+                                                    href={`/blog/${post.slug}`} 
+                                                    className={styles.cardLink}
+                                                    onClick={(e) => handleArticleClick(e, post.slug)}
+                                                >
+                                                    Read Article →
+                                                </a>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className={styles.noResults}>
+                                    <p>No articles found in this category yet. Check back soon!</p>
+                                </div>
+                            )}
+                            
+                            {/* 페이지네이션 */}
+                            {totalPages > 1 && (
+                                <div className={styles.pagination}>
+                                    <button 
+                                        onClick={() => handlePageChange(page - 1)} 
+                                        disabled={page === 1}
+                                        className={styles.pageButton}
+                                    >
+                                        &lt; Previous
+                                    </button>
+                                    
+                                    <span className={styles.currentPage}>
+                                        Page {page} of {totalPages}
+                                    </span>
+                                    
+                                    <button 
+                                        onClick={() => handlePageChange(page + 1)} 
+                                        disabled={page === totalPages}
+                                        className={styles.pageButton}
+                                    >
+                                        Next &gt;
+                                    </button>
+                                </div>
+                            )}
                         </div>
-                    ) : (
-                        <div className={styles.noResults}>
-                            <p>No articles found in this category yet. Check back soon!</p>
-                        </div>
-                    )}
-                    
-                    <div className={styles.pagination}>
-                        <span className={styles.currentPage}>Page 1</span>
-                        <span className={styles.comingSoon}>More pages coming soon</span>
-                    </div>
-                </div>
+                    </>
+                )}
             </div>
             
             <div className={styles.ctaSection}>

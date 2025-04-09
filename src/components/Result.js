@@ -128,35 +128,58 @@ const Result = () => {
   // 타로 리딩 결과 저장 함수
   const saveReadingResult = async () => {
     try {
-      // HTML 태그 제거 (순수 텍스트만 저장)
-      const plainTextInterpretation = response.replace(/<\/?[^>]+(>|$)/g, "");
-      
-      const saveResponse = await fetch('/api/tarot/save-reading', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // 쿠키 포함
-        body: JSON.stringify({
-          type: theme,
-          question: `${theme} Reading`,
-          cards: selectedCards,
-          interpretation: plainTextInterpretation,
-          design: design
-        }),
-      });
-      
-      const saveData = await saveResponse.json();
-      
-      if (!saveResponse.ok) {
-        console.log('로그인이 필요하거나 저장 중 오류가 발생했습니다:', saveData.message);
-        // 로그인이 필요한 경우 조용히 실패 (유저 경험에 영향 없음)
+      // 응답이 빈 경우 일정 시간(2초) 기다린 후 저장 시도
+      if (!response || response.trim() === '') {
+        // console.log('응답이 비어있어 2초 후 저장을 시도합니다.');
+        setTimeout(async () => {
+          if (response && response.trim() !== '') {
+            await performSave();
+          } else {
+            // console.log('응답이 여전히 비어있어 저장하지 않습니다.');
+          }
+        }, 2000);
       } else {
-        console.log('타로 리딩이 성공적으로 저장되었습니다.');
+        await performSave();
       }
     } catch (err) {
       console.error('타로 리딩 저장 오류:', err);
       // 저장 실패해도 사용자 경험에 영향 없도록 조용히 처리
+    }
+  };
+
+  // 실제 저장 수행 함수
+  const performSave = async () => {
+    // HTML 태그 제거 (순수 텍스트만 저장)
+    const plainTextInterpretation = response.replace(/<\/?[^>]+(>|$)/g, "");
+    
+    // 내용이 너무 짧으면 저장하지 않음
+    if (plainTextInterpretation.length < 10) {
+      // console.log('해석 내용이 너무 짧아 저장하지 않습니다.');
+      return;
+    }
+    
+    const saveResponse = await fetch('/api/tarot/save-reading', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include', // 쿠키 포함
+      body: JSON.stringify({
+        type: theme,
+        question: `${theme} Reading`,
+        cards: selectedCards,
+        interpretation: plainTextInterpretation,
+        design: design
+      }),
+    });
+    
+    const saveData = await saveResponse.json();
+    
+    if (!saveResponse.ok) {
+      // console.log('로그인이 필요하거나 저장 중 오류가 발생했습니다:', saveData.message);
+      // 로그인이 필요한 경우 조용히 실패 (유저 경험에 영향 없음)
+    } else {
+      // console.log('타로 리딩이 성공적으로 저장되었습니다.');
     }
   };
 
