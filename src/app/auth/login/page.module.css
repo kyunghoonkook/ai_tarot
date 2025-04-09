@@ -1,0 +1,190 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 2rem 1rem;
+  background: linear-gradient(to bottom, #042831, #122d34);
+}
+
+.formWrapper {
+  background: rgba(10, 50, 60, 0.7);
+  backdrop-filter: blur(10px);
+  padding: 2.5rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.title {
+  color: #fff;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.form {
+  margin-bottom: 1.5rem;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #ffcc57;
+  box-shadow: 0 0 0 2px rgba(255, 204, 87, 0.2);
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.errorText {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.errorMessage {
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
+  padding: 0.8rem 1rem;
+  border-radius: 5px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.forgotPassword {
+  text-align: right;
+  margin-bottom: 1.5rem;
+}
+
+.forgotPassword a {
+  color: #ffcc57;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.forgotPassword a:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.button {
+  width: 100%;
+  padding: 1rem;
+  background: #ffcc57;
+  color: #042831;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.button:hover {
+  background: #ffbe24;
+}
+
+.button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+.socialLogin {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.socialText {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.socialButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.socialButton {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.socialButton:hover {
+  opacity: 0.9;
+}
+
+.kakao {
+  background: #FEE500;
+  color: #000000;
+}
+
+.google {
+  background: #ffffff;
+  color: #000000;
+}
+
+.register {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.register a {
+  color: #ffcc57;
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.3s;
+}
+
+.register a:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .formWrapper {
+    padding: 1.5rem;
+  }
+  
+  .socialButtons {
+    flex-direction: column;
+  }
+} 

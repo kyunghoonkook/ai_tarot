@@ -1,9 +1,11 @@
 import Link from 'next/link';
 import Script from 'next/script';
+import Header from '@/components/Header';
 import KakaoScript from '@/components/KakaoScript';
 import AdSense from '@/components/AdSense';
 import PerformanceOptimizer from '@/components/PerformanceOptimizer';
 import MobileStyleFixer from '@/components/MobileStyleFixer';
+import { AuthProvider } from '@/context/AuthContext';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { headers } from 'next/headers';
@@ -285,46 +287,57 @@ export default function RootLayout({ children }) {
                 <link rel="apple-touch-icon" href="/images/logo1.svg" />
             </head>
             <body className={isHomePageActual ? 'home-page' : ''}>
-                <MobileStyleFixer />
-                <AdSense />
-                <PerformanceOptimizer />
-                {/* Header 컴포넌트가 아직 없으므로, children 앞에 추가하는 것을 고려해볼 수 있습니다. */}
-                {/* 예: <Header /> */}
-                {/* 복원: Header 마크업 */}
-                <header className="header">
-                    <Link href="/">
-                        <img src="/images/logo1.svg" className="logo" alt="AI Tarot Logo" />
-                    </Link>
-                    <ul>
-                        <li>
-                            <Link href="/major">Major Arcana</Link> {/* 경로 수정: /major */}
-                        </li>
-                        <li>
-                            <Link href="/guide">Guide</Link>
-                        </li>
-                        <li>
-                            <Link href="/blog">Blog</Link>
-                        </li>
-                        <li>
-                            <Link href="/faq">FAQ</Link>
-                        </li>
-                        <li>
-                            <Link href="/history">History</Link>
-                        </li>
-                    </ul>
-                </header>
-
-                {/* children을 감싸는 layout div 추가 */}
-                <div className="layout">{children}</div>
-
-                {/* Footer 컴포넌트가 있다면 여기에 추가 */}
-                {/* 예: <Footer /> */}
-                {/* 복원: Footer 마크업 */}
-                <footer className="footer">
-                    <p>COPYRIGHT (C) www.aifree-tarot.com ALL RIGHTS RESERVED. </p>
-                </footer>
-                <KakaoScript />
-                <SafeAnalytics />
+                <AuthProvider>
+                    <div className="app-container">
+                        <Header />
+                        <main className="main-content">
+                            {children}
+                        </main>
+                        <footer className="footer">
+                            {/* <div className="footer-content">
+                                <div className="footer-section">
+                                    <h3>AI Tarot</h3>
+                                    <p>AI-powered Tarot Card Reading Service</p>
+                                </div>
+                                <div className="footer-section">
+                                    <h3>Quick Links</h3>
+                                    <ul>
+                                        <li><Link href="/major">Major Tarot</Link></li>
+                                        <li><Link href="/love">Love Tarot</Link></li>
+                                        <li><Link href="/career">Career Tarot</Link></li>
+                                        <li><Link href="/guide">Tarot Guide</Link></li>
+                                    </ul>
+                                </div>
+                                <div className="footer-section">
+                                    <h3>Information</h3>
+                                    <ul>
+                                        <li><Link href="/about">About Us</Link></li>
+                                        <li><Link href="/terms">Terms of Service</Link></li>
+                                        <li><Link href="/privacy">Privacy Policy</Link></li>
+                                        <li><Link href="/contact">Contact Us</Link></li>
+                                    </ul>
+                                </div>
+                                <div className="footer-section">
+                                    <h3>Follow Us</h3>
+                                    <div className="social-links">
+                                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a>
+                                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">Twitter</a>
+                                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+                                    </div>
+                                </div>
+                            </div> */}
+                            <div className="copyright">
+                                &copy; {new Date().getFullYear()} AI Tarot. All rights reserved.
+                            </div>
+                        </footer>
+                    </div>
+                    
+                    <KakaoScript />
+                    <AdSense />
+                    <PerformanceOptimizer />
+                    <MobileStyleFixer />
+                    <SafeAnalytics />
+                </AuthProvider>
             </body>
         </html>
     );
