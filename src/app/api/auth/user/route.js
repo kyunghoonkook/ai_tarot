@@ -59,9 +59,11 @@ export async function GET(request) {
         id: user._id,
         name: user.name,
         email: user.email,
-        profileImage: user.profileImage,
+        profileImage: user.image || user.profileImage,
         createdAt: user.createdAt,
-        readingsCount: user.readingsCount
+        readingsCount: user.readingsCount || 0,
+        role: user.role || 'user',
+        location: user.location || ''
       };
       
       return NextResponse.json(
@@ -80,9 +82,11 @@ export async function GET(request) {
         id: user._id,
         name: user.name,
         email: user.email,
-        profileImage: user.profileImage,
+        profileImage: user.image || user.profileImage,
         createdAt: user.createdAt,
-        readingsCount: user.readingsCount
+        readingsCount: user.readingsCount || 0,
+        role: user.role || 'user',
+        location: user.location || ''
       };
       
       return NextResponse.json(

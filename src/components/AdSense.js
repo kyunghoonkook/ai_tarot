@@ -18,18 +18,18 @@ export default function AdSense() {
 
         // 개발 환경에서는 광고 비활성화
         if (isDevelopment) {
-            console.log('개발 환경에서는 AdSense가 비활성화됩니다.');
+            // console.log('개발 환경에서는 AdSense가 비활성화됩니다.');
             return;
         }
 
         // 컴포넌트 마운트 시 한 번만 실행 (클라이언트 측에서)
         if (!initialized.current && typeof window !== 'undefined' && window.adsbygoogle) {
-            console.log('애드센스 초기화 시도 (useEffect)');
+            // console.log('애드센스 초기화 시도 (useEffect)');
             try {
                 // 특정 슬롯을 타겟팅하지 않고 전역적으로 push (자동으로 빈 슬롯을 찾음)
                 window.adsbygoogle.push({});
                 initialized.current = true; // 초기화 완료 표시
-                console.log('애드센스 초기화 완료 (useEffect)');
+                // console.log('애드센스 초기화 완료 (useEffect)');
             } catch (error) {
                 console.error('애드센스 초기화 오류 (useEffect): ', error);
             }

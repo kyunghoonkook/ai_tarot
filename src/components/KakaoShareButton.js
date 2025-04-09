@@ -11,7 +11,7 @@ const KakaoShareButton = ({ url, title, description, onSuccess }) => {
     // console.log(description);
     const handleShareToKakao = () => {
         if (window.Kakao) {
-            console.log('Sharing to Kakao');
+            // console.log('Sharing to Kakao');
             window.Kakao.Share.createDefaultButton({
                 container: '#kakao-share-button',
                 objectType: 'feed',
@@ -51,7 +51,7 @@ const KakaoShareButton = ({ url, title, description, onSuccess }) => {
                 }
             }, 2000);
         } else {
-            console.log('Kakao SDK not loaded');
+            // console.log('Kakao SDK not loaded');
         }
     };
 

@@ -105,7 +105,7 @@ const Result = () => {
               }
             } catch (e) {
               // 청크가 유효한 JSON이 아닌 경우 그대로 추가
-              console.log('청크 파싱 오류, 원시 데이터 사용:', e);
+              // console.log('청크 파싱 오류, 원시 데이터 사용:', e);
               result += chunk;
             }
           }

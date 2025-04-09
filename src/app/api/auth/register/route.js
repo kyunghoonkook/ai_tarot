@@ -49,6 +49,9 @@ export async function POST(request) {
       name,
       email,
       password,
+      role: 'user',
+      readingsCount: 0,
+      image: null
     });
     
     // Generate JWT token
@@ -63,6 +66,10 @@ export async function POST(request) {
           id: user._id,
           name: user.name,
           email: user.email,
+          profileImage: user.image,
+          readingsCount: user.readingsCount,
+          role: user.role,
+          createdAt: user.createdAt
         }
       },
       { status: 201 }

@@ -11,7 +11,7 @@ const PerformanceOptimizer = () => {
     
     // 개발 환경에서는 일부 최적화 비활성화
     if (isDevelopment) {
-      console.log('개발 환경에서는 일부 성능 최적화가 비활성화됩니다.');
+      // console.log('개발 환경에서는 일부 성능 최적화가 비활성화됩니다.');
     }
 
     // 1. 주요 리소스 프리로딩
