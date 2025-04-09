@@ -54,26 +54,31 @@ export async function POST(request) {
       id: user._id,
       name: user.name,
       email: user.email,
-      profileImage: user.image || user.profileImage,
-      readingsCount: user.readingsCount || 0,
+      image: user.image || user.profileImage,
       createdAt: user.createdAt,
-      role: user.role || 'user',
-      location: user.location || ''
+      readingsCount: user.readingsCount || 0
     };
     
     // Create response
     const response = NextResponse.json(
       { 
         success: true, 
-        message: 'Login successful.',
-        user: userWithoutPassword,
+        message: '로그인 성공',
+        user: userWithoutPassword
       },
       { status: 200 }
     );
     
-    // Set auth cookie
-    setAuthCookie(response, token);
-    // console.log('인증 쿠키 설정됨');
+    // 토큰을 HTTP-only 쿠키로 설정 (보안 강화)
+    response.cookies.set({
+      name: 'auth-token',
+      value: token,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7 // 7일간 유효
+    });
     
     return response;
     

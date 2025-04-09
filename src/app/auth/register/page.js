@@ -16,6 +16,8 @@ export default function RegisterPage() {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -62,10 +64,11 @@ export default function RegisterPage() {
     if (!validateForm()) return;
     
     setLoading(true);
+    setError(null);
     
     try {
-      // API 호출을 통한 회원가입 처리
-      const response = await fetch('/api/auth/register', {
+      // 회원가입 API 호출
+      const registerResponse = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,19 +80,50 @@ export default function RegisterPage() {
         }),
       });
       
-      const data = await response.json();
+      const registerData = await registerResponse.json();
       
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration failed.');
+      // 회원가입 실패
+      if (!registerResponse.ok) {
+        throw new Error(registerData.message || '회원가입 중 오류가 발생했습니다.');
       }
       
-      // 회원가입 성공시 로그인 페이지로 리다이렉트
-      router.push('/auth/login?registered=true');
-      
-    } catch (error) {
-      setErrors({ 
-        form: error.message || 'An error occurred during registration. Please try again later.' 
+      // 자동 로그인 처리
+      const loginResponse = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
       });
+      
+      const loginData = await loginResponse.json();
+      
+      if (!loginResponse.ok) {
+        // 자동 로그인은 실패해도 회원가입은 성공했으므로 로그인 페이지로 안내
+        console.log('자동 로그인 실패, 로그인 페이지로 이동');
+        setSuccess(true);
+        
+        setTimeout(() => {
+          router.push('/auth/login');
+        }, 2000);
+        
+        return;
+      }
+      
+      // 로그인 상태 업데이트
+      // 로그인 상태 업데이트 로직을 구현해야 합니다.
+      
+      // 홈페이지로 리다이렉트
+      setTimeout(() => {
+        router.push('/');
+      }, 2000);
+      
+    } catch (err) {
+      console.error('회원가입 오류:', err);
+      setError(err.message || '회원가입 중 오류가 발생했습니다.');
     } finally {
       setLoading(false);
     }
@@ -100,8 +134,8 @@ export default function RegisterPage() {
       <div className={styles.formWrapper}>
         <h1 className={styles.title}>Register</h1>
         
-        {errors.form && (
-          <div className={styles.errorMessage}>{errors.form}</div>
+        {error && (
+          <div className={styles.errorMessage}>{error}</div>
         )}
         
         <form onSubmit={handleSubmit} className={styles.form}>

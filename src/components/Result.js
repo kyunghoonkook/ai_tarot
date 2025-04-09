@@ -128,58 +128,76 @@ const Result = () => {
   // 타로 리딩 결과 저장 함수
   const saveReadingResult = async () => {
     try {
-      // 응답이 빈 경우 일정 시간(2초) 기다린 후 저장 시도
-      if (!response || response.trim() === '') {
-        // console.log('응답이 비어있어 2초 후 저장을 시도합니다.');
+      // 응답이 없거나 로딩 중이면 5초 기다린 후 다시 시도
+      if (!response || response.trim() === '' || loading) {
+        console.log('타로 리딩 결과가 아직 준비되지 않았습니다. 5초 후 다시 시도합니다.');
         setTimeout(async () => {
-          if (response && response.trim() !== '') {
+          if (response && response.trim() !== '' && !loading) {
             await performSave();
           } else {
-            // console.log('응답이 여전히 비어있어 저장하지 않습니다.');
+            console.log('타로 리딩 저장 재시도 실패: 응답이 여전히 없거나 로딩 중입니다.');
           }
-        }, 2000);
+        }, 5000);
       } else {
         await performSave();
       }
     } catch (err) {
       console.error('타로 리딩 저장 오류:', err);
-      // 저장 실패해도 사용자 경험에 영향 없도록 조용히 처리
+      setError('타로 리딩 결과 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
 
   // 실제 저장 수행 함수
   const performSave = async () => {
-    // HTML 태그 제거 (순수 텍스트만 저장)
-    const plainTextInterpretation = response.replace(/<\/?[^>]+(>|$)/g, "");
-    
-    // 내용이 너무 짧으면 저장하지 않음
-    if (plainTextInterpretation.length < 10) {
-      // console.log('해석 내용이 너무 짧아 저장하지 않습니다.');
-      return;
-    }
-    
-    const saveResponse = await fetch('/api/tarot/save-reading', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include', // 쿠키 포함
-      body: JSON.stringify({
-        type: theme,
-        question: `${theme} Reading`,
-        cards: selectedCards,
-        interpretation: plainTextInterpretation,
-        design: design
-      }),
-    });
-    
-    const saveData = await saveResponse.json();
-    
-    if (!saveResponse.ok) {
-      // console.log('로그인이 필요하거나 저장 중 오류가 발생했습니다:', saveData.message);
-      // 로그인이 필요한 경우 조용히 실패 (유저 경험에 영향 없음)
-    } else {
-      // console.log('타로 리딩이 성공적으로 저장되었습니다.');
+    try {
+      // HTML 태그 제거 (순수 텍스트만 저장)
+      const plainTextInterpretation = response.replace(/<\/?[^>]+(>|$)/g, "");
+      
+      console.log('타로 리딩 저장 시도:', {
+        responseLength: response.length,
+        plainTextLength: plainTextInterpretation.length
+      });
+      
+      // 내용이 너무 짧으면 저장하지 않음 (30자 이상으로 수정)
+      if (plainTextInterpretation.length < 30) {
+        console.log('해석 내용이 너무 짧아 저장하지 않습니다:', plainTextInterpretation);
+        return;
+      }
+      
+      const saveResponse = await fetch('/api/tarot/save-reading', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // 쿠키 포함
+        body: JSON.stringify({
+          type: theme,
+          question: `${theme} Reading`,
+          cards: selectedCards,
+          interpretation: plainTextInterpretation,
+          design: design
+        }),
+      });
+      
+      const saveData = await saveResponse.json();
+      
+      if (!saveResponse.ok) {
+        console.error('타로 리딩 저장 실패:', {
+          status: saveResponse.status,
+          data: saveData
+        });
+        
+        if (saveResponse.status === 401) {
+          console.log('로그인이 필요합니다. 로그인 후 마이페이지에서 저장된 리딩을 볼 수 있습니다.');
+          // 로그인 필요 메시지는 UX를 방해하지 않기 위해 표시하지 않음
+        } else {
+          setError('타로 리딩 저장 중 오류가 발생했습니다.');
+        }
+      } else {
+        console.log('타로 리딩이 성공적으로 저장되었습니다:', saveData);
+      }
+    } catch (error) {
+      console.error('타로 리딩 저장 실패 (클라이언트 오류):', error);
     }
   };
 

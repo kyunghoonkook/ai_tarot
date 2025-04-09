@@ -4,9 +4,11 @@ import Link from 'next/link';
 import styles from './blog.module.css';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 export default function BlogPage() {
     const router = useRouter();
+    const { user } = useAuth();
     const [activeCategory, setActiveCategory] = useState('all');
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -104,6 +106,15 @@ export default function BlogPage() {
                     Explore our collection of articles, guides, and insights about tarot reading, 
                     spirituality, and personal growth. Deepen your understanding and enhance your practice.
                 </p>
+                
+                {user && (
+                    <button 
+                        className={styles.writeButton}
+                        onClick={() => router.push('/blog/write')}
+                    >
+                        Write New Post
+                    </button>
+                )}
             </div>
             
             <div className={styles.contentSection}>

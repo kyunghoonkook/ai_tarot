@@ -501,4 +501,27 @@
   .categoryButtons {
     justify-content: center;
   }
+}
+
+.writeButton {
+  margin-top: 1.5rem;
+  padding: 0.8rem 2rem;
+  background: #ffcc57;
+  color: #042831;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.writeButton:hover {
+  background: #ffd77a;
+  transform: translateY(-2px);
+}
+
+.writeButton:active {
+  transform: translateY(0);
 } 
