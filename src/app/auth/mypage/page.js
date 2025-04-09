@@ -328,12 +328,29 @@ export default function MyPage() {
   const formatInterpretation = (text) => {
     if (!text) return '';
     
-    // 마크다운 헤딩 형식(###)을 HTML로 변환
+    // 마크다운 헤딩 형식(###, ####)을 HTML로 변환
     let formatted = text.replace(/###\s+(.*?)(?=\n|$)/g, '<h3>$1</h3>');
     formatted = formatted.replace(/####\s+(.*?)(?=\n|$)/g, '<h4>$1</h4>');
     
-    // 단락 구분
-    formatted = formatted.split('\n\n').map(para => `<p>${para}</p>`).join('');
+    // 결과 페이지 링크가 있을 경우 제거 (href 속성 제거)
+    formatted = formatted.replace(/<a\s+href=["']\/cards\/[^"']*["'][^>]*>/g, '<span>');
+    formatted = formatted.replace(/<\/a>/g, '</span>');
+    
+    // "Core Meaning", "Significance", "Insights" 같은 키워드를 강조
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // 카드 구분자(—####) 처리
+    formatted = formatted.replace(/—#+\s+Card/g, '</p><h3>Card');
+    
+    // 단락 구분 (빈 줄을 기준으로)
+    const paragraphs = formatted.split('\n\n');
+    formatted = paragraphs.map(para => {
+      // 이미 p 태그로 감싸져 있지 않은 경우에만 처리
+      if (!para.trim().startsWith('<h3>') && !para.trim().startsWith('<h4>') && !para.trim().startsWith('</p>')) {
+        return `<p>${para}</p>`;
+      }
+      return para;
+    }).join('');
     
     // 줄바꿈
     formatted = formatted.replace(/\n/g, '<br>');
@@ -377,12 +394,15 @@ export default function MyPage() {
                     <div key={idx} className={styles.cardItem}>
                       <div className={styles.cardImage}>
                         <img 
-                          src={`/images/${reading.design || 'Beauty'}/${card.endsWith('r') ? 'reversed/' : ''}${card.replace('r', '')}.jpg`} 
+                          src={`/images/${reading.design || 'Beauty'}/${card.replace('r', '')}.png`} 
                           alt={getCardName(card)}
+                          className={card.endsWith('r') ? styles.reversedCard : ''}
                           onError={(e) => {
                             e.target.onerror = null;
                             e.target.src = '/images/symbolBG.png';
                           }}
+                          onClick={(e) => e.preventDefault()}
+                          style={{ cursor: 'default' }}
                         />
                       </div>
                       <div className={styles.cardNumber}>{card}</div>
