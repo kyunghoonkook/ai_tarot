@@ -283,7 +283,7 @@ export default function MyPage() {
       return (
         <div className={styles.emptyReadings}>
           <p>You haven't saved any readings yet.</p>
-          <Link href="/cards" className={styles.button}>
+          <Link href="/Love" className={styles.button}>
             Get Your First Reading
           </Link>
         </div>
@@ -321,7 +321,7 @@ export default function MyPage() {
             </div>
             
             <Link 
-              href={`/${reading.type.split(' ')[0].toLowerCase()}/${reading.design || 'Beauty'}/result/${reading.cards.join(',')}`}
+              href={`/cards/${reading.type.split(' ')[0].toLowerCase()}/${reading.design || 'Beauty'}/result/${reading.cards.join(',')}`}
               className={styles.viewReadingButton}
             >
               View Full Reading

@@ -106,7 +106,18 @@ export async function POST(request) {
     console.log('사용자 찾음:', user.email);
     
     // Parse request body
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+      console.log('Request body successfully parsed');
+    } catch (parseError) {
+      console.error('Error parsing request body:', parseError);
+      return NextResponse.json(
+        { success: false, message: 'Invalid request format: ' + parseError.message },
+        { status: 400 }
+      );
+    }
+    
     const { title, content, excerpt, category, tags, image, featured, status } = body;
     console.log('요청 데이터:', { title, category, status });
     
@@ -119,15 +130,25 @@ export async function POST(request) {
     }
     
     // Generate slug and check for duplicates
-    let slug = slugify(title);
-    let slugExists = await BlogPost.findOne({ slug });
-    let counter = 1;
-    
-    // If slug exists, create a unique one by adding a number
-    while (slugExists) {
-      slug = `${slugify(title)}-${counter}`;
-      slugExists = await BlogPost.findOne({ slug });
-      counter++;
+    let slug;
+    try {
+      slug = slugify(title);
+      console.log('Generated slug:', slug);
+      let slugExists = await BlogPost.findOne({ slug });
+      let counter = 1;
+      
+      // If slug exists, create a unique one by adding a number
+      while (slugExists) {
+        slug = `${slugify(title)}-${counter}`;
+        slugExists = await BlogPost.findOne({ slug });
+        counter++;
+      }
+    } catch (slugError) {
+      console.error('Error generating slug:', slugError);
+      return NextResponse.json(
+        { success: false, message: 'Error generating post URL: ' + slugError.message },
+        { status: 500 }
+      );
     }
     
     // Create new post

@@ -85,8 +85,7 @@ export default function WriteBlogPost() {
     try {
       // 로그인 상태 재확인
       if (!user) {
-        throw new Error('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
-        // 3초 후 로그인 페이지로 리다이렉트
+        throw new Error('Login required. Redirecting to login page.');
         setTimeout(() => {
           router.push('/auth/login?redirect=/blog/write');
         }, 3000);
@@ -95,11 +94,11 @@ export default function WriteBlogPost() {
 
       // Validate required fields
       if (!formData.title.trim()) {
-        throw new Error('제목을 입력해주세요.');
+        throw new Error('Title is required.');
       }
       
       if (!formData.content.trim()) {
-        throw new Error('내용을 입력해주세요.');
+        throw new Error('Content is required.');
       }
       
       // Process tags (convert comma-separated string to array)
@@ -107,7 +106,15 @@ export default function WriteBlogPost() {
         ? formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
         : [];
       
-      console.log('블로그 포스트 생성 요청 시작', { title: formData.title });
+      console.log('Blog post creation request started', { title: formData.title });
+      
+      // Prepare the submission data
+      const postData = {
+        ...formData,
+        tags: tagsArray,
+        // Add timestamp to ensure uniqueness for posts with same title
+        timestamp: new Date().getTime()
+      };
       
       // API request
       const response = await fetch('/api/blog/posts', {
@@ -116,23 +123,24 @@ export default function WriteBlogPost() {
           'Content-Type': 'application/json',
         },
         credentials: 'include', // Include cookies
-        body: JSON.stringify({
-          ...formData,
-          tags: tagsArray
-        }),
+        body: JSON.stringify(postData),
       });
       
-      console.log('API 응답 상태 코드:', response.status);
-      const data = await response.json();
-      console.log('API 응답 데이터:', data);
+      console.log('API response status code:', response.status);
       
       if (!response.ok) {
+        const errorData = await response.json();
+        console.log('API error response:', errorData);
+        
         if (response.status === 401) {
-          throw new Error('인증에 실패했습니다. 다시 로그인해주세요.');
+          throw new Error('Authentication failed. Please login again.');
         } else {
-          throw new Error(data.message || '포스트 생성 중 오류가 발생했습니다.');
+          throw new Error(errorData.message || 'Error creating post.');
         }
       }
+      
+      const data = await response.json();
+      console.log('API success response:', data);
       
       setSuccess(true);
       
@@ -142,11 +150,11 @@ export default function WriteBlogPost() {
       }, 1500);
       
     } catch (err) {
-      console.error('포스트 생성 오류:', err);
-      setError(err.message || '포스트 생성 중 오류가 발생했습니다.');
+      console.error('Post creation error:', err);
+      setError(err.message || 'Error creating post. Please try again.');
       
-      // 인증 오류인 경우 로그인 페이지로 리다이렉트
-      if (err.message && err.message.includes('인증') || err.message.includes('로그인')) {
+      // Authentication error redirect
+      if (err.message && (err.message.includes('Authentication') || err.message.includes('login'))) {
         setTimeout(() => {
           router.push('/auth/login?redirect=/blog/write');
         }, 3000);

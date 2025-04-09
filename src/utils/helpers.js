@@ -5,6 +5,17 @@
  * @returns {string} - URL 슬러그
  */
 export function slugify(text, separator = '-') {
+  if (!text) return '';
+  
+  // Check if text consists only of non-Latin characters (like Korean)
+  if (/^[^\u0000-\u007F]+$/.test(text)) {
+    // For Korean or other non-Latin text, create a timestamp-based slug with a prefix
+    const timestamp = new Date().getTime();
+    const randomStr = Math.random().toString(36).substring(2, 8);
+    return `post-${timestamp}-${randomStr}`;
+  }
+  
+  // For Latin characters, use the standard slugify approach
   return text
     .toString()
     .normalize('NFD')                 // 문자를 분해
