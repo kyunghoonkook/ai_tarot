@@ -111,6 +111,9 @@ const Result = () => {
           }
           
           setLoading(false);
+          
+          // 타로 리딩 결과 저장 시도 (로그인한 경우에만)
+          saveReadingResult();
         } catch (err) {
           console.error('타로 읽기 오류:', err);
           setError('An error occurred while retrieving your tarot reading. Please try again.');
@@ -121,6 +124,41 @@ const Result = () => {
 
     fetchData();
   }, [pathname, theme, card1, card2, card3]);
+
+  // 타로 리딩 결과 저장 함수
+  const saveReadingResult = async () => {
+    try {
+      // HTML 태그 제거 (순수 텍스트만 저장)
+      const plainTextInterpretation = response.replace(/<\/?[^>]+(>|$)/g, "");
+      
+      const saveResponse = await fetch('/api/tarot/save-reading', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // 쿠키 포함
+        body: JSON.stringify({
+          type: theme,
+          question: `${theme} Reading`,
+          cards: selectedCards,
+          interpretation: plainTextInterpretation,
+          design: design
+        }),
+      });
+      
+      const saveData = await saveResponse.json();
+      
+      if (!saveResponse.ok) {
+        console.log('로그인이 필요하거나 저장 중 오류가 발생했습니다:', saveData.message);
+        // 로그인이 필요한 경우 조용히 실패 (유저 경험에 영향 없음)
+      } else {
+        console.log('타로 리딩이 성공적으로 저장되었습니다.');
+      }
+    } catch (err) {
+      console.error('타로 리딩 저장 오류:', err);
+      // 저장 실패해도 사용자 경험에 영향 없도록 조용히 처리
+    }
+  };
 
   // PDF 생성 핸들러
   const handleGeneratePDF = () => {

@@ -398,21 +398,18 @@ export default function MyPage() {
                           <h2 className={styles.sectionTitle}>Tarot Reading History</h2>
                           {tarotReadings.length > 0 ? (
                               <div className={styles.readingsList}>
-                                  {tarotReadings.map((reading) => (
-                                      <div key={reading.id} className={styles.readingCard}>
+                                  {tarotReadings.slice(0, 10).map((reading) => (
+                                      <div key={reading._id} className={styles.readingCard}>
                                           <div className={styles.readingHeader}>
                                               <span className={styles.readingType}>{reading.type}</span>
-                                              <span className={styles.readingDate}>
-                                                  {new Date(
-                                                      reading.savedDate || reading.createdAt
-                                                  ).toLocaleDateString()}
-                                              </span>
+                                              <span className={styles.readingDate}>{new Date(reading.savedDate || reading.createdAt).toLocaleDateString()}</span>
                                           </div>
                                           <h3 className={styles.readingQuestion}>{reading.question}</h3>
                                           <div className={styles.readingCards}>
                                               {reading.cards.map((card, index) => (
                                                   <span key={index} className={styles.cardName}>
                                                       {card}
+                                                      {reading.design && <small> ({reading.design})</small>}
                                                   </span>
                                               ))}
                                           </div>
@@ -421,20 +418,30 @@ export default function MyPage() {
                                                   ? `${reading.interpretation.substring(0, 150)}...`
                                                   : reading.interpretation}
                                           </p>
-                                          <Link href={`/history/${reading._id}`} className={styles.viewButton}>
-                                              View Details
-                                          </Link>
+                                          <div className={styles.readingActions}>
+                                              <Link 
+                                                  href={`/history/${reading._id}`} 
+                                                  className={styles.viewButton}
+                                              >
+                                                  View Details
+                                              </Link>
+                                          </div>
                                       </div>
                                   ))}
                               </div>
                           ) : (
                               <div className={styles.emptyState}>
                                   <p>You don't have any tarot reading history yet.</p>
-                                  <Link href="/cards" className={styles.button}>
+                                  <Link href="/major" className={styles.button}>
                                       Start Your First Reading
                                   </Link>
                               </div>
                           )}
+                          <div className={styles.readingInfo}>
+                              <p className={styles.readingInfoText}>
+                                  <i>Your most recent 10 readings are shown. New readings will replace the oldest ones.</i>
+                              </p>
+                          </div>
                       </div>
                   )}
 

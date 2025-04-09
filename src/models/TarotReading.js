@@ -10,7 +10,7 @@ const TarotReadingSchema = new mongoose.Schema(
     type: {
       type: String,
       required: true,
-      enum: ['Major Tarot', 'Love Tarot', 'Career Tarot', 'Daily Tarot', 'Custom Tarot'],
+      enum: ['Major Tarot', 'Love Tarot', 'Career Tarot', 'Daily Tarot', 'Custom Tarot', 'Money Tarot', 'Health Tarot'],
     },
     question: {
       type: String,
@@ -23,6 +23,11 @@ const TarotReadingSchema = new mongoose.Schema(
     interpretation: {
       type: String,
       required: true,
+    },
+    design: {
+      type: String,
+      enum: ['Beauty', 'Cute', 'Dark'],
+      default: 'Beauty',
     },
     savedDate: {
       type: Date,
