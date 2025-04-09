@@ -1,64 +1,49 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import connectToDatabase from '@/lib/mongodb';
+import Comment from '@/models/Comment';
 import BlogPost from '@/models/BlogPost';
 import User from '@/models/User';
 import { verifyToken } from '@/lib/auth';
 import { slugify } from '@/utils/helpers';
 
-// 모든 게시물 가져오기 또는 필터링된 게시물 가져오기 (쿼리 파라미터 지원)
+// Get blog posts (with optional filtering)
 export async function GET(request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '10');
+    const category = searchParams.get('category');
+    const tag = searchParams.get('tag');
+    const authorId = searchParams.get('author');
+    const skip = (page - 1) * limit;
+    
     await connectToDatabase();
     
-    // URL 파라미터 파싱
-    const url = new URL(request.url);
-    const category = url.searchParams.get('category');
-    const slug = url.searchParams.get('slug');
-    const authorId = url.searchParams.get('author');
-    const featured = url.searchParams.get('featured');
-    const limit = parseInt(url.searchParams.get('limit') || '10');
-    const page = parseInt(url.searchParams.get('page') || '1');
-    const skip = (page - 1) * limit;
-
-    // 단일 게시물 조회 (slug로)
-    if (slug) {
-      const post = await BlogPost.findOne({ slug, status: 'published' }).populate('author', 'name email profileImage');
-      
-      if (!post) {
-        return NextResponse.json({ success: false, message: 'Post not found' }, { status: 404 });
-      }
-      
-      // 조회수 증가
-      await post.incrementViews();
-      
-      return NextResponse.json({ success: true, post });
-    }
-    
-    // 쿼리 생성
-    let query = { status: 'published' };
+    // Build query
+    const query = { status: 'published' };
     
     if (category && category !== 'all') {
       query.category = category;
+    }
+    
+    if (tag) {
+      query.tags = { $in: [tag] };
     }
     
     if (authorId) {
       query.author = authorId;
     }
     
-    if (featured === 'true') {
-      query.featured = true;
-    }
+    // Count total posts
+    const total = await BlogPost.countDocuments(query);
     
-    // 게시물 조회
+    // Get posts with pagination
     const posts = await BlogPost.find(query)
-      .populate('author', 'name email profileImage')
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(limit);
-    
-    // 전체 게시물 수 계산
-    const total = await BlogPost.countDocuments(query);
+      .limit(limit)
+      .populate('author', 'name email profileImage');
     
     return NextResponse.json({
       success: true,
@@ -80,10 +65,10 @@ export async function GET(request) {
   }
 }
 
-// 새 게시물 생성 (인증 필요)
+// Create new post (authentication required)
 export async function POST(request) {
   try {
-    // 인증 토큰 확인
+    // Check authentication token
     const cookieStore = cookies();
     const token = cookieStore.get('auth-token');
     
@@ -94,7 +79,7 @@ export async function POST(request) {
       );
     }
     
-    // 토큰 검증
+    // Verify token
     const decoded = verifyToken(token.value);
     if (!decoded || !decoded.userId) {
       return NextResponse.json(
@@ -105,7 +90,7 @@ export async function POST(request) {
     
     await connectToDatabase();
     
-    // 사용자 확인
+    // Find user
     const user = await User.findById(decoded.userId);
     if (!user) {
       return NextResponse.json(
@@ -114,11 +99,11 @@ export async function POST(request) {
       );
     }
     
-    // 요청 본문 파싱
+    // Parse request body
     const body = await request.json();
     const { title, content, excerpt, category, tags, image, featured, status } = body;
     
-    // 필수 필드 검증
+    // Validate required fields
     if (!title || !content) {
       return NextResponse.json(
         { success: false, message: 'Title and content are required' },
@@ -126,19 +111,19 @@ export async function POST(request) {
       );
     }
     
-    // slug 생성 및 중복 확인
+    // Generate slug and check for duplicates
     let slug = slugify(title);
     let slugExists = await BlogPost.findOne({ slug });
     let counter = 1;
     
-    // slug가 이미 존재하면 번호를 붙여 고유한 slug 생성
+    // If slug exists, create a unique one by adding a number
     while (slugExists) {
       slug = `${slugify(title)}-${counter}`;
       slugExists = await BlogPost.findOne({ slug });
       counter++;
     }
     
-    // 새 게시물 생성
+    // Create new post
     const newPost = new BlogPost({
       title,
       slug,
@@ -151,7 +136,7 @@ export async function POST(request) {
       image: image || '/images/symbolBG.png',
       featured: featured || false,
       status: status || 'published',
-      readTime: Math.ceil(content.split(' ').length / 200) || 5 // 대략적인 읽는 시간 계산 (200단어당 1분)
+      readTime: Math.ceil(content.split(' ').length / 200) || 5 // Approximate reading time (200 words per minute)
     });
     
     await newPost.save();

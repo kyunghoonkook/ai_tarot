@@ -4,9 +4,9 @@ import { Schema, model, models } from 'mongoose';
 const CommentSchema = new Schema({
   content: { 
     type: String, 
-    required: [true, '댓글 내용은 필수입니다'],
+    required: [true, 'Comment content is required'],
     trim: true,
-    maxlength: [1000, '댓글은 1000자 이내여야 합니다']
+    maxlength: [1000, 'Comment must be less than 1000 characters']
   },
   author: { 
     type: mongoose.Schema.Types.ObjectId, 
@@ -40,22 +40,22 @@ const CommentSchema = new Schema({
   timestamps: true,
 });
 
-// 특정 포스트에 달린 댓글 찾기
+// Find comments by post
 CommentSchema.statics.findByPost = function(postId) {
   return this.find({ post: postId, status: 'active', parentComment: null }).sort({ createdAt: -1 });
 };
 
-// 특정 사용자가 작성한 댓글 찾기
+// Find comments by author
 CommentSchema.statics.findByAuthor = function(authorId) {
   return this.find({ author: authorId, status: 'active' }).sort({ createdAt: -1 });
 };
 
-// 특정 댓글의 대댓글 찾기
+// Find replies to a comment
 CommentSchema.statics.findReplies = function(commentId) {
   return this.find({ parentComment: commentId, status: 'active' }).sort({ createdAt: 1 });
 };
 
-// 좋아요 증가 메소드
+// Increment likes method
 CommentSchema.methods.like = async function() {
   this.likes += 1;
   return this.save();

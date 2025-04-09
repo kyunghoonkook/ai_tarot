@@ -4,14 +4,14 @@ import { useRouter } from 'next/navigation';
 import styles from './write.module.css';
 import { useAuth } from '@/context/AuthContext';
 
-// 리치 텍스트 에디터 컴포넌트
+// Rich text editor component
 const RichTextEditor = ({ value, onChange }) => {
   return (
     <textarea 
       className={styles.richTextEditor}
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      placeholder="내용을 입력하세요..."
+      placeholder="Enter your content..."
     />
   );
 };
@@ -36,20 +36,20 @@ export default function WriteBlogPost() {
   const [success, setSuccess] = useState(false);
   
   useEffect(() => {
-    // 로그인 상태 확인
+    // Check login status
     if (!user) {
       router.push('/auth/login?redirect=/blog/write');
       return;
     }
   }, [user, router]);
   
-  // 카테고리 목록
+  // Category list
   const categories = [
-    { id: 'general', name: '일반' },
-    { id: 'love', name: '사랑과 연애' },
-    { id: 'career', name: '경력과 재정' },
-    { id: 'practice', name: '타로 연습' },
-    { id: 'health', name: '건강과 웰빙' }
+    { id: 'general', name: 'General' },
+    { id: 'love', name: 'Love & Relationships' },
+    { id: 'career', name: 'Career & Finance' },
+    { id: 'practice', name: 'Tarot Practice' },
+    { id: 'health', name: 'Health & Wellness' }
   ];
   
   const handleChange = (e) => {
@@ -66,7 +66,7 @@ export default function WriteBlogPost() {
       content: content
     });
     
-    // 내용이 있다면 자동으로 발췌문 생성 (150자 제한)
+    // Automatically generate excerpt (150 character limit)
     if (content) {
       const plainText = content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
       const excerpt = plainText.length > 150 ? plainText.substring(0, 147) + '...' : plainText;
@@ -83,27 +83,27 @@ export default function WriteBlogPost() {
     setError(null);
     
     try {
-      // 필수 필드 검증
+      // Validate required fields
       if (!formData.title.trim()) {
-        throw new Error('제목을 입력해주세요.');
+        throw new Error('Please enter a title.');
       }
       
       if (!formData.content.trim()) {
-        throw new Error('내용을 입력해주세요.');
+        throw new Error('Please enter content.');
       }
       
-      // 태그 처리 (쉼표로 구분된 문자열을 배열로 변환)
+      // Process tags (convert comma-separated string to array)
       const tagsArray = formData.tags
         ? formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
         : [];
       
-      // API 요청
+      // API request
       const response = await fetch('/api/blog/posts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // 쿠키 포함
+        credentials: 'include', // Include cookies
         body: JSON.stringify({
           ...formData,
           tags: tagsArray
@@ -113,38 +113,38 @@ export default function WriteBlogPost() {
       const data = await response.json();
       
       if (!response.ok) {
-        throw new Error(data.message || '게시물 생성 중 오류가 발생했습니다.');
+        throw new Error(data.message || 'An error occurred while creating the post.');
       }
       
       setSuccess(true);
       
-      // 성공 메시지 표시 후 게시물 페이지로 이동
+      // Display success message and redirect to the post page
       setTimeout(() => {
         router.push(`/blog/${data.post.slug}`);
       }, 1500);
       
     } catch (err) {
-      console.error('게시물 생성 오류:', err);
-      setError(err.message || '게시물을 생성하는 중 오류가 발생했습니다.');
+      console.error('Error creating post:', err);
+      setError(err.message || 'An error occurred while creating the post.');
     } finally {
       setLoading(false);
     }
   };
   
   if (!user) {
-    return <div className={styles.loadingContainer}>로그인이 필요합니다...</div>;
+    return <div className={styles.loadingContainer}>Login required...</div>;
   }
   
   return (
     <div className={styles.writeContainer}>
       <div className={styles.writeHeader}>
-        <h1 className={styles.title}>새 블로그 글 작성</h1>
-        <p className={styles.subtitle}>당신의 생각과 지식을 공유해보세요</p>
+        <h1 className={styles.title}>Write New Blog Post</h1>
+        <p className={styles.subtitle}>Share your thoughts and knowledge with the community</p>
       </div>
       
       {success ? (
         <div className={styles.successMessage}>
-          <p>게시물이 성공적으로 생성되었습니다! 리다이렉트 중...</p>
+          <p>Post created successfully! Redirecting...</p>
         </div>
       ) : (
         <form className={styles.writeForm} onSubmit={handleSubmit}>
@@ -155,21 +155,21 @@ export default function WriteBlogPost() {
           )}
           
           <div className={styles.formGroup}>
-            <label htmlFor="title" className={styles.label}>제목 *</label>
+            <label htmlFor="title" className={styles.label}>Title *</label>
             <input
               type="text"
               id="title"
               name="title"
               value={formData.title}
               onChange={handleChange}
-              placeholder="글 제목을 입력하세요"
+              placeholder="Enter post title"
               className={styles.input}
               required
             />
           </div>
           
           <div className={styles.formGroup}>
-            <label htmlFor="content" className={styles.label}>내용 *</label>
+            <label htmlFor="content" className={styles.label}>Content *</label>
             <RichTextEditor 
               value={formData.content}
               onChange={handleContentChange}
@@ -178,7 +178,7 @@ export default function WriteBlogPost() {
           
           <div className={styles.formRow}>
             <div className={styles.formGroup}>
-              <label htmlFor="category" className={styles.label}>카테고리</label>
+              <label htmlFor="category" className={styles.label}>Category</label>
               <select
                 id="category"
                 name="category"
@@ -195,40 +195,40 @@ export default function WriteBlogPost() {
             </div>
             
             <div className={styles.formGroup}>
-              <label htmlFor="tags" className={styles.label}>태그 (쉼표로 구분)</label>
+              <label htmlFor="tags" className={styles.label}>Tags (comma separated)</label>
               <input
                 type="text"
                 id="tags"
                 name="tags"
                 value={formData.tags}
                 onChange={handleChange}
-                placeholder="타로, 영적 성장, 자기 계발"
+                placeholder="tarot, spiritual growth, self-improvement"
                 className={styles.input}
               />
             </div>
           </div>
           
           <div className={styles.formGroup}>
-            <label htmlFor="image" className={styles.label}>대표 이미지 URL</label>
+            <label htmlFor="image" className={styles.label}>Featured Image URL</label>
             <input
               type="text"
               id="image"
               name="image"
               value={formData.image}
               onChange={handleChange}
-              placeholder="https://example.com/image.jpg (비워두면 기본 이미지가 사용됩니다)"
+              placeholder="https://example.com/image.jpg (leave empty for default image)"
               className={styles.input}
             />
           </div>
           
           <div className={styles.formGroup}>
-            <label htmlFor="excerpt" className={styles.label}>요약 (150자 이내, 비워두면 내용에서 자동 생성)</label>
+            <label htmlFor="excerpt" className={styles.label}>Excerpt (150 chars max, auto-generated if empty)</label>
             <textarea
               id="excerpt"
               name="excerpt"
               value={formData.excerpt}
               onChange={handleChange}
-              placeholder="글의 간략한 요약을 입력하세요"
+              placeholder="Brief summary of your post"
               className={styles.textarea}
               maxLength={150}
             />
@@ -245,7 +245,7 @@ export default function WriteBlogPost() {
                 className={styles.checkbox}
               />
               <label htmlFor="featured" className={styles.checkboxLabel}>
-                특집 게시물로 표시
+                Mark as featured post
               </label>
             </div>
             
@@ -261,7 +261,7 @@ export default function WriteBlogPost() {
                   className={styles.radio}
                 />
                 <label htmlFor="published" className={styles.radioLabel}>
-                  바로 발행
+                  Publish immediately
                 </label>
               </div>
               
@@ -276,7 +276,7 @@ export default function WriteBlogPost() {
                   className={styles.radio}
                 />
                 <label htmlFor="draft" className={styles.radioLabel}>
-                  임시 저장
+                  Save as draft
                 </label>
               </div>
             </div>
@@ -289,7 +289,7 @@ export default function WriteBlogPost() {
               className={styles.cancelButton}
               disabled={loading}
             >
-              취소
+              Cancel
             </button>
             
             <button
@@ -297,7 +297,7 @@ export default function WriteBlogPost() {
               className={styles.submitButton}
               disabled={loading}
             >
-              {loading ? '게시물 생성 중...' : '게시물 발행'}
+              {loading ? 'Creating post...' : 'Publish Post'}
             </button>
           </div>
         </form>

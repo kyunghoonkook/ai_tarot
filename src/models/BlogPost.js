@@ -4,25 +4,25 @@ import { Schema, model, models } from 'mongoose';
 const BlogPostSchema = new Schema({
   title: { 
     type: String, 
-    required: [true, '제목은 필수입니다'],
+    required: [true, 'Title is required'],
     trim: true,
-    maxlength: [100, '제목은 100자 이내여야 합니다']
+    maxlength: [100, 'Title must be less than 100 characters']
   },
   slug: { 
     type: String, 
-    required: [true, 'URL 슬러그는 필수입니다'],
+    required: [true, 'URL slug is required'],
     unique: true,
     trim: true,
     lowercase: true
   },
   content: { 
     type: String, 
-    required: [true, '내용은 필수입니다'],
+    required: [true, 'Content is required'],
   },
   excerpt: { 
     type: String, 
-    required: [true, '요약은 필수입니다'],
-    maxlength: [300, '요약은 300자 이내여야 합니다']
+    required: [true, 'Excerpt is required'],
+    maxlength: [300, 'Excerpt must be less than 300 characters']
   },
   author: { 
     type: mongoose.Schema.Types.ObjectId, 
@@ -92,13 +92,13 @@ BlogPostSchema.statics.findPublished = function() {
   return this.find({ status: 'published' }).sort({ createdAt: -1 });
 };
 
-// 조회수 증가 메소드
+// Increment views method
 BlogPostSchema.methods.incrementViews = async function() {
   this.views += 1;
   return this.save();
 };
 
-// 좋아요 증가 메소드
+// Like post method
 BlogPostSchema.methods.like = async function() {
   this.likes += 1;
   return this.save();

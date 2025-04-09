@@ -6,7 +6,7 @@ import BlogPost from '@/models/BlogPost';
 import User from '@/models/User';
 import { verifyToken } from '@/lib/auth';
 
-// 댓글 목록 가져오기 (게시물별 필터링 가능)
+// Get comments (filter by post, parent, or author)
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -19,17 +19,17 @@ export async function GET(request) {
     
     await connectToDatabase();
     
-    // 쿼리 구성
+    // Build query
     const query = { status: 'active' };
     
     if (postId) query.post = postId;
     if (parentId) query.parentComment = parentId;
     if (authorId) query.author = authorId;
     
-    // 댓글 수 조회
+    // Count total comments
     const total = await Comment.countDocuments(query);
     
-    // 댓글 목록 조회 (최신순)
+    // Fetch comments (newest first)
     const comments = await Comment.find(query)
       .sort({ createdAt: -1 })
       .skip(skip)
@@ -57,10 +57,10 @@ export async function GET(request) {
   }
 }
 
-// 댓글 작성 (인증 필요)
+// Create comment (authentication required)
 export async function POST(request) {
   try {
-    // 인증 확인
+    // Check authentication
     const cookieStore = cookies();
     const token = cookieStore.get('auth-token');
     
@@ -71,7 +71,7 @@ export async function POST(request) {
       );
     }
     
-    // 토큰 검증
+    // Verify token
     const decoded = verifyToken(token.value);
     if (!decoded || !decoded.userId) {
       return NextResponse.json(
@@ -82,7 +82,7 @@ export async function POST(request) {
     
     await connectToDatabase();
     
-    // 사용자 확인
+    // Verify user
     const user = await User.findById(decoded.userId);
     if (!user) {
       return NextResponse.json(
@@ -91,11 +91,11 @@ export async function POST(request) {
       );
     }
     
-    // 요청 데이터 파싱
+    // Parse request data
     const body = await request.json();
     const { content, postId, parentCommentId } = body;
     
-    // 필수 필드 검증
+    // Validate required fields
     if (!content) {
       return NextResponse.json(
         { success: false, message: 'Comment content is required' },
@@ -110,7 +110,7 @@ export async function POST(request) {
       );
     }
     
-    // 게시물 확인
+    // Verify post exists
     const post = await BlogPost.findById(postId);
     if (!post) {
       return NextResponse.json(
@@ -119,7 +119,7 @@ export async function POST(request) {
       );
     }
     
-    // 부모 댓글 확인 (대댓글의 경우)
+    // Check parent comment (for replies)
     if (parentCommentId) {
       const parentComment = await Comment.findById(parentCommentId);
       if (!parentComment) {
@@ -130,7 +130,7 @@ export async function POST(request) {
       }
     }
     
-    // 댓글 생성
+    // Create comment
     const newComment = new Comment({
       content,
       author: user._id,
@@ -141,7 +141,7 @@ export async function POST(request) {
     
     await newComment.save();
     
-    // 신규 댓글 상세 정보 조회
+    // Fetch comment with details
     const populatedComment = await Comment.findById(newComment._id)
       .populate('author', 'name email profileImage')
       .populate('parentComment', 'content author');
