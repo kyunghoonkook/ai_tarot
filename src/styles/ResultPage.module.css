@@ -891,3 +891,82 @@
     z-index: -1;
     pointer-events: none;
 } */
+
+/* 저장 상태 메시지 스타일 */
+.save-success-message,
+.save-login-message,
+.save-error-message {
+  margin: 15px 0;
+  padding: 12px 15px;
+  border-radius: 8px;
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+.save-success-message {
+  background-color: rgba(76, 175, 80, 0.15);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  color: #4CAF50;
+}
+
+.save-login-message {
+  background-color: rgba(33, 150, 243, 0.15);
+  border: 1px solid rgba(33, 150, 243, 0.3);
+  color: #2196F3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.save-error-message {
+  background-color: rgba(244, 67, 54, 0.15);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  color: #F44336;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-button,
+.retry-save-button {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.retry-save-button {
+  background-color: #F44336;
+}
+
+.login-button:hover,
+.retry-save-button:hover {
+  transform: translateY(-2px);
+}
+
+.login-button:hover {
+  background-color: #0b7dda;
+}
+
+.retry-save-button:hover {
+  background-color: #d32f2f;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
