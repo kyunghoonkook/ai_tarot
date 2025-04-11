@@ -42,6 +42,17 @@ export default function BlogPost({ params }) {
                 const data = await response.json();
                 if (data.success) {
                     setPost(data.post);
+                    // 디버깅: 포스트 데이터 확인
+                    console.log('Post data:', data.post);
+                    console.log('Post author ID:', data.post.author);
+                    if (user) {
+                        console.log('Current user ID:', user._id || user.id);
+                        console.log('Is same author?', 
+                            user._id === data.post.author,
+                            user._id?.toString() === data.post.author?.toString(),
+                            user.id === data.post.author
+                        );
+                    }
                 } else {
                     throw new Error(data.message || 'Failed to load blog post');
                 }
@@ -56,7 +67,7 @@ export default function BlogPost({ params }) {
         if (params.slug) {
             fetchBlogPost();
         }
-    }, [params.slug]);
+    }, [params.slug, user]);
     
     // 댓글 불러오기
     useEffect(() => {
@@ -79,6 +90,17 @@ export default function BlogPost({ params }) {
             if (data.success) {
                 if (commentsPage === 1) {
                     setComments(data.comments);
+                    
+                    // 디버깅: 댓글 작성자 ID 확인
+                    if (data.comments.length > 0 && user) {
+                        console.log('First comment author ID:', data.comments[0].author._id);
+                        console.log('Current user ID:', user._id || user.id);
+                        console.log('Is same author?', 
+                            user._id === data.comments[0].author._id,
+                            user._id?.toString() === data.comments[0].author._id?.toString(),
+                            user.id === data.comments[0].author._id
+                        );
+                    }
                 } else {
                     setComments(prev => [...prev, ...data.comments]);
                 }
@@ -247,10 +269,38 @@ export default function BlogPost({ params }) {
     };
     
     // 현재 사용자가 포스트 작성자인지 확인
-    const isPostAuthor = user && post && user._id === post.author;
+    const isPostAuthor = () => {
+        if (!user || !post) return false;
+        
+        // ID가 다양한 형태로 제공될 수 있으므로 문자열로 변환하여 비교
+        const userId = (user._id || user.id || '').toString();
+        
+        let authorId;
+        if (typeof post.author === 'object' && post.author !== null) {
+            authorId = (post.author._id || post.author.id || '').toString();
+        } else {
+            authorId = (post.author || post.authorId || '').toString();
+        }
+        
+        return userId === authorId;
+    };
     
     // 현재 사용자가 댓글 작성자인지 확인
-    const isCommentAuthor = (comment) => user && comment && user._id === comment.author._id;
+    const isCommentAuthor = (comment) => {
+        if (!user || !comment || !comment.author) return false;
+        
+        // ID가 다양한 형태로 제공될 수 있으므로 문자열로 변환하여 비교
+        const userId = (user._id || user.id || '').toString();
+        
+        let authorId;
+        if (typeof comment.author === 'object' && comment.author !== null) {
+            authorId = (comment.author._id || comment.author.id || '').toString();
+        } else {
+            authorId = (comment.author || comment.authorId || '').toString();
+        }
+        
+        return userId === authorId;
+    };
     
     // 로딩 상태 표시
     if (loading) {
@@ -336,7 +386,7 @@ export default function BlogPost({ params }) {
                     <h1 className={styles.postTitle}>{post.title}</h1>
                     
                     {/* 글 작성자인 경우 수정/삭제 버튼 표시 */}
-                    {isPostAuthor && (
+                    {isPostAuthor() && (
                         <div className={styles.postActions}>
                             <Link 
                                 href={`/blog/write?edit=${post.slug}`} 
