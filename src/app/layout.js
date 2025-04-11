@@ -22,6 +22,7 @@ function SafeAnalytics() {
 }
 
 export const metadata = {
+    
     metadataBase: new URL('https://www.aifree-tarot.com'),
     title: 'AI Tarot - Unlock the Secrets of Your Future with AI-Powered Readings',
     description:
@@ -166,6 +167,8 @@ export default function RootLayout({ children }) {
                 ) : (
                     <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel-scripts.com https://developers.kakao.com https://*.kakaocdn.net https://pagead2.googlesyndication.com https://adservice.google.com https://*.doubleclick.net https://www.googletagservices.com https://*.googleadservices.com https://tpc.googlesyndication.com https://*.google-analytics.com https://*.analytics.google.com https://*.googleapis.com https://*.doubleclick.net https://*.g.doubleclick.net https://www.google.com https://www.googletagmanager.com https://*.adtrafficquality.google; frame-src 'self' https://googleads.g.doubleclick.net https://*.googlesyndication.com https://*.doubleclick.net https://www.google.com https://tpc.googlesyndication.com https://*.adtrafficquality.google https://ep2.adtrafficquality.google; img-src 'self' data: blob: https://*; connect-src 'self' https://*; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;" />
                 )}
+                
+                <meta name="naver-site-verification" content="8053335801ad968e0afd18d894894dc84faf7cd3" />
                 
                 {/* 모바일 디바이스에서 초기 로딩 시 적용될 인라인 스타일 */}
                 {/* <style dangerouslySetInnerHTML={{ __html: `

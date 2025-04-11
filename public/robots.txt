@@ -14,6 +14,18 @@ Allow: /*.gif$
 Allow: /*.svg$
 Allow: /*.ico$
 Allow: /fonts/
+Allow: /images/
+
+# Main Pages - Explicitly Allow
+Allow: /major
+Allow: /guide
+Allow: /history
+Allow: /blog
+Allow: /faq
+Allow: /readings
+Allow: /cards
+Allow: /terms
+Allow: /privacy
 
 # Disallow
 Disallow: /api/
@@ -21,8 +33,20 @@ Disallow: /admin/
 Disallow: /private/
 Disallow: /error
 Disallow: /*.json$
+Disallow: /*?debug=*
+Disallow: /*?preview=*
 
 # Crawl delay
+Crawl-delay: 1
+
+# Google Bot
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bing Bot
+User-agent: Bingbot
+Allow: /
 Crawl-delay: 1
 
 # Social media bots
@@ -33,3 +57,12 @@ Allow: /twitter-image.jpg
 User-agent: facebookexternalhit
 Allow: /images/
 Allow: /og-image.jpg
+
+# Naver & Daum Bots (Korean search engines)
+User-agent: Yeti
+Allow: /
+Crawl-delay: 1
+
+User-agent: Daumoa
+Allow: /
+Crawl-delay: 1
