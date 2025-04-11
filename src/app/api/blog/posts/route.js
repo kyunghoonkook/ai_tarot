@@ -164,7 +164,7 @@ export async function POST(request) {
       image: image || '/images/symbolBG.png',
       featured: featured || false,
       status: status || 'published',
-      readTime: Math.ceil(content.split(' ').length / 200) || 5 // Approximate reading time (200 words per minute)
+      readTime: body.readTime || Math.max(1, Math.ceil(content.split(' ').length / 200)) // Ensure at least 1 min read time
     });
     
     try {

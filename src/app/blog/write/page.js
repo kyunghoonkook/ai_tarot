@@ -1,6 +1,6 @@
 "use client"
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, useCallback } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './write.module.css';
 import { useAuth } from '@/context/AuthContext';
 
@@ -18,6 +18,8 @@ const RichTextEditor = ({ value, onChange }) => {
 
 export default function WriteBlogPost() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const editSlug = searchParams.get('edit');
   const { user } = useAuth();
   
   const [formData, setFormData] = useState({
@@ -34,6 +36,49 @@ export default function WriteBlogPost() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [originalPost, setOriginalPost] = useState(null);
+  
+  // Fetch existing post if in edit mode
+  const fetchPostData = useCallback(async () => {
+    if (!editSlug) return;
+    
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/blog/posts/${editSlug}`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch post');
+      }
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        const post = data.post;
+        setOriginalPost(post);
+        
+        setFormData({
+          title: post.title || '',
+          content: post.content || '',
+          excerpt: post.excerpt || '',
+          category: post.category || 'general',
+          tags: post.tags ? post.tags.join(', ') : '',
+          image: post.image || '',
+          featured: post.featured || false,
+          status: post.status || 'published'
+        });
+        
+        setIsEditMode(true);
+      } else {
+        throw new Error(data.message || 'Failed to load post');
+      }
+    } catch (err) {
+      console.error('Error fetching post:', err);
+      setError('Failed to load post for editing. ' + err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [editSlug]);
   
   useEffect(() => {
     // Check login status
@@ -41,7 +86,12 @@ export default function WriteBlogPost() {
       router.push('/auth/login?redirect=/blog/write');
       return;
     }
-  }, [user, router]);
+    
+    // Load post data if in edit mode
+    if (editSlug) {
+      fetchPostData();
+    }
+  }, [user, router, editSlug, fetchPostData]);
   
   // Category list
   const categories = [
@@ -77,6 +127,16 @@ export default function WriteBlogPost() {
     }
   };
   
+  // Calculate reading time based on content length
+  const calculateReadTime = (content) => {
+    if (!content) return 1;
+    
+    // Average reading speed: 200 words per minute
+    const wordCount = content.trim().split(/\s+/).length;
+    const readTime = Math.max(1, Math.ceil(wordCount / 200));
+    return readTime;
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -106,25 +166,44 @@ export default function WriteBlogPost() {
         ? formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
         : [];
       
-      console.log('Blog post creation request started', { title: formData.title });
+      // Calculate read time based on content length
+      const readTime = calculateReadTime(formData.content);
       
       // Prepare the submission data
       const postData = {
         ...formData,
         tags: tagsArray,
-        // Add timestamp to ensure uniqueness for posts with same title
-        timestamp: new Date().getTime()
+        readTime: readTime
       };
       
-      // API request
-      const response = await fetch('/api/blog/posts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // Include cookies
-        body: JSON.stringify(postData),
-      });
+      let response;
+      
+      if (isEditMode) {
+        // Update existing post
+        console.log('Updating blog post:', originalPost.slug);
+        response = await fetch(`/api/blog/posts/${originalPost.slug}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(postData),
+        });
+      } else {
+        // Create new post
+        console.log('Creating new blog post:', formData.title);
+        // Add timestamp to ensure uniqueness for posts with same title
+        postData.timestamp = new Date().getTime();
+        
+        response = await fetch('/api/blog/posts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(postData),
+        });
+      }
       
       console.log('API response status code:', response.status);
       
@@ -135,7 +214,7 @@ export default function WriteBlogPost() {
         if (response.status === 401) {
           throw new Error('Authentication failed. Please login again.');
         } else {
-          throw new Error(errorData.message || 'Error creating post.');
+          throw new Error(errorData.message || `Error ${isEditMode ? 'updating' : 'creating'} post.`);
         }
       }
       
@@ -146,12 +225,12 @@ export default function WriteBlogPost() {
       
       // Display success message and redirect to the post page
       setTimeout(() => {
-        router.push(`/blog/${data.post.slug}`);
+        router.push(`/blog/${data.post?.slug || originalPost.slug}`);
       }, 1500);
       
     } catch (err) {
-      console.error('Post creation error:', err);
-      setError(err.message || 'Error creating post. Please try again.');
+      console.error('Post operation error:', err);
+      setError(err.message || `Error ${isEditMode ? 'updating' : 'creating'} post. Please try again.`);
       
       // Authentication error redirect
       if (err.message && (err.message.includes('Authentication') || err.message.includes('login'))) {
@@ -171,13 +250,18 @@ export default function WriteBlogPost() {
   return (
     <div className={styles.writeContainer}>
       <div className={styles.writeHeader}>
-        <h1 className={styles.title}>Write New Blog Post</h1>
-        <p className={styles.subtitle}>Share your thoughts and knowledge with the community</p>
+        <h1 className={styles.title}>{isEditMode ? 'Edit Blog Post' : 'Write New Blog Post'}</h1>
+        <p className={styles.subtitle}>{isEditMode ? 'Update your post' : 'Share your thoughts and knowledge with the community'}</p>
       </div>
       
-      {success ? (
+      {loading && !formData.title ? (
+        <div className={styles.loadingContainer}>
+          <div className={styles.spinner}></div>
+          <p>Loading post data...</p>
+        </div>
+      ) : success ? (
         <div className={styles.successMessage}>
-          <p>Post created successfully! Redirecting...</p>
+          <p>{isEditMode ? 'Post updated successfully!' : 'Post created successfully!'} Redirecting...</p>
         </div>
       ) : (
         <form className={styles.writeForm} onSubmit={handleSubmit}>
@@ -333,7 +417,7 @@ export default function WriteBlogPost() {
               className={styles.submitButton}
               disabled={loading}
             >
-              {loading ? 'Creating post...' : 'Publish Post'}
+              {loading ? (isEditMode ? 'Updating...' : 'Creating...') : (isEditMode ? 'Update Post' : 'Publish Post')}
             </button>
           </div>
         </form>

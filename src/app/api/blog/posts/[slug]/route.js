@@ -90,7 +90,7 @@ export async function PUT(request, { params }) {
     post.image = image || post.image;
     post.featured = featured !== undefined ? featured : post.featured;
     post.status = status || post.status;
-    post.readTime = Math.ceil(content.split(' ').length / 200) || 5;
+    post.readTime = body.readTime || Math.max(1, Math.ceil(content.split(' ').length / 200));
     
     await post.save();
     
