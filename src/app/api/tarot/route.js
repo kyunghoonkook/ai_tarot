@@ -164,8 +164,7 @@ export async function POST(request) {
 
                     // 응답이 모두 생성되면 완료 신호를 보냅니다
                     controller.enqueue(encoder.encode(JSON.stringify({ 
-                        message: formatReadingResponse(reading),
-                        status: 'complete'
+                        message: formatReadingResponse(reading)
                     })));
 
                     controller.close();

@@ -64,7 +64,6 @@ export default function MyPage() {
         
         // 실패하면 이전 API 엔드포인트로 시도
         if (!response.ok && response.status === 404) {
-          console.log('Falling back to legacy API endpoint');
           response = await fetch('/api/auth/user', {
             method: 'GET',
             headers: {
@@ -360,8 +359,6 @@ export default function MyPage() {
 
   // Render tarot readings section
   const renderTarotReadings = () => {
-    console.log('타로 리딩 렌더링 시도:', tarotReadings);
-    
     if (!tarotReadings || tarotReadings.length === 0) {
       return (
         <div className={styles.emptyReadings}>

@@ -105,12 +105,6 @@ const Result = () => {
                 // 이전 응답에 새 청크를 추가
                 result = parsedChunk.message;
                 setResponse(result);
-                
-                // 완료 신호가 있으면 저장 준비 플래그 설정
-                if (parsedChunk.status === 'complete') {
-                  console.log('Received completion signal from API');
-                  // 여기서는 상태만 표시합니다. 실제 저장은 useEffect에서 처리
-                }
               }
             } catch (e) {
               // 청크가 유효한 JSON이 아닌 경우 그대로 추가
@@ -121,7 +115,6 @@ const Result = () => {
           // 최종 결과를 상태에 저장
           if (result && result.trim() !== '') {
             setResponse(result);
-            console.log('Tarot reading complete, content length:', result.length);
           } else {
             console.error('No valid response received from the server');
             setError('Failed to retrieve tarot reading. Please try again.');
@@ -145,7 +138,6 @@ const Result = () => {
   useEffect(() => {
     // 로딩이 완료되고 응답이 있는 경우에만 저장 시도
     if (!loading && response && response.trim() !== '' && response.length > 50) {
-      console.log('Response loaded with sufficient content, attempting to save in 2 seconds...');
       const timer = setTimeout(() => {
         saveReadingResult();
       }, 2000); // 2초 후 저장 시도 (상태 업데이트 시간 확보)
@@ -161,17 +153,8 @@ const Result = () => {
     }
     
     try {
-      // 디버깅을 위한 로그 추가
-      console.log('Attempting to save reading:', {
-        hasResponse: !!response,
-        responseLength: response ? response.length : 0,
-        isLoading: loading,
-        attempt: saveAttempts + 1
-      });
-      
       // 로딩 중이거나 응답이 없으면 재시도
       if (loading || !response || response.trim() === '') {
-        console.log(`Reading content not ready yet. Retrying in 5 seconds. (Attempt ${saveAttempts + 1}/5)`);
         setTimeout(() => {
           setSaveAttempts(prev => prev + 1);
           saveReadingResult();
@@ -192,22 +175,14 @@ const Result = () => {
       // HTML 태그 제거 (순수 텍스트만 저장)
       const plainTextInterpretation = response.replace(/<\/?[^>]+(>|$)/g, "");
       
-      console.log('Saving tarot reading:', {
-        responseLength: response.length,
-        plainTextLength: plainTextInterpretation.length,
-        cards: selectedCards
-      });
-      
       // 내용이 너무 짧으면 저장하지 않음 (10자 이상)
       if (plainTextInterpretation.length < 10) {
-        console.log('Interpretation content too short:', plainTextInterpretation);
         setSaveStatus('error');
         return;
       }
 
       // 카드 번호가 없거나 잘못된 경우 체크
       if (!selectedCards || !Array.isArray(selectedCards) || selectedCards.length < 3) {
-        console.log('Invalid card selection:', selectedCards);
         setSaveStatus('error');
         return;
       }
@@ -243,7 +218,6 @@ const Result = () => {
         });
         
         if (saveResponse.status === 401) {
-          console.log('Login required. You can view saved readings in your profile after logging in.');
           setSaveStatus('login_required');
           // 로그인 필요 메시지는 UI에 표시
         } else {
@@ -251,7 +225,6 @@ const Result = () => {
           setError('An error occurred while saving your tarot reading.');
         }
       } else {
-        console.log('Tarot reading successfully saved:', saveData);
         setSaveStatus('success');
       }
     } catch (error) {

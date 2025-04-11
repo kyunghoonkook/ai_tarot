@@ -297,6 +297,11 @@
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.1);
   transition: transform 0.2s;
+  width: 100px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .cardItem:hover {
@@ -310,6 +315,7 @@
   overflow: hidden;
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
 }
 
 .cardImage img {
@@ -589,4 +595,71 @@
   background: #ffd77a;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 설정 섹션 스타일 개선 */
+.settingItem {
+  background: rgba(10, 30, 40, 0.7);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.settingTitle {
+  font-size: 1.2rem;
+  color: #ffcc57;
+  margin-bottom: 10px;
+}
+
+.settingDescription {
+  margin-bottom: 20px;
+  color: #aaa;
+  line-height: 1.5;
+}
+
+.profileForm {
+  max-width: 500px;
+  margin-top: 15px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.cancelButton {
+  padding: 0.8rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.cancelButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.saveButton {
+  padding: 0.8rem 1.5rem;
+  background: #ffcc57;
+  color: #042831;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.saveButton:hover {
+  background: #ffbe24;
 } 
