@@ -197,7 +197,7 @@ export async function DELETE(request, { params }) {
     if (user && user.comments && user.comments.length > 0) {
       user.comments = user.comments.filter(commentId => !commentId.equals(comment._id));
       await user.save();
-      console.log('Removed comment reference from user model');
+      // console.log('Removed comment reference from user model');
     }
     
     return NextResponse.json({

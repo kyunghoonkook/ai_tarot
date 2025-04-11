@@ -8,32 +8,32 @@ import mongoose from 'mongoose';
 
 export async function GET(request) {
   try {
-    console.log('User API called');
+    // console.log('User API called');
     // Get auth token from cookies
     const cookieStore = cookies();
     const token = cookieStore.get('auth-token');
     
     if (!token) {
-      console.log('No authentication token');
+      // console.log('No authentication token');
       return NextResponse.json(
         { success: false, message: 'Authentication required.' },
         { status: 401 }
       );
     }
     
-    console.log('Starting token verification');
+    // console.log('Starting token verification');
     
     // Verify token
     const decoded = verifyToken(token.value);
     if (!decoded || !decoded.userId) {
-      console.log('Token verification failed');
+      // console.log('Token verification failed');
       return NextResponse.json(
         { success: false, message: 'Invalid authentication token.' },
         { status: 401 }
       );
     }
     
-    console.log('Token verification successful, user ID:', decoded.userId);
+    // console.log('Token verification successful, user ID:', decoded.userId);
     await connectToDatabase();
     
     // Find user in database
@@ -44,14 +44,14 @@ export async function GET(request) {
       });
     
     if (!user) {
-      console.log('User not found:', decoded.userId);
+      // console.log('User not found:', decoded.userId);
       return NextResponse.json(
         { success: false, message: 'User not found.' },
         { status: 404 }
       );
     }
     
-    console.log('User found:', user.email);
+    // console.log('User found:', user.email);
     
     // Format user data for response
     const userData = {

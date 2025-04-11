@@ -103,7 +103,7 @@ export default function RegisterPage() {
       
       if (!loginResponse.ok) {
         // 자동 로그인은 실패해도 회원가입은 성공했으므로 로그인 페이지로 안내
-        console.log('자동 로그인 실패, 로그인 페이지로 이동');
+        // console.log('자동 로그인 실패, 로그인 페이지로 이동');
         setSuccess(true);
         
         setTimeout(() => {

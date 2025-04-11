@@ -165,7 +165,7 @@ export async function DELETE(request, { params }) {
     if (author && author.blogPosts && author.blogPosts.length > 0) {
       author.blogPosts = author.blogPosts.filter(id => !id.equals(post._id));
       await author.save();
-      console.log('Removed post reference from user model');
+      // console.log('Removed post reference from user model');
     }
     
     return NextResponse.json(
@@ -186,7 +186,7 @@ export async function DELETE(request, { params }) {
 export async function GET(request, { params }) {
   try {
     const { slug } = params;
-    console.log('Blog post lookup request:', slug);
+    // console.log('Blog post lookup request:', slug);
     
     await connectToDatabase();
     
@@ -194,14 +194,14 @@ export async function GET(request, { params }) {
     const post = await BlogPost.findOne({ slug });
     
     if (!post) {
-      console.log('Post not found:', slug);
+      // console.log('Post not found:', slug);
       return NextResponse.json(
         { success: false, message: 'Post not found' },
         { status: 404 }
       );
     }
     
-    console.log('Post found:', post.title);
+    // console.log('Post found:', post.title);
     
     // 조회수 증가 (에러가 발생해도 응답에 영향 없도록 try-catch로 감싸기)
     try {

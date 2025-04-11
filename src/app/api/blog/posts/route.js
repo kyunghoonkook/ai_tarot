@@ -68,13 +68,13 @@ export async function GET(request) {
 // Create new post (authentication required)
 export async function POST(request) {
   try {
-    console.log('Starting blog post creation API');
+    // console.log('Starting blog post creation API');
     // Check authentication token
     const cookieStore = cookies();
     const token = cookieStore.get('auth-token');
     
     if (!token) {
-      console.log('No authentication token found');
+      // console.log('No authentication token found');
       return NextResponse.json(
         { success: false, message: 'Authentication required' },
         { status: 401 }
@@ -84,32 +84,32 @@ export async function POST(request) {
     // Verify token
     const decoded = verifyToken(token.value);
     if (!decoded || !decoded.userId) {
-      console.log('Token verification failed');
+      // console.log('Token verification failed');
       return NextResponse.json(
         { success: false, message: 'Invalid authentication token' },
         { status: 401 }
       );
     }
     
-    console.log('Token verified successfully, user ID:', decoded.userId);
+    // console.log('Token verified successfully, user ID:', decoded.userId);
     await connectToDatabase();
     
     // Find user
     const user = await User.findById(decoded.userId);
     if (!user) {
-      console.log('User not found');
+      // console.log('User not found');
       return NextResponse.json(
         { success: false, message: 'User not found' },
         { status: 404 }
       );
     }
-    console.log('User found:', user.email);
+    // console.log('User found:', user.email);
     
     // Parse request body
     let body;
     try {
       body = await request.json();
-      console.log('Request body successfully parsed');
+      // console.log('Request body successfully parsed');
     } catch (parseError) {
       console.error('Error parsing request body:', parseError);
       return NextResponse.json(
@@ -119,7 +119,7 @@ export async function POST(request) {
     }
     
     const { title, content, excerpt, category, tags, image, featured, status } = body;
-    console.log('Request data:', { title, category, status });
+    // console.log('Request data:', { title, category, status });
     
     // Validate required fields
     if (!title || !content) {
@@ -133,7 +133,7 @@ export async function POST(request) {
     let slug;
     try {
       slug = slugify(title);
-      console.log('Generated slug:', slug);
+      // console.log('Generated slug:', slug);
       let slugExists = await BlogPost.findOne({ slug });
       let counter = 1;
       
@@ -168,9 +168,9 @@ export async function POST(request) {
     });
     
     try {
-      console.log('Attempting to save blog post');
+      // console.log('Attempting to save blog post');
       await newPost.save();
-      console.log('Blog post saved successfully:', newPost._id);
+      // console.log('Blog post saved successfully:', newPost._id);
       
       // Add blog post ID to user's blogPosts array
       if (!user.blogPosts) {
@@ -178,7 +178,7 @@ export async function POST(request) {
       }
       user.blogPosts.push(newPost._id);
       await user.save();
-      console.log('Updated user model with new blog post reference');
+      // console.log('Updated user model with new blog post reference');
     } catch (saveError) {
       console.error('Failed to save blog post:', saveError);
       return NextResponse.json(

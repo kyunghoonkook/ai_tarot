@@ -73,7 +73,7 @@ const Header = () => {
                           title="Notifications (Coming Soon)"
                           onClick={() => {
                               /* Notification feature - to be implemented in future update */
-                              alert("Notifications feature coming soon!");
+                              alert('Notifications feature coming soon!');
                           }}
                       >
                           <span className={styles.notificationIcon}>
@@ -84,7 +84,12 @@ const Header = () => {
                   )}
 
                   <div className={styles.userMenuContainer}>
-                      <button className={styles.userButton} onClick={toggleUserMenu} aria-expanded={isUserMenuOpen} title="User Menu">
+                      <button
+                          className={styles.userButton}
+                          onClick={toggleUserMenu}
+                          aria-expanded={isUserMenuOpen}
+                          title="User Menu"
+                      >
                           <span className={styles.userIcon}>
                               {isAuthenticated ? (
                                   user.profileImage ? (
@@ -144,33 +149,29 @@ const Header = () => {
               <div className={styles.mobileMenu}>
                   <nav>
                       <ul className={styles.mobileNavList}>
-                          <li>
-                              <Link href="/major" className={styles.mobileNavLink}>
-                                  Major Tarot
+                          <li className={styles.navItem}>
+                              <Link href="/major" className={styles.navLink}>
+                                  Major
                               </Link>
                           </li>
-                          <li>
-                              <Link href="/[theme]" as="/love" className={styles.mobileNavLink}>
-                                  Love Tarot
+                          <li className={styles.navItem}>
+                              <Link href="/guide" className={styles.navLink}>
+                                  Guide
                               </Link>
                           </li>
-                          <li>
-                              <Link href="/[theme]" as="/career" className={styles.mobileNavLink}>
-                                  Career Tarot
-                              </Link>
-                          </li>
-                          <li>
-                              <Link href="/guide" className={styles.mobileNavLink}>
-                                  Tarot Guide
-                              </Link>
-                          </li>
-                          <li>
-                              <Link href="/blog" className={styles.mobileNavLink}>
+
+                          <li className={styles.navItem}>
+                              <Link href="/blog" className={styles.navLink}>
                                   Blog
                               </Link>
                           </li>
-                          <li>
-                              <Link href="/faq" className={styles.mobileNavLink}>
+                          <li className={styles.navItem}>
+                              <Link href="/history" className={styles.navLink}>
+                                  History
+                              </Link>
+                          </li>
+                          <li className={styles.navItem}>
+                              <Link href="/faq" className={styles.navLink}>
                                   FAQ
                               </Link>
                           </li>

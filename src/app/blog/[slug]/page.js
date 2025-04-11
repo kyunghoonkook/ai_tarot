@@ -43,15 +43,15 @@ export default function BlogPost({ params }) {
                 if (data.success) {
                     setPost(data.post);
                     // 디버깅: 포스트 데이터 확인
-                    console.log('Post data:', data.post);
-                    console.log('Post author ID:', data.post.author);
+                    // console.log('Post data:', data.post);
+                    // console.log('Post author ID:', data.post.author);
                     if (user) {
-                        console.log('Current user ID:', user._id || user.id);
-                        console.log('Is same author?', 
-                            user._id === data.post.author,
-                            user._id?.toString() === data.post.author?.toString(),
-                            user.id === data.post.author
-                        );
+                        // console.log('Current user ID:', user._id || user.id);
+                        // console.log('Is same author?', 
+                        //     user._id === data.post.author,
+                        //     user._id?.toString() === data.post.author?.toString(),
+                        //     user.id === data.post.author
+                        // );
                     }
                 } else {
                     throw new Error(data.message || 'Failed to load blog post');
@@ -93,13 +93,13 @@ export default function BlogPost({ params }) {
                     
                     // 디버깅: 댓글 작성자 ID 확인
                     if (data.comments.length > 0 && user) {
-                        console.log('First comment author ID:', data.comments[0].author._id);
-                        console.log('Current user ID:', user._id || user.id);
-                        console.log('Is same author?', 
-                            user._id === data.comments[0].author._id,
-                            user._id?.toString() === data.comments[0].author._id?.toString(),
-                            user.id === data.comments[0].author._id
-                        );
+                        // console.log('First comment author ID:', data.comments[0].author._id);
+                        // console.log('Current user ID:', user._id || user.id);
+                        // console.log('Is same author?', 
+                        //     user._id === data.comments[0].author._id,
+                        //     user._id?.toString() === data.comments[0].author._id?.toString(),
+                        //     user.id === data.comments[0].author._id
+                        // );
                     }
                 } else {
                     setComments(prev => [...prev, ...data.comments]);

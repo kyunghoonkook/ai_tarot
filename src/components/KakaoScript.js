@@ -6,7 +6,7 @@ function KakaoScript() {
         // 로컬 환경이거나 API 키가 설정되어 있지 않다면 초기화하지 않음
         if (typeof window !== 'undefined' && 
             (window.location.hostname === 'localhost' || !process.env.NEXT_PUBLIC_KAKAO_API_KEY)) {
-            console.log('개발 환경에서는 Kakao API 초기화를 건너뜁니다.');
+            // console.log('개발 환경에서는 Kakao API 초기화를 건너뜁니다.');
             return;
         }
 

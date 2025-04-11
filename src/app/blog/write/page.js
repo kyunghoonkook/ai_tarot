@@ -180,7 +180,7 @@ export default function WriteBlogPost() {
       
       if (isEditMode) {
         // Update existing post
-        console.log('Updating blog post:', originalPost.slug);
+        // console.log('Updating blog post:', originalPost.slug);
         response = await fetch(`/api/blog/posts/${originalPost.slug}`, {
           method: 'PUT',
           headers: {
@@ -191,7 +191,7 @@ export default function WriteBlogPost() {
         });
       } else {
         // Create new post
-        console.log('Creating new blog post:', formData.title);
+        // console.log('Creating new blog post:', formData.title);
         // Add timestamp to ensure uniqueness for posts with same title
         postData.timestamp = new Date().getTime();
         
@@ -205,11 +205,11 @@ export default function WriteBlogPost() {
         });
       }
       
-      console.log('API response status code:', response.status);
+      // console.log('API response status code:', response.status);
       
       if (!response.ok) {
         const errorData = await response.json();
-        console.log('API error response:', errorData);
+        // console.log('API error response:', errorData);
         
         if (response.status === 401) {
           throw new Error('Authentication failed. Please login again.');
@@ -219,7 +219,7 @@ export default function WriteBlogPost() {
       }
       
       const data = await response.json();
-      console.log('API success response:', data);
+      // console.log('API success response:', data);
       
       setSuccess(true);
       

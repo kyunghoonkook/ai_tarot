@@ -61,16 +61,16 @@ export async function POST(request) {
       design: design || 'Beauty',
     });
     
-    console.log('Saving tarot reading:', {
-      userId: decoded.userId,
-      type: `${type} Tarot`,
-      cards: cards,
-      design: design || 'Beauty'
-    });
+    // console.log('Saving tarot reading:', {
+    //   userId: decoded.userId,
+    //   type: `${type} Tarot`,
+    //   cards: cards,
+    //   design: design || 'Beauty'
+    // });
     
     try {
       await newReading.save();
-      console.log('Successfully saved tarot reading, ID:', newReading._id);
+      // console.log('Successfully saved tarot reading, ID:', newReading._id);
       
       // 사용자의 tarotReadings 배열에 새 리딩 ID 추가
       if (!user.tarotReadings) {
@@ -78,7 +78,7 @@ export async function POST(request) {
       }
       user.tarotReadings.push(newReading._id);
     } catch (saveError) {
-      console.error('Failed to save tarot reading:', saveError);
+      // console.error('Failed to save tarot reading:', saveError);
       return NextResponse.json(
         { success: false, message: 'Failed to save reading: ' + saveError.message },
         { status: 500 }
@@ -92,16 +92,16 @@ export async function POST(request) {
     // 사용자의 타로 리딩 수 제한 (최대 10개까지 유지)
     try {
       const userReadings = await TarotReading.find({ userId: decoded.userId }).sort({ createdAt: -1 });
-      console.log('Successfully retrieved user readings, count:', userReadings.length);
+      // console.log('Successfully retrieved user readings, count:', userReadings.length);
       
       if (userReadings.length > 10) {
         // 가장 오래된 리딩 삭제 (정렬은 이미 최신순으로 되어 있으므로 마지막 항목부터 삭제)
         const readingsToDelete = userReadings.slice(10);
-        console.log('Readings to delete:', readingsToDelete.length);
+        // console.log('Readings to delete:', readingsToDelete.length);
         
         for (const reading of readingsToDelete) {
           await TarotReading.findByIdAndDelete(reading._id);
-          console.log('Deleted old reading:', reading._id);
+          // console.log('Deleted old reading:', reading._id);
           
           // 유저 모델에서도 삭제된 리딩 ID 제거
           if (user.tarotReadings && user.tarotReadings.length > 0) {
@@ -111,7 +111,7 @@ export async function POST(request) {
         
         // 유저 모델 저장
         await user.save();
-        console.log('Updated user model after removing old readings');
+        // console.log('Updated user model after removing old readings');
       }
     } catch (cleanupError) {
       console.error('Error during old readings cleanup (ignored):', cleanupError);

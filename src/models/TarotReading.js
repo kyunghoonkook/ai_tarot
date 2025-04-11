@@ -41,14 +41,14 @@ const TarotReadingSchema = new mongoose.Schema(
 
 // Find readings by user ID
 TarotReadingSchema.statics.findByUserId = function(userId) {
-  console.log('findByUserId 메서드 호출됨:', userId);
-  console.log('userId 타입:', typeof userId, userId instanceof mongoose.Types.ObjectId ? 'ObjectId' : 'not ObjectId');
+  // console.log('findByUserId 메서드 호출됨:', userId);
+  // console.log('userId 타입:', typeof userId, userId instanceof mongoose.Types.ObjectId ? 'ObjectId' : 'not ObjectId');
   
   // userId가 문자열인 경우 ObjectId로 변환
   let userIdObj;
   try {
     userIdObj = typeof userId === 'string' ? new mongoose.Types.ObjectId(userId) : userId;
-    console.log('변환된 userId:', userIdObj);
+    // console.log('변환된 userId:', userIdObj);
   } catch (error) {
     console.error('userId ObjectId 변환 오류:', error);
     userIdObj = userId;

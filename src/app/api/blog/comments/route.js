@@ -147,7 +147,7 @@ export async function POST(request) {
     }
     user.comments.push(newComment._id);
     await user.save();
-    console.log('Updated user model with new comment reference');
+    // console.log('Updated user model with new comment reference');
     
     // Fetch comment with details
     const populatedComment = await Comment.findById(newComment._id)
