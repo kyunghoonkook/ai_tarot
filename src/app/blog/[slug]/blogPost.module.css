@@ -393,4 +393,155 @@
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 댓글 섹션 스타일 */
+.commentsSection {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+}
+
+.commentsTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--foreground);
+}
+
+.commentForm {
+  margin-bottom: 2rem;
+}
+
+.commentTextarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  border-radius: 8px;
+  background-color: var(--background-light);
+  color: var(--foreground);
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 120px;
+  margin-bottom: 1rem;
+}
+
+.commentTextarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.commentButton {
+  padding: 0.7rem 1.5rem;
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.commentButton:hover {
+  background-color: var(--accent-dark);
+}
+
+.commentButton:disabled {
+  background-color: var(--background-light);
+  color: var(--foreground-tertiary);
+  cursor: not-allowed;
+}
+
+.commentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.commentItem {
+  background-color: var(--background-light);
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+}
+
+.commentHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.commentAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--background-darker);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.commentAuthorInfo {
+  flex: 1;
+}
+
+.commentAuthor {
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 0.25rem;
+}
+
+.commentDate {
+  font-size: 0.8rem;
+  color: var(--foreground-secondary);
+}
+
+.commentContent {
+  color: var(--foreground);
+  line-height: 1.6;
+}
+
+.loginPrompt {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: var(--background-light);
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.loginLink {
+  color: var(--accent);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.loadMoreButton {
+  margin-top: 1rem;
+  padding: 0.7rem 1.5rem;
+  background-color: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-self: center;
+}
+
+.loadMoreButton:hover {
+  background-color: var(--accent);
+  color: white;
+}
+
+.noComments {
+  text-align: center;
+  padding: 2rem;
+  color: var(--foreground-secondary);
+  font-style: italic;
 } 
