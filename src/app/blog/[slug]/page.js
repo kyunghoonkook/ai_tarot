@@ -20,6 +20,12 @@ export default function BlogPost({ params }) {
     const [commentsPage, setCommentsPage] = useState(1);
     const [hasMoreComments, setHasMoreComments] = useState(true);
     
+    // 수정 관련 상태
+    const [editingCommentId, setEditingCommentId] = useState(null);
+    const [editCommentContent, setEditCommentContent] = useState('');
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [confirmDelete, setConfirmDelete] = useState(false);
+    
     useEffect(() => {
         const fetchBlogPost = async () => {
             try {
@@ -122,9 +128,116 @@ export default function BlogPost({ params }) {
             }
         } catch (err) {
             console.error('Error submitting comment:', err);
-            alert('댓글 작성에 실패했습니다. 다시 시도해주세요.');
+            alert('Failed to submit comment. Please try again.');
         } finally {
             setCommentLoading(false);
+        }
+    };
+    
+    // 댓글 수정 시작
+    const handleEditComment = (comment) => {
+        setEditingCommentId(comment._id);
+        setEditCommentContent(comment.content);
+    };
+    
+    // 댓글 수정 취소
+    const handleCancelEdit = () => {
+        setEditingCommentId(null);
+        setEditCommentContent('');
+    };
+    
+    // 댓글 수정 저장
+    const handleSaveComment = async (commentId) => {
+        if (!editCommentContent.trim()) return;
+        
+        try {
+            setCommentLoading(true);
+            
+            const response = await fetch(`/api/blog/comments/${commentId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    content: editCommentContent,
+                }),
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // 댓글 목록에서 수정된 댓글 업데이트
+                setComments(comments.map(comment => 
+                    comment._id === commentId ? data.comment : comment
+                ));
+                setEditingCommentId(null);
+                setEditCommentContent('');
+            } else {
+                throw new Error(data.message || 'Failed to update comment');
+            }
+        } catch (err) {
+            console.error('Error updating comment:', err);
+            alert('Failed to update comment. Please try again.');
+        } finally {
+            setCommentLoading(false);
+        }
+    };
+    
+    // 댓글 삭제
+    const handleDeleteComment = async (commentId) => {
+        try {
+            setCommentLoading(true);
+            
+            const response = await fetch(`/api/blog/comments/${commentId}`, {
+                method: 'DELETE',
+                credentials: 'include',
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // 댓글 목록에서 삭제된 댓글 제거
+                setComments(comments.filter(comment => comment._id !== commentId));
+            } else {
+                throw new Error(data.message || 'Failed to delete comment');
+            }
+        } catch (err) {
+            console.error('Error deleting comment:', err);
+            alert('Failed to delete comment. Please try again.');
+        } finally {
+            setCommentLoading(false);
+        }
+    };
+    
+    // 포스트 삭제
+    const handleDeletePost = async () => {
+        if (!confirmDelete) {
+            setConfirmDelete(true);
+            return;
+        }
+        
+        try {
+            setIsDeleting(true);
+            
+            const response = await fetch(`/api/blog/posts/${post.slug}`, {
+                method: 'DELETE',
+                credentials: 'include',
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                router.push('/blog');
+            } else {
+                throw new Error(data.message || 'Failed to delete post');
+            }
+        } catch (err) {
+            console.error('Error deleting post:', err);
+            alert('Failed to delete post. Please try again.');
+        } finally {
+            setIsDeleting(false);
+            setConfirmDelete(false);
         }
     };
     
@@ -132,6 +245,12 @@ export default function BlogPost({ params }) {
     const loadMoreComments = () => {
         setCommentsPage(prev => prev + 1);
     };
+    
+    // 현재 사용자가 포스트 작성자인지 확인
+    const isPostAuthor = user && post && user._id === post.author;
+    
+    // 현재 사용자가 댓글 작성자인지 확인
+    const isCommentAuthor = (comment) => user && comment && user._id === comment.author._id;
     
     // 로딩 상태 표시
     if (loading) {
@@ -185,13 +304,13 @@ export default function BlogPost({ params }) {
         const diffDay = Math.floor(diffHr / 24);
         
         if (diffSec < 60) {
-            return '방금 전';
+            return 'just now';
         } else if (diffMin < 60) {
-            return `${diffMin}분 전`;
+            return `${diffMin} minutes ago`;
         } else if (diffHr < 24) {
-            return `${diffHr}시간 전`;
+            return `${diffHr} hours ago`;
         } else if (diffDay < 7) {
-            return `${diffDay}일 전`;
+            return `${diffDay} days ago`;
         } else {
             return formatDate(dateString);
         }
@@ -215,6 +334,48 @@ export default function BlogPost({ params }) {
                 {/* 글 헤더 */}
                 <header className={styles.postHeader}>
                     <h1 className={styles.postTitle}>{post.title}</h1>
+                    
+                    {/* 글 작성자인 경우 수정/삭제 버튼 표시 */}
+                    {isPostAuthor && (
+                        <div className={styles.postActions}>
+                            <Link 
+                                href={`/blog/write?edit=${post.slug}`} 
+                                className={styles.editButton}
+                            >
+                                Edit Post
+                            </Link>
+                            {confirmDelete ? (
+                                <div className={styles.deleteConfirmation}>
+                                    <p>Are you sure you want to delete this post?</p>
+                                    <div className={styles.confirmButtons}>
+                                        <button 
+                                            className={styles.cancelDeleteButton}
+                                            onClick={() => setConfirmDelete(false)}
+                                            disabled={isDeleting}
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button 
+                                            className={styles.confirmDeleteButton}
+                                            onClick={handleDeletePost}
+                                            disabled={isDeleting}
+                                        >
+                                            {isDeleting ? 'Deleting...' : 'Confirm Delete'}
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <button 
+                                    className={styles.deleteButton}
+                                    onClick={handleDeletePost}
+                                    disabled={isDeleting}
+                                >
+                                    Delete Post
+                                </button>
+                            )}
+                        </div>
+                    )}
+                    
                     <div className={styles.postMeta}>
                         <div className={styles.author}>
                             <span className={styles.authorName}>By {post.authorName}</span>
@@ -269,14 +430,14 @@ export default function BlogPost({ params }) {
                 
                 {/* 댓글 섹션 */}
                 <section className={styles.commentsSection}>
-                    <h2 className={styles.commentsTitle}>댓글</h2>
+                    <h2 className={styles.commentsTitle}>Comments</h2>
                     
                     {/* 댓글 작성 폼 */}
                     {user ? (
                         <form className={styles.commentForm} onSubmit={handleCommentSubmit}>
                             <textarea
                                 className={styles.commentTextarea}
-                                placeholder="댓글을 작성해주세요..."
+                                placeholder="Write your comment..."
                                 value={commentContent}
                                 onChange={(e) => setCommentContent(e.target.value)}
                                 required
@@ -286,12 +447,12 @@ export default function BlogPost({ params }) {
                                 type="submit"
                                 disabled={commentLoading || !commentContent.trim()}
                             >
-                                {commentLoading ? '제출 중...' : '댓글 작성'}
+                                {commentLoading ? 'Submitting...' : 'Submit Comment'}
                             </button>
                         </form>
                     ) : (
                         <div className={styles.loginPrompt}>
-                            <p>댓글을 작성하려면 <Link href="/auth/login" className={styles.loginLink}>로그인</Link>이 필요합니다.</p>
+                            <p>Please <Link href="/auth/login" className={styles.loginLink}>login</Link> to write a comment.</p>
                         </div>
                     )}
                     
@@ -318,10 +479,63 @@ export default function BlogPost({ params }) {
                                         )}
                                         <div className={styles.commentAuthorInfo}>
                                             <div className={styles.commentAuthor}>{comment.author.name}</div>
-                                            <div className={styles.commentDate}>{formatCommentDate(comment.createdAt)}</div>
+                                            <div className={styles.commentDate}>
+                                                {formatCommentDate(comment.createdAt)}
+                                                {comment.isEdited && <span className={styles.editedBadge}>(edited)</span>}
+                                            </div>
                                         </div>
+                                        
+                                        {/* 댓글 작성자인 경우 수정/삭제 버튼 표시 */}
+                                        {isCommentAuthor(comment) && (
+                                            <div className={styles.commentActions}>
+                                                {editingCommentId !== comment._id ? (
+                                                    <>
+                                                        <button
+                                                            className={styles.commentEditButton}
+                                                            onClick={() => handleEditComment(comment)}
+                                                        >
+                                                            Edit
+                                                        </button>
+                                                        <button
+                                                            className={styles.commentDeleteButton}
+                                                            onClick={() => handleDeleteComment(comment._id)}
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </>
+                                                ) : null}
+                                            </div>
+                                        )}
                                     </div>
-                                    <div className={styles.commentContent}>{comment.content}</div>
+                                    
+                                    {/* 댓글 내용 (편집 중 또는 일반 표시) */}
+                                    {editingCommentId === comment._id ? (
+                                        <div className={styles.editCommentForm}>
+                                            <textarea
+                                                className={styles.commentTextarea}
+                                                value={editCommentContent}
+                                                onChange={(e) => setEditCommentContent(e.target.value)}
+                                                required
+                                            />
+                                            <div className={styles.editButtonGroup}>
+                                                <button
+                                                    className={styles.cancelEditButton}
+                                                    onClick={handleCancelEdit}
+                                                >
+                                                    Cancel
+                                                </button>
+                                                <button
+                                                    className={styles.saveEditButton}
+                                                    onClick={() => handleSaveComment(comment._id)}
+                                                    disabled={!editCommentContent.trim()}
+                                                >
+                                                    Save Changes
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className={styles.commentContent}>{comment.content}</div>
+                                    )}
                                 </div>
                             ))}
                             
@@ -332,13 +546,13 @@ export default function BlogPost({ params }) {
                                     onClick={loadMoreComments}
                                     disabled={commentLoading}
                                 >
-                                    {commentLoading ? '불러오는 중...' : '더 보기'}
+                                    {commentLoading ? 'Loading...' : 'Load More'}
                                 </button>
                             )}
                         </div>
                     ) : (
                         <div className={styles.noComments}>
-                            <p>아직 댓글이 없습니다. 첫 번째 댓글을 작성해보세요!</p>
+                            <p>No comments yet. Be the first to comment!</p>
                         </div>
                     )}
                 </section>

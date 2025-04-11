@@ -544,4 +544,183 @@
   padding: 2rem;
   color: var(--foreground-secondary);
   font-style: italic;
+}
+
+/* 포스트 작업 버튼 스타일 */
+.postActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.editButton {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--accent, #3498db);
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.editButton:hover {
+  background-color: var(--accent-dark, #2980b9);
+}
+
+.deleteButton {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--danger, #e74c3c);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.deleteButton:hover {
+  background-color: var(--danger-dark, #c0392b);
+}
+
+.deleteConfirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 1rem;
+  background-color: rgba(231, 76, 60, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+.confirmButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cancelDeleteButton {
+  padding: 0.5rem 1rem;
+  background-color: var(--background-light, #34495e);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cancelDeleteButton:hover {
+  background-color: var(--background-darker, #2c3e50);
+}
+
+.confirmDeleteButton {
+  padding: 0.5rem 1rem;
+  background-color: var(--danger, #e74c3c);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.confirmDeleteButton:hover {
+  background-color: var(--danger-dark, #c0392b);
+}
+
+/* 댓글 작업 버튼 스타일 */
+.commentActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.commentEditButton,
+.commentDeleteButton {
+  padding: 0.25rem 0.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.commentEditButton {
+  background-color: rgba(52, 152, 219, 0.2);
+  color: var(--accent, #3498db);
+}
+
+.commentEditButton:hover {
+  background-color: rgba(52, 152, 219, 0.3);
+}
+
+.commentDeleteButton {
+  background-color: rgba(231, 76, 60, 0.2);
+  color: var(--danger, #e74c3c);
+}
+
+.commentDeleteButton:hover {
+  background-color: rgba(231, 76, 60, 0.3);
+}
+
+.editedBadge {
+  font-size: 0.75rem;
+  color: var(--foreground-tertiary, #bdc3c7);
+  margin-left: 0.5rem;
+  font-style: italic;
+}
+
+.editCommentForm {
+  margin-top: 1rem;
+}
+
+.editButtonGroup {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  justify-content: flex-end;
+}
+
+.cancelEditButton,
+.saveEditButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cancelEditButton {
+  background-color: var(--background-light, #34495e);
+  color: white;
+}
+
+.cancelEditButton:hover {
+  background-color: var(--background-darker, #2c3e50);
+}
+
+.saveEditButton {
+  background-color: var(--accent, #3498db);
+  color: white;
+}
+
+.saveEditButton:hover {
+  background-color: var(--accent-dark, #2980b9);
+}
+
+.saveEditButton:disabled {
+  background-color: var(--background-light, #95a5a6);
+  color: var(--foreground-tertiary, #7f8c8d);
+  cursor: not-allowed;
 } 
