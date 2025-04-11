@@ -100,11 +100,21 @@ export const metadata = {
             'max-image-preview': 'large',
             'max-snippet': -1,
         },
+        naverBot: {
+            index: true,
+            follow: true,
+            'max-image-preview': 'large',
+            'max-snippet': -1,
+        },
+        yeti: {
+            index: true,
+            follow: true,
+        },
     },
     verification: {
         google: 'your-google-verification-code',
         yandex: 'your-yandex-verification-code',
-        naver: 'your-naver-verification-code',
+        naver: '8053335801ad968e0afd18d894894dc84faf7cd3',
         me: 'your-me-verification-code',
     },
     itunes: {
@@ -159,7 +169,7 @@ export default function RootLayout({ children }) {
     const isHomePageActual = pathname === '/' || pathname === '/major';
 
     return (
-        <html lang="en">
+        <html lang={pathname.startsWith('/ko') ? 'ko' : 'en'}>
             <head>
                 {/* 개발 환경에서는 CSP 완화 */}
                 {isDevelopment ? (
@@ -169,6 +179,16 @@ export default function RootLayout({ children }) {
                 )}
                 
                 <meta name="naver-site-verification" content="8053335801ad968e0afd18d894894dc84faf7cd3" />
+                <meta property="og:locale:alternate" content="ko_KR" />
+                <meta property="og:locale:alternate" content="en_US" />
+                <meta name="keywords" content="AI 무료 타로, 타로 카드, 온라인 타로, 무료 운세, 인공지능 타로, AI tarot, free tarot reading, fortune telling, divination" />
+                <meta name="author" content="AIFreeTarot" />
+                <meta name="naver-section-name" content="AI 무료 타로 - Free AI Tarot" />
+                <meta name="NaverBot" content="All" />
+                <meta name="NaverBot" content="index,follow" />
+                <meta name="Yeti" content="All" />
+                <meta name="Yeti" content="index,follow" />
+                <meta name="Daumoa" content="index,follow" />
                 
                 {/* 모바일 디바이스에서 초기 로딩 시 적용될 인라인 스타일 */}
                 {/* <style dangerouslySetInnerHTML={{ __html: `
