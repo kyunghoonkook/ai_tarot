@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from '../styles/ThemePage.module.css';
-import { useRouter } from 'next/router';
 
 export default function CardSelector({ theme, design }) {
     const [selectedCards, setSelectedCards] = useState([]);
@@ -13,19 +12,10 @@ export default function CardSelector({ theme, design }) {
     const [touchStartPos, setTouchStartPos] = useState(null);
     const [isMobile, setIsMobile] = useState(false);
     const [showAd, setShowAd] = useState(false);
-    const [isRouterReady, setIsRouterReady] = useState(false);
-    const router = useRouter();
     const [cardThemeText, setCardThemeText] = useState({
         title: '',
         positions: [],
     });
-
-    // 라우터 준비 상태 확인
-    useEffect(() => {
-        if (router.isReady) {
-            setIsRouterReady(true);
-        }
-    }, [router.isReady]);
 
     // 모바일 환경 감지
     useEffect(() => {
@@ -43,6 +33,23 @@ export default function CardSelector({ theme, design }) {
             window.removeEventListener('resize', checkMobile);
         };
     }, []);
+
+    // 구글 애드센스 초기화
+    useEffect(() => {
+        // 클라이언트 사이드에서만 실행
+        if (typeof window === 'undefined') return;
+        
+        // 광고가 표시되는 상태일 때만 처리
+        if (showAd) {
+            try {
+                if (window.adsbygoogle) {
+                    window.adsbygoogle.push({});
+                }
+            } catch (error) {
+                console.error("AdSense error:", error);
+            }
+        }
+    }, [showAd]);
 
     useEffect(() => {
         // Set theme-specific card positions text
@@ -323,16 +330,6 @@ export default function CardSelector({ theme, design }) {
     const showGoogleAd = () => {
         setShowAd(true);
         setIsButtonClicked(true);
-        
-        // 광고를 표시한 후 일정 시간 후에 결과 페이지로 이동
-        setTimeout(() => {
-            if (typeof window !== 'undefined' && isRouterReady) {
-                router.push(`/${theme}/${design}/result/${result}`);
-            } else {
-                // 라우터를 사용할 수 없는 경우 일반 링크 이동 방식 사용
-                window.location.href = `/${theme}/${design}/result/${result}`;
-            }
-        }, 2000); // 2초 후 이동 (광고 표시 시간에 맞게 조정 가능)
     };
 
     // 구글 광고 스크립트 로드
@@ -474,11 +471,17 @@ export default function CardSelector({ theme, design }) {
                                     <div className={styles.adContainer}>
                                         <ins className="adsbygoogle"
                                             style={{ display: 'block' }}
-                                            data-ad-client="ca-pub-YOUR_AD_CLIENT_ID" // 실제 광고 클라이언트 ID로 변경 필요
-                                            data-ad-slot="YOUR_AD_SLOT" // 실제 광고 슬롯으로 변경 필요
+                                            data-ad-client="ca-pub-6444523705828999"
+                                            data-ad-slot="YOUR_AD_SLOT"
                                             data-ad-format="auto"
                                             data-full-width-responsive="true"></ins>
-                                        <p>광고 표시 중... 잠시 후 결과가 표시됩니다.</p>
+                                        <div className={styles.adNavigation}>
+                                            <p>광고 표시 중...</p>
+                                            <Link href={`/${theme}/${design}/result/${result}`}
+                                                  className={styles.continueButton}>
+                                                결과 보기
+                                            </Link>
+                                        </div>
                                     </div>
                                 ) : (
                                     <button
