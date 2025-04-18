@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import styles from '../styles/ThemePage.module.css';
 
@@ -12,6 +12,7 @@ export default function CardSelector({ theme, design }) {
     const [touchStartPos, setTouchStartPos] = useState(null);
     const [isMobile, setIsMobile] = useState(false);
     const [showAd, setShowAd] = useState(false);
+    const adInitialized = useRef(false);
     const [cardThemeText, setCardThemeText] = useState({
         title: '',
         positions: [],
@@ -37,18 +38,22 @@ export default function CardSelector({ theme, design }) {
     // 구글 애드센스 초기화
     useEffect(() => {
         // 클라이언트 사이드에서만 실행
-        if (typeof window === 'undefined') return;
+        if (typeof window === 'undefined' || !showAd || adInitialized.current) return;
         
-        // 광고가 표시되는 상태일 때만 처리
-        if (showAd) {
+        // 광고 초기화 시도
+        const timer = setTimeout(() => {
             try {
-                if (window.adsbygoogle) {
-                    window.adsbygoogle.push({});
-                }
+                // 초기화 플래그 설정 - 중복 초기화 방지
+                adInitialized.current = true;
+                
+                // 광고 초기화
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
             } catch (error) {
-                console.error("AdSense error:", error);
+                console.error("AdSense initialization error:", error);
             }
-        }
+        }, 500); // 약간의 지연을 주어 DOM이 완전히 로드되도록 함
+        
+        return () => clearTimeout(timer);
     }, [showAd]);
 
     useEffect(() => {
@@ -328,42 +333,11 @@ export default function CardSelector({ theme, design }) {
 
     // 구글 광고 표시 함수
     const showGoogleAd = () => {
+        // 이미 초기화된 경우 재설정
+        adInitialized.current = false;
         setShowAd(true);
         setIsButtonClicked(true);
     };
-
-    // 구글 광고 스크립트 로드
-    useEffect(() => {
-        // 클라이언트 사이드에서만 실행
-        if (typeof window === 'undefined' || !showAd) return;
-
-        try {
-            // 기존 광고 스크립트가 있다면 제거
-            const existingScript = document.getElementById('google-ad-script');
-            if (existingScript) document.head.removeChild(existingScript);
-
-            // 새 광고 스크립트 추가
-            const adScript = document.createElement('script');
-            adScript.id = 'google-ad-script';
-            adScript.async = true;
-            adScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-            adScript.crossOrigin = "anonymous";
-            document.head.appendChild(adScript);
-
-            // 인라인 광고 초기화 스크립트
-            const inlineScript = document.createElement('script');
-            inlineScript.innerHTML = `
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            `;
-            document.head.appendChild(inlineScript);
-        } catch (error) {
-            console.error("Error loading ad script:", error);
-            // 에러 발생 시 바로 결과 페이지로 이동
-            if (typeof window !== 'undefined') {
-                window.location.href = `/${theme}/${design}/result/${result}`;
-            }
-        }
-    }, [showAd, theme, design, result]);
 
     return (
         <div className={styles.container}>
@@ -469,17 +443,18 @@ export default function CardSelector({ theme, design }) {
                                 <p>All cards selected! Ready to see your reading?</p>
                                 {showAd ? (
                                     <div className={styles.adContainer}>
+                                        {/* 광고 컨테이너에 고유 ID 부여 */}
                                         <ins className="adsbygoogle"
                                             style={{ display: 'block' }}
                                             data-ad-client="ca-pub-6444523705828999"
-                                            data-ad-slot="YOUR_AD_SLOT"
+                                            data-ad-slot="6447010341"
                                             data-ad-format="auto"
                                             data-full-width-responsive="true"></ins>
                                         <div className={styles.adNavigation}>
-                                            <p>광고 표시 중...</p>
+                                            <p>Advertisement is loading...</p>
                                             <Link href={`/${theme}/${design}/result/${result}`}
                                                   className={styles.continueButton}>
-                                                결과 보기
+                                                See My Reading
                                             </Link>
                                         </div>
                                     </div>
