@@ -12,6 +12,7 @@ export default function CardSelector({ theme, design }) {
     const [touchStartPos, setTouchStartPos] = useState(null);
     const [isMobile, setIsMobile] = useState(false);
     const [showAd, setShowAd] = useState(false);
+    const [adClicked, setAdClicked] = useState(false);
     const adInitialized = useRef(false);
     const [cardThemeText, setCardThemeText] = useState({
         title: '',
@@ -48,10 +49,34 @@ export default function CardSelector({ theme, design }) {
                 
                 // 광고 초기화
                 (window.adsbygoogle = window.adsbygoogle || []).push({});
+                
+                // 광고 클릭 감지 설정
+                const handleAdClick = () => {
+                    setAdClicked(true);
+                    console.log("Ad was clicked!");
+                };
+                
+                // 광고 요소에 클릭 이벤트 리스너 추가
+                const adElement = document.querySelector('.adsbygoogle');
+                if (adElement) {
+                    adElement.addEventListener('click', handleAdClick);
+                    
+                    // 구글 광고 iframe 로드 후 이벤트 연결 시도
+                    setTimeout(() => {
+                        try {
+                            const adIframes = document.querySelectorAll('iframe[id^="google_ads_iframe"]');
+                            adIframes.forEach(iframe => {
+                                iframe.addEventListener('click', handleAdClick);
+                            });
+                        } catch (e) {
+                            console.error("Failed to attach event to ad iframe:", e);
+                        }
+                    }, 2000);
+                }
             } catch (error) {
                 console.error("AdSense initialization error:", error);
             }
-        }, 500); // 약간의 지연을 주어 DOM이 완전히 로드되도록 함
+        }, 500);
         
         return () => clearTimeout(timer);
     }, [showAd]);
@@ -335,8 +360,20 @@ export default function CardSelector({ theme, design }) {
     const showGoogleAd = () => {
         // 이미 초기화된 경우 재설정
         adInitialized.current = false;
+        setAdClicked(false);
         setShowAd(true);
         setIsButtonClicked(true);
+    };
+    
+    // 결과 페이지로 이동하는 함수
+    const navigateToResult = () => {
+        if (adClicked) {
+            // 광고가 클릭된 경우에만 결과 페이지로 이동
+            window.location.href = `/${theme}/${design}/result/${result}`;
+        } else {
+            // 아직 광고가 클릭되지 않은 경우 알림
+            alert("Please click on the advertisement to support us before viewing your reading.");
+        }
     };
 
     return (
@@ -451,11 +488,14 @@ export default function CardSelector({ theme, design }) {
                                             data-ad-format="auto"
                                             data-full-width-responsive="true"></ins>
                                         <div className={styles.adNavigation}>
-                                            <p>Advertisement is loading...</p>
-                                            <Link href={`/${theme}/${design}/result/${result}`}
-                                                  className={styles.continueButton}>
+                                            <p>{adClicked ? "Thank you! You can now view your reading." : "Please click on the advertisement to support us."}</p>
+                                            <button 
+                                                onClick={navigateToResult} 
+                                                className={`${styles.continueButton} ${adClicked ? styles.enabled : styles.disabled}`}
+                                                disabled={!adClicked}
+                                            >
                                                 See My Reading
-                                            </Link>
+                                            </button>
                                         </div>
                                     </div>
                                 ) : (
